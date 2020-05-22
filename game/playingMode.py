@@ -11,8 +11,8 @@ class PlayingMode(GameMode):
         super(PlayingMode, self).__init__()
         self.frame = 0
         '''音效初始化'''
-        pygame.mixer.init()
-        self.carCrash = pygame.mixer.Sound(path.join(SOUND_DIR,"Hit.wav"))
+        # pygame.mixer.init()
+        # self.carCrash = pygame.mixer.Sound(path.join(SOUND_DIR,"Hit.wav"))
 
         pygame.font.init()
 
