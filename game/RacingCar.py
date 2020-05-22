@@ -129,12 +129,13 @@ class RacingCar:
 
         return {
             "game_object": {
+                "lane": scene_info["lanes"],
                 "computer_car": scene_info["computer_cars"],
                 "player1_car": [scene_info["player1"]],
                 "player2_car": [scene_info["player2"]],
                 "player3_car": [scene_info["player3"]],
                 "player4_car": [scene_info["player4"]],
-                "lane": scene_info["lanes"]
+
             }
         }
 
