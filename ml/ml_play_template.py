@@ -2,7 +2,6 @@
 class MLPlay:
     def __init__(self, player_no):
         self.player_no = player_no
-        self.
 
         self.car_pos = ()
 
