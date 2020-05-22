@@ -62,6 +62,7 @@ class PlayingMode(GameMode):
                 self.revise_camera_vel()
         if len(self.user_cars) == 0:
             self.running = False
+            self.status = "GAMEOVER"
 
         self.revise_speed_of_lane()
         self.creat_computercar()
