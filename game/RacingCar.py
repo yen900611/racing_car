@@ -39,6 +39,7 @@ class RacingCar:
                 "player2": player_2_pos,
                 "player3": player_3_pos,
                 "player4": player_4_pos,
+                "players_velocity":self.game_mode.user_vel
                 }
 
     def update(self, p1_cmd, p2_cmd=[], p3_cmd=[], p4_cmd=[]):
@@ -111,12 +112,12 @@ class RacingCar:
                 "size": [600, 800]
             },
             "game_object": [
+                {"name": "lane", "size": [5, 30], "color": (255, 255, 255)},
                 {"name": "computer_car", "size": [40, 60], "color": (0, 191, 255)},
                 {"name": "player1_car", "size": [40, 60], "color": (255, 246, 143)},
                 {"name": "player2_car", "size": [40, 60], "color": (0, 255, 127)},
                 {"name": "player3_car", "size": [40, 60], "color": (255, 191, 203)},
                 {"name": "player4_car", "size": [40, 60], "color": (171, 130, 255)},
-                {"name": "lane", "size": [5, 30], "color": (0, 0, 0)}
             ]
         }
 
