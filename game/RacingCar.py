@@ -39,7 +39,7 @@ class RacingCar:
                 "player2": player_2_pos,
                 "player3": player_3_pos,
                 "player4": player_4_pos,
-                # "players_velocity":self.game_mode.user_vel
+                "cars_info":self.game_mode.cars_info
                 }
 
     def update(self, p1_cmd, p2_cmd=[], p3_cmd=[], p4_cmd=[]):
@@ -147,7 +147,7 @@ class RacingCar:
 
         return {
             "frame_used": scene_info["frame"],
-            "result": [scene_info["status"]]
+            "result": scene_info["status"]
         }
 
 

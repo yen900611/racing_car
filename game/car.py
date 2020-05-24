@@ -42,7 +42,8 @@ class Car(pygame.sprite.Sprite):
 
     def get_info(self):
         self.car_info = {"id":self.car_no,
-                         "pos":self.get_position()}
+                         "pos":self.get_position(),
+                         "velocity":self.get_velocity()}
         return self.car_info
 
 class UserCar(Car):
@@ -100,6 +101,7 @@ class ComputerCar(Car):
             self.velocity = 0
         if self.velocity > 14:
             self.velocity = 14
+
     def detect_other_cars(self,other_cars):
         for each_car in other_cars:
             if abs(self.rect.centerx - each_car.rect.centerx) < 50:

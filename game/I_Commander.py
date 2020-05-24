@@ -40,13 +40,21 @@ class KeyBoardCommander(I_Commander):
 
     def getControlDict(self):
         keys = pygame.key.get_pressed()
+        control_list = []
         control_dic = {"LEFT": keys[self.moveLeftKey],
                        "RIGHT": keys[self.moveRightKey],
                        "SPEED_UP": keys[self.speedKey],
                        "BRAKEDOWN": keys[self.brakeKey]}
+        if control_dic["LEFT"]:
+            control_list.append("MOVE_LEFT")
+        if control_dic["RIGHT"]:
+            control_list.append("MOVE_RIGHT")
+        if control_dic["SPEED_UP"]:
+            control_list.append("SPEED")
+        if control_dic["BRAKEDOWN"]:
+            control_list.append("BREAK")
 
-        return control_dic
-
+        return control_list
 # # TODO
 # class AICommander(I_Commander):
 #     def __init__(self,other_cars, user):

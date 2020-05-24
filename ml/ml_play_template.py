@@ -20,7 +20,9 @@ class MLPlay:
         Generate the command according to the received scene information
         """
         self.car_pos = scene_info[self.player]
-        # self.car_vel = scene_info["players_velocity"][self.player_no]
+        for car in scene_info["cars_info"]:
+            if car["id"]==self.player_no:
+                self.car_vel = car["velocity"]
 
         if scene_info["status"] != "ALIVE":
             return "RESET"
