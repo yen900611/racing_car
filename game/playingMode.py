@@ -59,12 +59,12 @@ class PlayingMode(GameMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling:
+            if car.rect.top <= self.ceiling and pygame.time.get_ticks() - self.time >2000:
                 self.camera_vel = self.maxVel
+                self.time = pygame.time.get_ticks()
             else:
                 self.revise_camera()
 
-        self.revise_camera()
         if len(self.user_cars) == 0:
             self.running = False
             self.status = "GAMEOVER"
@@ -75,13 +75,13 @@ class PlayingMode(GameMode):
 
 
     def revise_camera(self):
-        time = pygame.time.get_ticks()
-        if pygame.time.get_ticks() - time > 3000:
-            if self.camera_vel < self.maxVel:
-                self.camera_vel += 0.5
-            elif self.camera_vel >= self.maxVel:
-                self.camera_vel -= 0.5
-            time = pygame.time.get_ticks()
+        if self.camera_vel < self.maxVel:
+            self.camera_vel += 0.5
+        elif self.camera_vel > self.maxVel and pygame.time.get_ticks() - self.time >2000:
+            self.camera_vel -= 0.5
+            self.time = pygame.time.get_ticks()
+        elif self.camera_vel == self.maxVel:
+            self.camera_vel -= 0.5
 
     def create_user(self, user_no:int):
         self.car = UserCar(lane_center[user_no], self.startLine, user_no)
@@ -152,12 +152,10 @@ class PlayingMode(GameMode):
             self.draw_information(self.screen, "Player"+str(car.car_no+1), 17, 510, 730-self.winner.index(car)*20)
 
     def creat_computercar(self):
-        # if len(self.cars) < self.cars_num or pygame.time.get_ticks() - self.time > 5000:
         if len(self.cars) < self.cars_num:
             self.computerCar = ComputerCar(random.choice(lane_center), random.choice([HEIGHT + 40, -70]),self.cars)
             self.cars.add(self.computerCar)
             self.all_sprites.add(self.computerCar)
-            self.time = pygame.time.get_ticks()
 
     def draw_user_imformation(self):
         for car in self.user_cars:
