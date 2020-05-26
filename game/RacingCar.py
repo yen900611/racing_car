@@ -10,7 +10,6 @@ class RacingCar:
     def __init__(self, user_num: int):
         self.game_mode = PlayingMode(user_num)
 
-
         pass
 
     def get_player_scene_info(self) -> dict:
@@ -159,4 +158,5 @@ if __name__ == '__main__':
     while game.isRunning():
         game.update(commands)
         game.draw()
+
     pygame.quit()

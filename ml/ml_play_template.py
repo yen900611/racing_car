@@ -1,4 +1,3 @@
-# TODO
 class MLPlay:
     def __init__(self, player):
         self.player = player

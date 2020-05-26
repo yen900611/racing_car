@@ -5,6 +5,7 @@ from .gameMode import GameMode
 from .env import *
 import pygame
 import random
+from .endingMode import EndMocde
 
 class PlayingMode(GameMode):
     def __init__(self, user_num:int):
@@ -31,6 +32,8 @@ class PlayingMode(GameMode):
             car = self.create_user(user)
         self.winner = []
         self.status = "ALIVE"
+        self.time = pygame.time.get_ticks()
+        self.nextMode = EndMocde(self.winner)
 
     def update_sprite(self,command:list):
         self.frame += 1
@@ -46,33 +49,34 @@ class PlayingMode(GameMode):
             self.detect_car_state(car)
             self.cars_info.append(car.get_info())
 
-        for car in self.user_cars:
-            car.update(command[car.car_no])
-
             '''更新車子位置'''
             car.rect.centery += self.camera_vel - car.velocity
+
+        for car in self.user_cars:
+            car.update(command[car.car_no])
 
             '''是否通過終點'''
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
             if car.rect.top <= self.ceiling:
-                self.camera_vel = car.velocity
+                self.camera_vel = self.maxVel
             else:
-                self.revise_camera_vel()
+                self.revise_camera()
+
+        self.revise_camera()
         if len(self.user_cars) == 0:
             self.running = False
             self.status = "GAMEOVER"
+            self.willChange = True
 
         self.revise_speed_of_lane()
         self.creat_computercar()
 
 
-    def revise_camera_vel(self):
+    def revise_camera(self):
         time = pygame.time.get_ticks()
-        if 0 <= self.maxVel < 6.1:
-            self.camera_vel = self.maxVel
-        elif 6.1 <= self.maxVel and pygame.time.get_ticks() - time > 3000:
+        if pygame.time.get_ticks() - time > 3000:
             if self.camera_vel < self.maxVel:
                 self.camera_vel += 0.5
             elif self.camera_vel >= self.maxVel:
@@ -145,13 +149,15 @@ class PlayingMode(GameMode):
 
         '''顯示出已出局的玩家'''
         for car in self.winner:
-            self.draw_information(self.screen, "Player"+str(car.car_no), 17, 510, 730-self.winner.index(car)*20)
+            self.draw_information(self.screen, "Player"+str(car.car_no+1), 17, 510, 730-self.winner.index(car)*20)
 
     def creat_computercar(self):
+        # if len(self.cars) < self.cars_num or pygame.time.get_ticks() - self.time > 5000:
         if len(self.cars) < self.cars_num:
-            self.computerCar = ComputerCar(random.choice(lane_center), random.choice([HEIGHT + 70, -70]),self.cars)
+            self.computerCar = ComputerCar(random.choice(lane_center), random.choice([HEIGHT + 40, -70]),self.cars)
             self.cars.add(self.computerCar)
             self.all_sprites.add(self.computerCar)
+            self.time = pygame.time.get_ticks()
 
     def draw_user_imformation(self):
         for car in self.user_cars:

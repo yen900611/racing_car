@@ -34,6 +34,11 @@ class Car(pygame.sprite.Sprite):
     def moveLeft(self):
         self.rect.centerx -= 2
 
+    def keep_in_screen(self):
+        if self.rect.left < 0 or self.rect.right > 420 or self.rect.centery > HEIGHT+35:
+            self.velocity = 0
+            self.state = False
+
     def get_velocity(self):
         return self.velocity
 
@@ -88,24 +93,25 @@ class ComputerCar(Car):
         Car.__init__(self ,x ,y)
         self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"電腦車2.png")),(40,80))
         self.other_cars = other_cars
-        self.velocity = 0
+        self.velocity = random.randrange(8,16)
         self.car_no = random.randrange(101,200)
+        self.max_vel = random.randrange(10,16)
 
     def update(self, *args):
+        self.keep_in_screen()
         self.detect_other_cars(self.other_cars)
-        self.rect.centery -= self.velocity
         self.speedUp()
-        if self.rect.top >= HEIGHT+70 or self.rect.bottom < -70:
+        if self.rect.top >= HEIGHT+70 or self.rect.bottom < -200:
             self.state = False
         if self.velocity < 0:
             self.velocity = 0
-        if self.velocity > 14:
-            self.velocity = 14
+        if self.velocity > self.max_vel:
+            self.velocity = self.max_vel
 
     def detect_other_cars(self,other_cars):
         for each_car in other_cars:
             if abs(self.rect.centerx - each_car.rect.centerx) < 50:
                 distance = self.rect.centery - each_car.rect.centery
-                if 170 > distance > 0:
+                if 130 > distance > 0:
                     self.brakeDown()
             else:pass
