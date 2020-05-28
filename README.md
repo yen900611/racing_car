@@ -14,10 +14,16 @@
 當有任一玩家距離達到20000，或是所有玩家因碰撞等原因出局時則遊戲結束，並依照當時畫面裡所有玩家的先後順序進行排名，排名包含未達到終點的已出局玩家。
 
 ## 執行
-
-* 手動模式：`python MLGame.py -m RacingCar [the number of user]`
+* 直接執行 預設是兩人遊戲
+`python main.py`
     * 車子加速、剎車、左移、右移：1P - `UP`、`DOWN`、`LEFT`、`RIGHT`，2P - `W`、`S`、`A`、`D`
-* 機器學習模式：`python MLGame.py -i ml_play_template.py RacingCar [the number of user]`
+    
+
+* 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
+    * 手動模式：
+`python MLGame.py -m RacingCar [the number of user]`
+    * 機器學習模式：
+`python MLGame.py -i ml_play_template.py RacingCar [the number of user]`
 
 ### 遊戲參數
 
@@ -37,13 +43,13 @@
 
 #### 玩家車子
 
-* 30 \* 60 像素大小的矩形
+* 40 \* 80 像素大小的矩形
 * 每場遊戲開始時，所有玩家的車子從最左邊的車道依序往右
 * 初始車速是0，最高車速為15，當車子沒有在加速或剎車時將會怠速至0.9~1.2之間。
 
 #### 電腦車子
 
-* 30 \* 60 像素大小的矩形
+* 40 \* 80 像素大小的矩形
 * 車子從畫面上方出現在玩家車子的前方，不會左右移動切換車道，前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
 * 每台車最高速度皆不一樣。
 
@@ -51,22 +57,44 @@
 
 程式範例在 [`ml/ml_play_template.py`](https://github.com/yen900611/RacingCar/blob/master/ml/ml_play_template.py)。
 
-### 函式
-
-使用 `mlgame.communication.ml` 模組來與遊戲端溝通。
-
-* `ml_ready()`：通知遊戲端已經準備好接收訊息了
-* `recv_from_game()`：從遊戲端接接收存有遊戲場景資訊的字典物件
-* `send_to_game(dict)`：傳送存有指令的字典物件給遊戲端
 
 ### 初始化參數
+```python=2
+def __init__(self, player):
+    self.player = player
+    if self.player == "player1":
+        self.player_no = 0
+    elif self.player == "player2":
+        self.player_no = 1
+    elif self.player == "player3":
+        self.player_no = 2
+    elif self.player == "player4":
+        self.player_no = 3
+    self.car_vel = 0
+    self.car_pos = ()
+```
 `"player"`: 字串。其值只會是 `"player1"` 、 `"player2"` 、 `"player3"` 或 `"player4"`，代表這個程式被哪一台車使用。
 
 
 ### 遊戲場景資訊
 
 由遊戲端發送的字典物件，同時也是存到紀錄檔的物件。
+```python=17
+def update(self, scene_info):
+    """
+    Generate the command according to the received scene information
+    """
+    self.car_pos = scene_info[self.player]
+    for car in scene_info["cars_info"]:
+        if car["id"]==self.player_no:
+            self.car_vel = car["velocity"]
 
+    if scene_info["status"] != "ALIVE":
+        return "RESET"
+
+    return ["SPEED", "MOVE_LEFT"]
+
+```
 以下是該字典物件的鍵值對應：
 
 * `"frame"`：整數。紀錄的是第幾影格的場景資訊
@@ -95,3 +123,5 @@
 ## 機器學習模式的玩家程式
 
 賽車是多人遊戲，所以在啟動機器學習模式時，需要利用 `-i <script_for_1P> -i <script_for_2P> -i <script_for_3P> -i <script_for_4P>` 指定最多四個不同的玩家程式。
+* For example
+`python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2`
