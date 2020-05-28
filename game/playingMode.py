@@ -25,6 +25,7 @@ class PlayingMode(GameMode):
         self.create_lanes()
         self.startLine = 3 * HEIGHT / 4
         self.ceiling = HEIGHT / 4
+        self.end_line = 20000
         self.camera_vel = 0
         self.cars_num = 10
         #user數量
@@ -33,7 +34,6 @@ class PlayingMode(GameMode):
         self.winner = []
         self.status = "ALIVE"
         self.time = pygame.time.get_ticks()
-        self.nextMode = EndMocde(self.winner)
 
     def update_sprite(self,command:list):
         self.frame += 1
@@ -59,29 +59,30 @@ class PlayingMode(GameMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling and pygame.time.get_ticks() - self.time >2000:
+            if car.rect.top <= self.ceiling and len(self.user_cars) > 1:
                 self.camera_vel = self.maxVel
-                self.time = pygame.time.get_ticks()
             else:
                 self.revise_camera()
 
         if len(self.user_cars) == 0:
+            self.print_result()
             self.running = False
             self.status = "GAMEOVER"
-            self.willChange = True
 
         self.revise_speed_of_lane()
         self.creat_computercar()
 
+    def print_result(self):
+        for user in self.winner:
+            print("Rank" + str(len(self.winner) - self.winner.index(user)) + " : Player " + str(user.car_no + 1))
 
     def revise_camera(self):
         if self.camera_vel < self.maxVel:
             self.camera_vel += 0.5
-        elif self.camera_vel > self.maxVel and pygame.time.get_ticks() - self.time >2000:
+        elif self.camera_vel > self.maxVel+1:
             self.camera_vel -= 0.5
-            self.time = pygame.time.get_ticks()
         elif self.camera_vel == self.maxVel:
-            self.camera_vel -= 0.5
+            self.camera_vel -= 3
 
     def create_user(self, user_no:int):
         self.car = UserCar(lane_center[user_no], self.startLine, user_no)
@@ -122,7 +123,7 @@ class PlayingMode(GameMode):
         self.cars.add(car)
 
     def is_car_arrive_end(self, car):
-        if car.distance > 20000:
+        if car.distance > self.end_line:
             for user in self.user_cars:
                 user.state = False
 

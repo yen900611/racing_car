@@ -1,7 +1,7 @@
 import pygame
 import time
 
-from games.RacingCar.game import playingMode, I_Commander
+from game import playingMode, I_Commander
 
 if __name__ == '__main__':
     pygame.init()

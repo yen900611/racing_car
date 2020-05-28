@@ -38,11 +38,10 @@ class RacingCar:
                 "player2": player_2_pos,
                 "player3": player_3_pos,
                 "player4": player_4_pos,
-                "cars_info":self.game_mode.cars_info
+                "cars_info": self.game_mode.cars_info
                 }
 
-    def update(self, p1_cmd, p2_cmd=[], p3_cmd=[], p4_cmd=[]):
-        commands = [p1_cmd, p2_cmd, p3_cmd, p4_cmd]
+    def update(self, commands):
         self.game_mode.ticks()
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
@@ -50,8 +49,6 @@ class RacingCar:
         if not self.isRunning():
             return "QUIT"
         self.draw()
-
-        pass
 
     def reset(self):
         # self.game_mode.
@@ -98,7 +95,8 @@ class RacingCar:
             "player1": player_1_pos,
             "player2": player_2_pos,
             "player3": player_3_pos,
-            "player4": player_4_pos
+            "player4": player_4_pos,
+            "game_result": self.game_mode.winner
         }
         return scene_info
 
@@ -143,11 +141,36 @@ class RacingCar:
         Get the game result for the web
         """
         scene_info = self.get_scene_info()
+        result = []
+        for user in scene_info["game_result"]:
+            result.append("Rank" + str(
+                len(scene_info["game_result"]) - scene_info["game_result"].index(user)) + " : Player " + str(
+                user.car_no + 1))
 
         return {
             "frame_used": scene_info["frame"],
-            "result": scene_info["status"]
+            "result": result,
         }
+
+    def get_keyboard_command(self):
+        """
+        Get the command according to the pressed keys
+        """
+        key_pressed_list = pygame.key.get_pressed()
+        cmd_1P = []
+        cmd_2P = []
+
+        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append("MOVE_LEFT")
+        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append("MOVE_RIGHT")
+        if key_pressed_list[pygame.K_UP]:cmd_1P.append("SPEED")
+        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append("BREAK")
+
+        if key_pressed_list[pygame.K_a]: cmd_2P.append("MOVE_LEFT")
+        if key_pressed_list[pygame.K_d]:cmd_2P.append("MOVE_RIGHT")
+        if key_pressed_list[pygame.K_w]:cmd_2P.append("SPEED")
+        if key_pressed_list[pygame.K_s]:cmd_2P.append("BREAK")
+
+        return [cmd_1P, cmd_2P]
 
 
 if __name__ == '__main__':
