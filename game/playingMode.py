@@ -5,7 +5,6 @@ from .gameMode import GameMode
 from .env import *
 import pygame
 import random
-from .endingMode import EndMocde
 
 class PlayingMode(GameMode):
     def __init__(self, user_num:int):

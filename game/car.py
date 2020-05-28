@@ -95,7 +95,7 @@ class ComputerCar(Car):
         self.other_cars = other_cars
         self.velocity = random.randrange(8,16)
         self.car_no = random.randrange(101,200)
-        self.max_vel = random.randrange(10,16)
+        self.max_vel = random.randrange(10,15)
 
     def update(self, *args):
         self.keep_in_screen()
