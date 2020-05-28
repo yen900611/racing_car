@@ -42,7 +42,6 @@ class RacingCar:
                 }
 
     def update(self, commands):
-        self.game_mode.ticks()
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
         self.game_mode.update_sprite(commands)
