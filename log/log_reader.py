@@ -4,7 +4,7 @@ import json
 
 if __name__ == "__main__":
     
-    log_file = path.join(path.dirname(__file__),'template.pickle')
+    log_file = path.join(path.dirname(__file__),'log_template.pickle')
     with open(log_file,'rb') as fp:
         data =pickle.load(fp)
     
