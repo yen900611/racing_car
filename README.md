@@ -14,7 +14,8 @@
 當有任一玩家距離達到20000，或是所有玩家因碰撞等原因出局時則遊戲結束，並依照當時畫面裡所有玩家的先後順序進行排名，排名包含未達到終點的已出局玩家。
 
 ## 執行
-
+* 原地執行:`main.py`
+手動模式及機器學習模式須搭配[MLGame](https://github.com/LanKuDot/MLGame)執行。
 * 手動模式：`python MLGame.py -m RacingCar [the number of user]`
     * 車子加速、剎車、左移、右移：1P - `UP`、`DOWN`、`LEFT`、`RIGHT`，2P - `W`、`S`、`A`、`D`
 * 機器學習模式：`python MLGame.py -i ml_play_template.py RacingCar [the number of user]`
