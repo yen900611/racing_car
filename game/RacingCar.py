@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 from .playingMode import PlayingMode
@@ -9,7 +11,6 @@ from .playingMode import PlayingMode
 class RacingCar:
     def __init__(self, user_num: int):
         self.game_mode = PlayingMode(user_num)
-
         pass
 
     def get_player_scene_info(self) -> dict:
@@ -49,8 +50,8 @@ class RacingCar:
             return "QUIT"
         self.draw()
 
+
     def reset(self):
-        # self.game_mode.
 
         pass
 

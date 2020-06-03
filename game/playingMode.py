@@ -84,7 +84,9 @@ class PlayingMode(GameMode):
             self.camera_vel -= 3
 
     def create_user(self, user_no:int):
-        self.car = UserCar(lane_center[user_no], self.startLine, user_no)
+        rect_x = random.choice(lane_center)
+        lane_center.remove(rect_x)
+        self.car = UserCar(rect_x, self.startLine, user_no)
         self.user_cars.add(self.car)
         self.cars.add(self.car)
         return self.car
@@ -152,10 +154,12 @@ class PlayingMode(GameMode):
             self.draw_information(self.screen, "Player"+str(car.car_no+1), 17, 510, 730-self.winner.index(car)*20)
 
     def creat_computercar(self):
-        if len(self.cars) < self.cars_num:
-            self.computerCar = ComputerCar(random.choice(lane_center), random.choice([HEIGHT + 40, -70]),self.cars)
-            self.cars.add(self.computerCar)
-            self.all_sprites.add(self.computerCar)
+        if pygame.time.get_ticks() - self.time > 1000:
+            for i in range(2):
+                self.computerCar = ComputerCar(random.choice(lane_center), random.choice([HEIGHT + 70, -130]),self.cars)
+                self.cars.add(self.computerCar)
+                self.all_sprites.add(self.computerCar)
+                self.time = pygame.time.get_ticks()
 
     def draw_user_imformation(self):
         for car in self.user_cars:

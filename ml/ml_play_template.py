@@ -11,7 +11,6 @@ class MLPlay:
             self.player_no = 3
         self.car_vel = 0
         self.car_pos = ()
-
         pass
 
     def update(self, scene_info):
@@ -26,7 +25,7 @@ class MLPlay:
         if scene_info["status"] != "ALIVE":
             return "RESET"
 
-        return ["SPEED", "MOVE_LEFT"]
+        return ["SPEED"]
 
 
     def reset(self):
