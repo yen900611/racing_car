@@ -33,6 +33,7 @@ class PlayingMode(GameMode):
         self.winner = []
         self.status = "ALIVE"
         self.time = pygame.time.get_ticks()
+        self.lane_center = [35,105,175,245,315,385]
 
     def update_sprite(self,command:list):
         self.frame += 1
@@ -156,14 +157,14 @@ class PlayingMode(GameMode):
     def creat_computercar(self):
         if pygame.time.get_ticks() - self.time > 1000:
             for i in range(2):
-                self.computerCar = ComputerCar(random.choice(lane_center), random.choice([HEIGHT + 70, -130]),self.cars)
+                self.computerCar = ComputerCar(random.choice(self.lane_center), random.choice([HEIGHT + 70, -130]),self.cars)
                 self.cars.add(self.computerCar)
                 self.all_sprites.add(self.computerCar)
                 self.time = pygame.time.get_ticks()
 
     def draw_user_imformation(self):
         for car in self.user_cars:
-            self.draw_information(self.screen, "Player" + str(car.car_no+1), 17, 510, (car.car_no) * 120 + 10)
+            self.draw_information(self.screen, "Player" + str(car.car_no+1) + "("+user_image[4][car.car_no]+")", 17, 510, (car.car_no) * 120 + 10)
             self.draw_information(self.screen, "vel : " + str(round(car.velocity, 2)), 17, 510,
                                   (car.car_no) * 120 + 40)
             self.draw_information(self.screen, "distance : " + str(abs(round(car.distance, 2))), 17, 510,
