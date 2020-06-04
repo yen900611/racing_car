@@ -76,15 +76,15 @@ class RacingCar:
 
         for car in self.game_mode.cars_info:
             if car["id"] >= 101:
-                computer_cars_pos.append(car["pos"])
+                computer_cars_pos.append((car["pos"][0]-20,car["pos"][1]-40))
             elif car["id"] == 0:
-                player_1_pos = car["pos"]
+                player_1_pos = (car["pos"][0]-20,car["pos"][1]-40)
             elif car["id"] == 1:
-                player_2_pos = car["pos"]
+                player_2_pos = (car["pos"][0]-20,car["pos"][1]-40)
             elif car["id"] == 2:
-                player_3_pos = car["pos"]
+                player_3_pos = (car["pos"][0]-20,car["pos"][1]-40)
             elif car["id"] == 3:
-                player_4_pos = car["pos"]
+                player_4_pos = (car["pos"][0]-20,car["pos"][1]-40)
         for lane in self.game_mode.lanes:
             lanes_pos.append((lane.rect.left, lane.rect.top))
         scene_info = {
