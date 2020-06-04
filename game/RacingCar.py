@@ -86,7 +86,7 @@ class RacingCar:
             elif car["id"] == 3:
                 player_4_pos = car["pos"]
         for lane in self.game_mode.lanes:
-            lanes_pos.append(lane.rect.center)
+            lanes_pos.append((lane.rect.left, lane.rect.top))
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
