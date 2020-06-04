@@ -87,6 +87,7 @@ class RacingCar:
                 player_4_pos = (car["pos"][0]-20,car["pos"][1]-40)
         for lane in self.game_mode.lanes:
             lanes_pos.append((lane.rect.left, lane.rect.top))
+        print(computer_cars_pos)
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
