@@ -52,7 +52,7 @@ class KeyBoardCommander(I_Commander):
         if control_dic["SPEED_UP"]:
             control_list.append("SPEED")
         if control_dic["BRAKEDOWN"]:
-            control_list.append("BREAK")
+            control_list.append("BRAKE")
 
         return control_list
 # # TODO

@@ -155,7 +155,7 @@ class PlayingMode(GameMode):
             self.draw_information(self.screen, "Player"+str(car.car_no+1), 17, 510, 730-self.winner.index(car)*20)
 
     def creat_computercar(self):
-        if pygame.time.get_ticks() - self.time > 1000:
+        if pygame.time.get_ticks() - self.time > 900:
             for i in range(2):
                 self.computerCar = ComputerCar(random.choice(self.lane_center), random.choice([HEIGHT + 70, -130]),self.cars)
                 self.cars.add(self.computerCar)

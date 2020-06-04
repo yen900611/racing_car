@@ -84,7 +84,7 @@ class UserCar(Car):
         if pygame.time.get_ticks() - self.lastUpdateTime > 150:
             if "SPEED" in control_list:
                 self.speedUp()
-            elif "BREAK" in control_list:
+            elif "BRAKE" in control_list:
                 self.brakeDown()
             else:
                 self.slowDown()
