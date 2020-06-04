@@ -47,7 +47,7 @@ class Car(pygame.sprite.Sprite):
 
     def get_info(self):
         self.car_info = {"id":self.car_no,
-                         "pos":self.get_position(),
+                         "pos":(self.rect.centerx,self.rect.centery),
                          "velocity":self.get_velocity()}
         return self.car_info
 

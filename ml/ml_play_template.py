@@ -22,6 +22,8 @@ class MLPlay:
             if car["id"]==self.player_no:
                 self.car_vel = car["velocity"]
 
+        print(self.car_pos)
+
         if scene_info["status"] != "ALIVE":
             return "RESET"
 
