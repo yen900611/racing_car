@@ -1,4 +1,4 @@
-from .I_Commander import *
+
 from .car import *
 from .highway import *
 from .gameMode import GameMode
@@ -39,7 +39,8 @@ class PlayingMode(GameMode):
         self.frame += 1
         self.handle_event()
         self.all_sprites.update()
-
+        self.revise_speed_of_lane()
+        self.creat_computercar()
         self.cars_info = []
 
         for car in self.cars:
@@ -68,9 +69,6 @@ class PlayingMode(GameMode):
             self.print_result()
             self.running = False
             self.status = "GAMEOVER"
-
-        self.revise_speed_of_lane()
-        self.creat_computercar()
 
     def print_result(self):
         for user in self.winner:

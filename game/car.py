@@ -57,6 +57,7 @@ class UserCar(Car):
         self.car_no = user_no
         self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,user_image[self.car_no])), (40, 80))
         self.lastUpdateTime = pygame.time.get_ticks()
+        self.coin_num = 0
 
     def update(self,control_dic):
         self.handleKeyEvent(control_dic)

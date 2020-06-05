@@ -1,12 +1,12 @@
 import pygame
 import time
 
-from game import playingMode, I_Commander
+from game import playingMode, I_Commander, coinPlayMode
 
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
-    game = playingMode.PlayingMode(2)
+    game = coinPlayMode.CoinPlayingMode(2)
     time_start = time.time()
 
     while game.isRunning():
