@@ -124,8 +124,14 @@ class PlayingMode(GameMode):
 
     def is_car_arrive_end(self, car):
         if car.distance > self.end_line:
+            user_distance = []
             for user in self.user_cars:
-                user.state = False
+                user_distance.append(user.distance)
+            for user in self.user_cars:
+                if user.distance == min(user_distance):
+                    user_distance.remove(user.distance)
+                    user.state = False
+                    self.detect_car_state(user)
 
     def revise_speed_of_lane(self):
         self.user_vel = []

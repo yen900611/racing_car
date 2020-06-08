@@ -6,7 +6,7 @@ from game import playingMode, I_Commander, coinPlayMode
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
-    game = coinPlayMode.CoinPlayingMode(2)
+    game = playingMode.PlayingMode(2)
     time_start = time.time()
 
     while game.isRunning():

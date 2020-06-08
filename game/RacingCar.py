@@ -3,14 +3,18 @@ import time
 import pygame
 
 from .playingMode import PlayingMode
+from .coinPlayMode import CoinPlayingMode
 
 # TODO
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
 
 class RacingCar:
-    def __init__(self, user_num: int):
-        self.game_mode = PlayingMode(user_num)
+    def __init__(self, difficulty, user_num: int):
+        if difficulty == "NORMAL":
+            self.game_mode = PlayingMode(user_num)
+        elif difficulty == "COIN":
+            self.game_mode = CoinPlayingMode(user_num)
         pass
 
     def get_player_scene_info(self) -> dict:
