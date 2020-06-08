@@ -13,3 +13,6 @@ class Coin(pygame.sprite.Sprite):
         self.rect.centery += self.vel
         if self.rect.centery > HEIGHT:
             self.kill()
+
+    def get_position(self):
+        return (self.rect.left, self.rect.top)

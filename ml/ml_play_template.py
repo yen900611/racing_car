@@ -11,6 +11,7 @@ class MLPlay:
             self.player_no = 3
         self.car_vel = 0
         self.car_pos = ()
+        self.coin_num = 0
         pass
 
     def update(self, scene_info):
@@ -21,6 +22,7 @@ class MLPlay:
         for car in scene_info["cars_info"]:
             if car["id"]==self.player_no:
                 self.car_vel = car["velocity"]
+                self.coin_num = car["coin_num"]
 
         if scene_info["status"] != "ALIVE":
             return "RESET"

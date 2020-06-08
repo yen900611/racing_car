@@ -72,3 +72,13 @@ class CoinPlayingMode(PlayingMode):
                     user_coins.remove(user.coin_num)
                     user.state = False
                     self.detect_car_state(user)
+
+    def draw_user_imformation(self):
+        for car in self.user_cars:
+            self.draw_information(self.screen, "Player" + str(car.car_no+1) + "("+user_image[4][car.car_no]+")", 17, 510, (car.car_no) * 120 + 10)
+            self.draw_information(self.screen, "vel : " + str(round(car.velocity, 2)), 17, 510,
+                                  (car.car_no) * 120 + 40)
+            self.draw_information(self.screen, "distance : " + str(abs(round(car.distance, 2))), 17, 510,
+                                  (car.car_no) * 120 + 70)
+            self.draw_information(self.screen, "coins : " + str(car.coin_num), 17, 510,
+                                  (car.car_no) * 120 + 100)

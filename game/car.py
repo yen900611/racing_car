@@ -15,6 +15,7 @@ class Car(pygame.sprite.Sprite):
         self.distance = 0
         self.car_no = 0
         self.car_info ={}
+        self.coin_num = 0
 
     def speedUp(self):
         self.velocity += 0.3
@@ -45,10 +46,14 @@ class Car(pygame.sprite.Sprite):
     def get_position(self):
         return (self.rect.left, self.rect.top)
 
+    def get_coin_num(self):
+        return self.coin_num
+
     def get_info(self):
         self.car_info = {"id":self.car_no,
                          "pos":(self.rect.centerx,self.rect.centery),
-                         "velocity":self.get_velocity()}
+                         "velocity":self.get_velocity(),
+                         "coin_num":self.get_coin_num()}
         return self.car_info
 
 class UserCar(Car):
@@ -57,7 +62,7 @@ class UserCar(Car):
         self.car_no = user_no
         self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,user_image[self.car_no])), (40, 80))
         self.lastUpdateTime = pygame.time.get_ticks()
-        self.coin_num = 0
+
 
     def update(self,control_dic):
         self.handleKeyEvent(control_dic)

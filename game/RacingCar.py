@@ -71,6 +71,7 @@ class RacingCar:
         """
         Get the scene information
         """
+        coin_pos = []
         computer_cars_pos = []
         lanes_pos = []
         player_1_pos = ()
@@ -91,24 +92,41 @@ class RacingCar:
                 player_4_pos = (car["pos"][0]-20,car["pos"][1]-40)
         for lane in self.game_mode.lanes:
             lanes_pos.append((lane.rect.left, lane.rect.top))
-        print(computer_cars_pos)
-        scene_info = {
-            "frame": self.game_mode.frame,
-            "status": self.game_mode.status,
-            "computer_cars": computer_cars_pos,
-            "lanes": lanes_pos,
-            "player1": player_1_pos,
-            "player2": player_2_pos,
-            "player3": player_3_pos,
-            "player4": player_4_pos,
-            "game_result": self.game_mode.winner
-        }
+
+        if type(self.game_mode) == PlayingMode:
+            scene_info = {
+                "frame": self.game_mode.frame,
+                "status": self.game_mode.status,
+                "computer_cars": computer_cars_pos,
+                "lanes": lanes_pos,
+                "player1": player_1_pos,
+                "player2": player_2_pos,
+                "player3": player_3_pos,
+                "player4": player_4_pos,
+                "game_result": self.game_mode.winner
+            }
+        elif type(self.game_mode) == CoinPlayingMode:
+            for coin in self.game_mode.coins:
+                coin_pos.append(coin.get_position())
+            scene_info = {
+                "frame": self.game_mode.frame,
+                "status": self.game_mode.status,
+                "computer_cars": computer_cars_pos,
+                "lanes": lanes_pos,
+                "player1": player_1_pos,
+                "player2": player_2_pos,
+                "player3": player_3_pos,
+                "player4": player_4_pos,
+                "coins":coin_pos,
+                "game_result": self.game_mode.winner
+            }
         return scene_info
 
     def get_game_info(self):
         """
         Get the scene and object information for drawing on the web
         """
+
         return {
             "scene": {
                 "size": [600, 800]
@@ -120,6 +138,7 @@ class RacingCar:
                 {"name": "player2_car", "size": [40, 60], "color": (0, 255, 127)},
                 {"name": "player3_car", "size": [40, 60], "color": (255, 191, 203)},
                 {"name": "player4_car", "size": [40, 60], "color": (171, 130, 255)},
+                {"name":"coins", "size":[20,20], "color":(255, 193, 37)}
             ]
         }
 
@@ -128,18 +147,28 @@ class RacingCar:
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info()
+        if type(self.game_mode) == PlayingMode:
+            return {
+                "game_object": {
+                    "lane": scene_info["lanes"],
+                    "computer_car": scene_info["computer_cars"],
+                    "player1_car": [scene_info["player1"]],
+                    "player2_car": [scene_info["player2"]],
+                    "player3_car": [scene_info["player3"]],
+                    "player4_car": [scene_info["player4"]],}
+                    }
 
-        return {
-            "game_object": {
-                "lane": scene_info["lanes"],
-                "computer_car": scene_info["computer_cars"],
-                "player1_car": [scene_info["player1"]],
-                "player2_car": [scene_info["player2"]],
-                "player3_car": [scene_info["player3"]],
-                "player4_car": [scene_info["player4"]],
-
-            }
-        }
+        elif type(self.game_mode) == CoinPlayingMode:
+            return {
+                "game_object": {
+                    "lane": scene_info["lanes"],
+                    "coins":scene_info["coins"],
+                    "computer_car": scene_info["computer_cars"],
+                    "player1_car": [scene_info["player1"]],
+                    "player2_car": [scene_info["player2"]],
+                    "player3_car": [scene_info["player3"]],
+                    "player4_car": [scene_info["player4"]],}
+                    }
 
     def get_game_result(self):
         """
