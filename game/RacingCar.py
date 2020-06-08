@@ -13,8 +13,10 @@ class RacingCar:
     def __init__(self, difficulty, user_num: int):
         if difficulty == "NORMAL":
             self.game_mode = PlayingMode(user_num)
+            self.game_type = "NORMAL"
         elif difficulty == "COIN":
             self.game_mode = CoinPlayingMode(user_num)
+            self.game_type = "COIN"
         pass
 
     def get_player_scene_info(self) -> dict:
@@ -93,7 +95,7 @@ class RacingCar:
         for lane in self.game_mode.lanes:
             lanes_pos.append((lane.rect.left, lane.rect.top))
 
-        if type(self.game_mode) == PlayingMode:
+        if self.game_type == "NORMAL":
             scene_info = {
                 "frame": self.game_mode.frame,
                 "status": self.game_mode.status,
@@ -103,9 +105,9 @@ class RacingCar:
                 "player2": player_2_pos,
                 "player3": player_3_pos,
                 "player4": player_4_pos,
-                "game_result": self.game_mode.winner
-            }
-        elif type(self.game_mode) == CoinPlayingMode:
+                "game_result": self.game_mode.winner}
+
+        elif self.game_type == "COIN":
             for coin in self.game_mode.coins:
                 coin_pos.append(coin.get_position())
             scene_info = {
@@ -118,8 +120,8 @@ class RacingCar:
                 "player3": player_3_pos,
                 "player4": player_4_pos,
                 "coins":coin_pos,
-                "game_result": self.game_mode.winner
-            }
+                "game_result": self.game_mode.winner}
+
         return scene_info
 
     def get_game_info(self):
@@ -147,7 +149,7 @@ class RacingCar:
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info()
-        if type(self.game_mode) == PlayingMode:
+        if self.game_type == "NORMAL":
             return {
                 "game_object": {
                     "lane": scene_info["lanes"],
@@ -158,7 +160,7 @@ class RacingCar:
                     "player4_car": [scene_info["player4"]],}
                     }
 
-        elif type(self.game_mode) == CoinPlayingMode:
+        elif self.game_type == "COIN":
             return {
                 "game_object": {
                     "lane": scene_info["lanes"],
