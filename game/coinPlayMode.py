@@ -18,16 +18,6 @@ class CoinPlayingMode(PlayingMode):
         self.cars_info = []
         self.creat_coins()
 
-        for car in self.cars:
-            '''碰撞偵測'''
-            self.collide_with_cars(car)
-            '''偵測車子的狀態'''
-            self.detect_car_state(car)
-            self.cars_info.append(car.get_info())
-
-            '''更新車子位置'''
-            car.rect.centery += self.camera_vel - car.velocity
-
         for car in self.user_cars:
             car.update(command[car.car_no])
 
@@ -39,6 +29,16 @@ class CoinPlayingMode(PlayingMode):
                 self.camera_vel = self.maxVel
             else:
                 self.revise_camera()
+
+        for car in self.cars:
+            '''碰撞偵測'''
+            self.collide_with_cars(car)
+            '''偵測車子的狀態'''
+            self.detect_car_state(car)
+            self.cars_info.append(car.get_info())
+
+            '''更新車子位置'''
+            car.rect.centery += self.camera_vel - car.velocity
 
         if len(self.user_cars) == 0:
             self.print_result()
