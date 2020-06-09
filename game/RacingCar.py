@@ -10,7 +10,7 @@ from .coinPlayMode import CoinPlayingMode
 
 
 class RacingCar:
-    def __init__(self, difficulty, user_num: int):
+    def __init__(self, user_num: int, difficulty):
         if difficulty == "NORMAL":
             self.game_mode = PlayingMode(user_num)
             self.game_type = "NORMAL"
