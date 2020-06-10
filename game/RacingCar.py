@@ -3,6 +3,7 @@ import time
 import pygame
 
 from .playingMode import PlayingMode
+from .env import *
 
 # TODO
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
@@ -87,7 +88,6 @@ class RacingCar:
                 player_4_pos = (car["pos"][0]-20,car["pos"][1]-40)
         for lane in self.game_mode.lanes:
             lanes_pos.append((lane.rect.left, lane.rect.top))
-        print(computer_cars_pos)
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
@@ -105,12 +105,13 @@ class RacingCar:
         """
         Get the scene and object information for drawing on the web
         """
+        # TODO 顏色改全域變數
         return {
             "scene": {
-                "size": [600, 800]
+                "size": [WIDTH, HEIGHT]
             },
             "game_object": [
-                {"name": "lane", "size": [5, 30], "color": (255, 255, 255)},
+                {"name": "lane", "size": [5, 30], "color": WHITE},
                 {"name": "computer_car", "size": [40, 60], "color": (0, 191, 255)},
                 {"name": "player1_car", "size": [40, 60], "color": (255, 246, 143)},
                 {"name": "player2_car", "size": [40, 60], "color": (0, 255, 127)},
@@ -132,8 +133,12 @@ class RacingCar:
                 "player1_car": [scene_info["player1"]],
                 "player2_car": [scene_info["player2"]],
                 "player3_car": [scene_info["player3"]],
-                "player4_car": [scene_info["player4"]],
-
+                "player4_car": [scene_info["player4"]]
+            },
+            # TODO 回傳要顯示的字串資料
+            "status" : {
+                "player_1_velocity": 12,
+                "player_1_distance":1706,
             }
         }
 
@@ -143,14 +148,16 @@ class RacingCar:
         """
         scene_info = self.get_scene_info()
         result = []
+        ranking = []
         for user in scene_info["game_result"]:
-            result.append("Rank" + str(
-                len(scene_info["game_result"]) - scene_info["game_result"].index(user)) + " : Player " + str(
+            result.append("Rank" + str(scene_info["game_result"].index(user)+1) + " : Player " + str(
                 user.car_no + 1))
+            ranking.append(str(user.car_no + 1) + "P")
 
         return {
             "frame_used": scene_info["frame"],
             "result": result,
+            "ranking": ranking
         }
 
     def get_keyboard_command(self):

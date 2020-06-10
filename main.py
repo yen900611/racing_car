@@ -6,12 +6,12 @@ from game import playingMode, I_Commander, coinPlayMode
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
-    game = playingMode.PlayingMode(2)
+    game = playingMode.PlayingMode(4)
     time_start = time.time()
 
     while game.isRunning():
         commands = []
-        for i in range(2):
+        for i in range(4):
             commands.append(I_Commander.KeyBoardCommander(i).getControlDict())
         game.ticks()
         game.handle_event()
