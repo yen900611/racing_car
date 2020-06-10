@@ -178,14 +178,16 @@ class RacingCar:
         """
         scene_info = self.get_scene_info()
         result = []
+        ranking = []
         for user in scene_info["game_result"]:
-            result.append("Rank" + str(
-                len(scene_info["game_result"]) - scene_info["game_result"].index(user)) + " : Player " + str(
+            result.append("Rank" + str(scene_info["game_result"].index(user)+1) + " : Player " + str(
                 user.car_no + 1))
+            ranking.append(str(user.car_no + 1) + "P")
 
         return {
             "frame_used": scene_info["frame"],
             "result": result,
+            "ranking": ranking
         }
 
     def get_keyboard_command(self):
