@@ -167,6 +167,7 @@ class RacingCar:
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info()
+        print(scene_info["player1"])
         if self.game_type == "NORMAL":
             return {
                 "game_object": {
@@ -176,20 +177,19 @@ class RacingCar:
                     "player2_car": [scene_info["player2_pos"]],
                     "player3_car": [scene_info["player3_pos"]],
                     "player4_car": [scene_info["player4_pos"]]},
-                "status": {
-                    "player_1_distance": str(scene_info["player1"]["distance"]),
-                     "player_1_velocity": str(scene_info["player1"]["velocity"]),
-                     "player_1_coin": str(scene_info["player1"]["coin"]),
-                     "player_2_distance": str(scene_info["player2"]["distance"]),
-                     "player_2_velocity": str(scene_info["player2"]["velocity"]),
-                     "player_2_coin": str(scene_info["player2"]["coin"]),
-                     "player_3_distance": str(scene_info["player3"]["distance"]),
-                     "player_3_velocity": str(scene_info["player3"]["velocity"]),
-                     "player_3_coin": str(scene_info["player3"]["coin"]),
-                     "player_4_distance": str(scene_info["player4"]["distance"]),
-                     "player_4_velocity": str(scene_info["player4"]["velocity"]),
-                     "player_4_coin": str(scene_info["player4"]["coin"]),
-            }
+                # "status": {
+                #      "player_1_distance": str(scene_info["player1"]["distance"]),
+                #      "player_1_velocity": str(scene_info["player1"]["velocity"]),
+                #      "player_1_coin": str(scene_info["player1"]["coin"]),
+                #      "player_2_distance": str(scene_info["player2"]["distance"]),
+                #      "player_2_velocity": str(scene_info["player2"]["velocity"]),
+                #      "player_2_coin": str(scene_info["player2"]["coin"]),
+                #      "player_3_distance": str(scene_info["player3"]["distance"]),
+                #      "player_3_velocity": str(scene_info["player3"]["velocity"]),
+                #      "player_3_coin": str(scene_info["player3"]["coin"]),
+                #      "player_4_distance": str(scene_info["player4"]["distance"]),
+                #      "player_4_velocity": str(scene_info["player4"]["velocity"]),
+                #      "player_4_coin": str(scene_info["player4"]["coin"])}
             }
 
         elif self.game_type == "COIN":
