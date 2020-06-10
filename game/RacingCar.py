@@ -194,7 +194,11 @@ class RacingCar:
                 {"name": "player2_car", "size": [40, 60], "color": YELLOW},
                 {"name": "player3_car", "size": [40, 60], "color": GREEN},
                 {"name": "player4_car", "size": [40, 60], "color": BLUE},
-                {"name":"coins", "size":[20,20], "color":(255, 193, 37)}
+                {"name":"coins", "size":[20,20], "color":(255, 193, 37)},
+                {"name": "player1_car_icon", "size": [10, 10], "color": RED},
+                {"name": "player2_car_icon", "size": [10, 10], "color": YELLOW},
+                {"name": "player3_car_icon", "size": [10, 10], "color": GREEN},
+                {"name": "player4_car_icon", "size": [10, 10], "color": BLUE},
             ]
         }
 
@@ -212,7 +216,12 @@ class RacingCar:
                     "player1_car": [scene_info["player1_pos"]],
                     "player2_car": [scene_info["player2_pos"]],
                     "player3_car": [scene_info["player3_pos"]],
-                    "player4_car": [scene_info["player4_pos"]]},
+                    "player4_car": [scene_info["player4_pos"]],
+                    "player1_car_icon": [(645,700)],
+                    "player2_car_icon": [(680,700)],
+                    "player3_car_icon": [(715,700)],
+                    "player4_car_icon": [(750,700)],
+                },
                 "status": {
                      "player_1_distance": scene_info["player_1_distance"],
                      "player_1_velocity": scene_info["player_1_velocity"],
@@ -233,7 +242,12 @@ class RacingCar:
                     "player1_car": [scene_info["player1_pos"]],
                     "player2_car": [scene_info["player2_pos"]],
                     "player3_car": [scene_info["player3_pos"]],
-                    "player4_car": [scene_info["player4_pos"]],},
+                    "player4_car": [scene_info["player4_pos"]],
+                    "player1_car_icon": [(645, 700)],
+                    "player2_car_icon": [(680, 700)],
+                    "player3_car_icon": [(715, 700)],
+                    "player4_car_icon": [(750, 700)],
+                },
                 "status": {
                     "player_1_distance": scene_info["player_1_distance"],
                     "player_1_velocity": scene_info["player_1_velocity"],
