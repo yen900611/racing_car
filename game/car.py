@@ -21,7 +21,7 @@ class Car(pygame.sprite.Sprite):
         self.velocity += 0.3
 
     def brakeDown(self):
-        self.velocity -= 1.5
+        self.velocity -= 1.7
 
     def slowDown(self):
         if self.velocity > 1:
@@ -36,7 +36,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.centerx -= 2
 
     def keep_in_screen(self):
-        if self.rect.left < 0 or self.rect.right > 420 or self.rect.centery > HEIGHT+80:
+        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+80:
             self.velocity = 0
             self.state = False
 
@@ -52,6 +52,7 @@ class Car(pygame.sprite.Sprite):
     def get_info(self):
         self.car_info = {"id":self.car_no,
                          "pos":(self.rect.centerx,self.rect.centery),
+                         "distance":self.distance,
                          "velocity":self.get_velocity(),
                          "coin_num":self.get_coin_num()}
         return self.car_info
@@ -70,11 +71,11 @@ class UserCar(Car):
         self.distance +=self.velocity
 
     def keep_in_screen(self):
-        if self.rect.left < 0 or self.rect.right > 420 or self.rect.centery > HEIGHT+50:
+        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+50:
             self.velocity = 0
             self.state = False
-        if self.rect.centery <200:
-            self.rect.centery = 200
+        if self.rect.centery < 250:
+            self.rect.centery = 250
         if self.velocity > 15:
             self.velocity = 15
         elif self.velocity < 0:
@@ -120,6 +121,6 @@ class ComputerCar(Car):
         for each_car in other_cars:
             if abs(self.rect.centerx - each_car.rect.centerx) < 50:
                 distance = self.rect.centery - each_car.rect.centery
-                if 130 > distance > 0:
+                if 160 > distance > 0:
                     self.brakeDown()
             else:pass
