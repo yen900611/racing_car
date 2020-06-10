@@ -214,18 +214,14 @@ class RacingCar:
                     "player3_car": [scene_info["player3_pos"]],
                     "player4_car": [scene_info["player4_pos"]]},
                 "status": {
-                     "player_1_distance": str(scene_info["player_1_distance"]),
-                     "player_1_velocity": str(scene_info["player_1_velocity"]),
-                     "player_1_coin": str(scene_info["player_1_coin_num"]),
-                     "player_2_distance": str(scene_info["player_2_distance"]),
-                     "player_2_velocity": str(scene_info["player_2_velocity"]),
-                     "player_2_coin": str(scene_info["player_2_coin_num"]),
-                     "player_3_distance": str(scene_info["player_3_distance"]),
-                     "player_3_velocity": str(scene_info["player_3_velocity"]),
-                     "player_3_coin": str(scene_info["player_3_coin_num"]),
-                     "player_4_distance": str(scene_info["player_4_distance"]),
-                     "player_4_velocity": str(scene_info["player_4_velocity"]),
-                     "player_4_coin": str(scene_info["player_4_coin_num"])}
+                     "player_1_distance": scene_info["player_1_distance"],
+                     "player_1_velocity": scene_info["player_1_velocity"],
+                     "player_2_distance": scene_info["player_2_distance"],
+                     "player_2_velocity": scene_info["player_2_velocity"],
+                     "player_3_distance": scene_info["player_3_distance"],
+                     "player_3_velocity": scene_info["player_3_velocity"],
+                     "player_4_distance": scene_info["player_4_distance"],
+                     "player_4_velocity": scene_info["player_4_velocity"],}
             }
 
         elif self.game_type == "COIN":
@@ -237,7 +233,20 @@ class RacingCar:
                     "player1_car": [scene_info["player1_pos"]],
                     "player2_car": [scene_info["player2_pos"]],
                     "player3_car": [scene_info["player3_pos"]],
-                    "player4_car": [scene_info["player4_pos"]],}
+                    "player4_car": [scene_info["player4_pos"]],},
+                "status": {
+                    "player_1_distance": scene_info["player_1_distance"],
+                    "player_1_velocity": scene_info["player_1_velocity"],
+                    "player_1_coin": scene_info["player_1_coin_num"],
+                    "player_2_distance": scene_info["player_2_distance"],
+                    "player_2_velocity": scene_info["player_2_velocity"],
+                    "player_2_coin": scene_info["player_2_coin_num"],
+                    "player_3_distance": scene_info["player_3_distance"],
+                    "player_3_velocity": scene_info["player_3_velocity"],
+                    "player_3_coin": scene_info["player_3_coin_num"],
+                    "player_4_distance": scene_info["player_4_distance"],
+                    "player_4_velocity": scene_info["player_4_velocity"],
+                    "player_4_coin": scene_info["player_4_coin_num"]}
                     }
 
     def get_game_result(self):
