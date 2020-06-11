@@ -112,11 +112,11 @@ class RacingCar:
             },
             "game_object": [
                 {"name": "lane", "size": [5, 30], "color": WHITE},
-                {"name": "computer_car", "size": [40, 60], "color": (0, 191, 255)},
-                {"name": "player1_car", "size": [40, 60], "color": (255, 246, 143)},
-                {"name": "player2_car", "size": [40, 60], "color": (0, 255, 127)},
-                {"name": "player3_car", "size": [40, 60], "color": (255, 191, 203)},
-                {"name": "player4_car", "size": [40, 60], "color": (171, 130, 255)},
+                {"name": "computer_car", "size": [40, 80], "color": (0, 191, 255)},
+                {"name": "player1_car", "size": [40, 80], "color": (255, 246, 143)},
+                {"name": "player2_car", "size": [40, 80], "color": (0, 255, 127)},
+                {"name": "player3_car", "size": [40, 80], "color": (255, 191, 203)},
+                {"name": "player4_car", "size": [40, 80], "color": (171, 130, 255)},
             ]
         }
 
