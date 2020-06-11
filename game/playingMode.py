@@ -94,7 +94,7 @@ class PlayingMode(GameMode):
     def create_lanes(self):
         self.lanes = []
         for i in range(1, 9):
-            for j in range(20):
+            for j in range(30):
                 self.lane = Lane(i * 70, j * 60, self.maxVel)
                 self.lanes.append(self.lane)
                 self.all_sprites.add(self.lane)

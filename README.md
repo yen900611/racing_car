@@ -3,7 +3,7 @@
 [TOC]
 # 賽車
 
-**遊戲版本：1.3**
+**遊戲版本：1.4**
 
 ## 更新
 * 玩家車子的起始位置調整為畫面的2/3。
@@ -12,7 +12,7 @@
 
 ## 概觀
 
-<img src="https://i.imgur.com/4kNeAHx.gif" height="300px" />
+<img src="https://imgur.com/8oICWua.gif" height="400px" />
 
 遊戲開始時，玩家的車由畫面2/3的地方開始起跑，電腦的車子將會從畫面上方或下方進入。玩家的車子不會超過畫面前250像素。
 如果車子離開遊戲畫面(速度過慢導致從畫面下方離開、撞到左右兩側邊線)將判定為出局；碰撞到其他車子，不論電腦或是其他玩家則雙方都將出局。
@@ -26,7 +26,7 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m RacingCar [the number of user]`
+`python MLGame.py -m RacingCar [the number of user] `
     * 機器學習模式：
 `python MLGame.py -i ml_play_template.py RacingCar [the number of user]`
 
@@ -56,7 +56,7 @@
 #### 電腦車子
 
 * 40 \* 80 像素大小的矩形
-* 車子從畫面上方出現在玩家車子的前方，不會左右移動切換車道，前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
+* 車子從畫面上方或下方出現，不會左右移動切換車道，前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
 * 每台車最高速度皆不一樣。
 
 ## 撰寫玩遊戲的程式
