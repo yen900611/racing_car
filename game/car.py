@@ -35,7 +35,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.centerx -= 2
 
     def keep_in_screen(self):
-        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+80:
+        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
             self.velocity = 0
             self.state = False
 
@@ -65,11 +65,11 @@ class UserCar(Car):
         self.distance +=self.velocity
 
     def keep_in_screen(self):
-        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+50:
+        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
             self.velocity = 0
             self.state = False
-        if self.rect.centery < 250:
-            self.rect.centery = 250
+        if self.rect.centery < 300:
+            self.rect.centery = 300
         if self.velocity > 15:
             self.velocity = 15
         elif self.velocity < 0:
@@ -79,19 +79,18 @@ class UserCar(Car):
         if control_list == None:
             return True
 
-        for cmd in control_list:
-            if cmd == LEFT_cmd:
-                self.moveLeft()
-            if cmd == RIGHT_cmd:
-                self.moveRight()
-            if pygame.time.get_ticks() - self.lastUpdateTime > 150:
-                if cmd == SPEED_cmd:
-                    self.speedUp()
-                elif cmd == BRAKE_cmd:
-                    self.brakeDown()
-                else:
-                    self.slowDown()
-                self.lastUpdateTime = pygame.time.get_ticks()
+        if LEFT_cmd in control_list:
+            self.moveLeft()
+        if RIGHT_cmd in control_list:
+            self.moveRight()
+        if pygame.time.get_ticks() - self.lastUpdateTime > 150:
+            if SPEED_cmd in control_list:
+                self.speedUp()
+            elif BRAKE_cmd in control_list:
+                self.brakeDown()
+            else:
+                self.slowDown()
+            self.lastUpdateTime = pygame.time.get_ticks()
 
 class ComputerCar(Car):
     def __init__(self,x,y,other_cars):
@@ -106,7 +105,7 @@ class ComputerCar(Car):
         self.keep_in_screen()
         self.detect_other_cars(self.other_cars)
         self.speedUp()
-        if self.rect.centery < -160:
+        if self.rect.centery < -210:
             self.state = False
         if self.velocity < 0:
             self.velocity = 0

@@ -174,7 +174,7 @@ class RacingCar:
 
         if key_pressed_list[pygame.K_a]: cmd_2P.append(LEFT_cmd)
         if key_pressed_list[pygame.K_d]:cmd_2P.append(RIGHT_cmd)
-        if key_pressed_list[pygame.K_w]:cmd_2P.append(SPEED_cmd")
+        if key_pressed_list[pygame.K_w]:cmd_2P.append(SPEED_cmd)
         if key_pressed_list[pygame.K_s]:cmd_2P.append(BRAKE_cmd)
 
         return [cmd_1P, cmd_2P]
