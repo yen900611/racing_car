@@ -150,8 +150,7 @@ class RacingCar:
         result = []
         ranking = []
         for user in scene_info["game_result"]:
-            result.append("Rank" + str(scene_info["game_result"].index(user)+1) + " : Player " + str(
-                user.car_no + 1))
+            result.append("GAME_DRAW")
             ranking.append(str(user.car_no + 1) + "P")
 
         return {
@@ -171,12 +170,12 @@ class RacingCar:
         if key_pressed_list[pygame.K_LEFT]: cmd_1P.append("MOVE_LEFT")
         if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append("MOVE_RIGHT")
         if key_pressed_list[pygame.K_UP]:cmd_1P.append("SPEED")
-        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append("BREAK")
+        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append("BRAKE")
 
         if key_pressed_list[pygame.K_a]: cmd_2P.append("MOVE_LEFT")
         if key_pressed_list[pygame.K_d]:cmd_2P.append("MOVE_RIGHT")
         if key_pressed_list[pygame.K_w]:cmd_2P.append("SPEED")
-        if key_pressed_list[pygame.K_s]:cmd_2P.append("BREAK")
+        if key_pressed_list[pygame.K_s]:cmd_2P.append("BRAKE")
 
         return [cmd_1P, cmd_2P]
 
