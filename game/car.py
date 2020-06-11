@@ -7,7 +7,7 @@ import random
 class Car(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((40, 80))
+        self.image = pygame.Surface(car_size)
         self.rect = self.image.get_rect()
         self.rect.center = x ,y
         self.state = True
@@ -55,7 +55,7 @@ class UserCar(Car):
     def __init__(self, x, y, user_no):
         Car.__init__(self,x ,y)
         self.car_no = user_no
-        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,user_image[self.car_no])), (40, 80))
+        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,user_image[self.car_no])), car_size)
         self.lastUpdateTime = pygame.time.get_ticks()
         self.coin_num = 0
 
@@ -78,23 +78,25 @@ class UserCar(Car):
     def handleKeyEvent(self,control_list:list):
         if control_list == None:
             return True
-        if "MOVE_LEFT" in control_list:
-            self.moveLeft()
-        if "MOVE_RIGHT" in control_list:
-            self.moveRight()
-        if pygame.time.get_ticks() - self.lastUpdateTime > 150:
-            if "SPEED" in control_list:
-                self.speedUp()
-            elif "BRAKE" in control_list:
-                self.brakeDown()
-            else:
-                self.slowDown()
-            self.lastUpdateTime = pygame.time.get_ticks()
+
+        for cmd in control_list:
+            if cmd == LEFT_cmd:
+                self.moveLeft()
+            if cmd == RIGHT_cmd:
+                self.moveRight()
+            if pygame.time.get_ticks() - self.lastUpdateTime > 150:
+                if cmd == SPEED_cmd:
+                    self.speedUp()
+                elif cmd == BRAKE_cmd:
+                    self.brakeDown()
+                else:
+                    self.slowDown()
+                self.lastUpdateTime = pygame.time.get_ticks()
 
 class ComputerCar(Car):
     def __init__(self,x,y,other_cars):
         Car.__init__(self ,x ,y)
-        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"電腦車2.png")),(40,80))
+        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"電腦車2.png")),car_size)
         self.other_cars = other_cars
         self.velocity = random.randrange(8,14)
         self.car_no = random.randrange(101,200)
@@ -104,7 +106,7 @@ class ComputerCar(Car):
         self.keep_in_screen()
         self.detect_other_cars(self.other_cars)
         self.speedUp()
-        if self.rect.centery < -150:
+        if self.rect.centery < -160:
             self.state = False
         if self.velocity < 0:
             self.velocity = 0

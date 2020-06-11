@@ -112,11 +112,11 @@ class RacingCar:
             },
             "game_object": [
                 {"name": "lane", "size": [5, 30], "color": WHITE},
-                {"name": "computer_car", "size": [40, 80], "color": (0, 191, 255)},
-                {"name": "player1_car", "size": [40, 80], "color": (255, 246, 143)},
-                {"name": "player2_car", "size": [40, 80], "color": (0, 255, 127)},
-                {"name": "player3_car", "size": [40, 80], "color": (255, 191, 203)},
-                {"name": "player4_car", "size": [40, 80], "color": (171, 130, 255)},
+                {"name": "computer_car", "size": car_size, "color": (0, 191, 255)},
+                {"name": "player1_car", "size": car_size, "color": (255, 246, 143)},
+                {"name": "player2_car", "size": car_size, "color": (0, 255, 127)},
+                {"name": "player3_car", "size": car_size, "color": (255, 191, 203)},
+                {"name": "player4_car", "size": car_size, "color": (171, 130, 255)},
             ]
         }
 
@@ -167,15 +167,15 @@ class RacingCar:
         cmd_1P = []
         cmd_2P = []
 
-        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append("MOVE_LEFT")
-        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append("MOVE_RIGHT")
-        if key_pressed_list[pygame.K_UP]:cmd_1P.append("SPEED")
-        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append("BRAKE")
+        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append(LEFT_cmd)
+        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append(RIGHT_cmd)
+        if key_pressed_list[pygame.K_UP]:cmd_1P.append(SPEED_cmd)
+        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append(BRAKE_cmd)
 
-        if key_pressed_list[pygame.K_a]: cmd_2P.append("MOVE_LEFT")
-        if key_pressed_list[pygame.K_d]:cmd_2P.append("MOVE_RIGHT")
-        if key_pressed_list[pygame.K_w]:cmd_2P.append("SPEED")
-        if key_pressed_list[pygame.K_s]:cmd_2P.append("BRAKE")
+        if key_pressed_list[pygame.K_a]: cmd_2P.append(LEFT_cmd)
+        if key_pressed_list[pygame.K_d]:cmd_2P.append(RIGHT_cmd)
+        if key_pressed_list[pygame.K_w]:cmd_2P.append(SPEED_cmd")
+        if key_pressed_list[pygame.K_s]:cmd_2P.append(BRAKE_cmd)
 
         return [cmd_1P, cmd_2P]
 

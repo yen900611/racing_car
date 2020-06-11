@@ -157,7 +157,7 @@ class PlayingMode(GameMode):
     def creat_computercar(self):
         if pygame.time.get_ticks() - self.creat_computerCar_time > 1200:
             for i in range(3):
-                self.computerCar = ComputerCar(random.choice(self.lane_center[i*3:i*3+3]), random.choice([HEIGHT + 80, -130]),self.cars)
+                self.computerCar = ComputerCar(random.choice(self.lane_center[i*3:i*3+3]), random.choice([HEIGHT + 80, -150]),self.cars)
                 self.cars.add(self.computerCar)
                 self.all_sprites.add(self.computerCar)
                 self.creat_computerCar_time = pygame.time.get_ticks()
