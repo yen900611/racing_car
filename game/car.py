@@ -4,17 +4,18 @@ from .I_Commander import I_Commander
 from .env import *
 import random
 
+
 class Car(pygame.sprite.Sprite):
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface(car_size)
         self.rect = self.image.get_rect()
-        self.rect.center = x ,y
+        self.rect.center = x, y
         self.state = True
         self.velocity = 0
         self.distance = 0
         self.car_no = 0
-        self.car_info ={}
+        self.car_info = {}
         self.coin_num = 0
 
     def speedUp(self):
@@ -50,26 +51,28 @@ class Car(pygame.sprite.Sprite):
         return self.coin_num
 
     def get_info(self):
-        self.car_info = {"id":self.car_no,
-                         "pos":(self.rect.centerx,self.rect.centery),
-                         "distance":self.distance,
-                         "velocity":self.get_velocity(),
-                         "coin_num":self.get_coin_num()}
+        self.car_info = {"id": self.car_no,
+                         "pos": (self.rect.centerx, self.rect.centery),
+                         "distance": self.distance,
+                         "velocity": self.get_velocity(),
+                         "coin_num": self.get_coin_num()}
         return self.car_info
+
 
 class UserCar(Car):
     def __init__(self, x, y, user_no):
-        Car.__init__(self,x ,y)
+        Car.__init__(self, x, y)
         self.car_no = user_no
-        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,user_image[self.car_no])), car_size)
+        self.image = pygame.transform.scale(pygame.image.load(
+            path.join(IMAGE_DIR, USER_IMAGE[self.car_no])), car_size)
         self.image = self.image.convert_alpha()
         self.lastUpdateTime = time.time()
         self.coin_num = 0
 
-    def update(self,control_dic):
+    def update(self, control_dic):
         self.handleKeyEvent(control_dic)
         self.keep_in_screen()
-        self.distance +=self.velocity
+        self.distance += self.velocity
 
     def keep_in_screen(self):
         if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
@@ -82,7 +85,7 @@ class UserCar(Car):
         elif self.velocity < 0:
             self.velocity = 0
 
-    def handleKeyEvent(self,control_list:list):
+    def handleKeyEvent(self, control_list: list):
         if control_list == None:
             return True
 
@@ -99,15 +102,17 @@ class UserCar(Car):
                 self.slowDown()
             self.lastUpdateTime = time.time()
 
+
 class ComputerCar(Car):
-    def __init__(self,x,y,other_cars):
-        Car.__init__(self ,x ,y)
-        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"電腦車2.png")),car_size)
+    def __init__(self, x, y, other_cars):
+        Car.__init__(self, x, y)
+        self.image = pygame.transform.scale(pygame.image.load(
+            path.join(IMAGE_DIR, "電腦車2.png")), car_size)
         self.image = self.image.convert_alpha()
         self.other_cars = other_cars
-        self.velocity = random.randrange(8,14)
-        self.car_no = random.randrange(101,200)
-        self.max_vel = random.randrange(10,14)
+        self.velocity = random.randrange(8, 14)
+        self.car_no = random.randrange(101, 200)
+        self.max_vel = random.randrange(10, 14)
 
     def update(self, *args):
         self.keep_in_screen()
@@ -120,10 +125,11 @@ class ComputerCar(Car):
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
 
-    def detect_other_cars(self,other_cars):
+    def detect_other_cars(self, other_cars):
         for each_car in other_cars:
             if abs(self.rect.centerx - each_car.rect.centerx) < 50:
                 distance = self.rect.centery - each_car.rect.centery
                 if 160 > distance > 0:
                     self.brakeDown()
-            else:pass
+            else:
+                pass

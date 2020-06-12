@@ -3,11 +3,12 @@ from os import path
 import json
 
 if __name__ == "__main__":
-    
-    log_file = path.join(path.dirname(__file__),'log_template.pickle')
-    with open(log_file,'rb') as fp:
-        data =pickle.load(fp)
-    
+
+    log_file = path.join(path.dirname(__file__),
+                         'manual_2_NORMAL_2020-06-12_13-46-41.pickle')
+    with open(log_file, 'rb') as fp:
+        data = pickle.load(fp)
+
     # Data structure in log file
     print("# Data structure")
     print(data.keys())
@@ -22,15 +23,15 @@ if __name__ == "__main__":
 
     # Data structure of command in single frame
     print("# Single Commands Info")
-    single_frame_commands =  data['command'][200]
+    single_frame_commands = data['command'][200]
     print(single_frame_commands)
     P1_commands = single_frame_commands[0]
     P2_commands = single_frame_commands[1]
-    print("Player 1 Commands = ",P1_commands)
-    print("Player 2 Commands = ",P2_commands)
+    print("Player 1 Commands = ", P1_commands)
+    print("Player 2 Commands = ", P2_commands)
     print("")
 
-    for i in range(0,len(data)):
+    for i in range(0, len(data)):
         single_scene = data['scene_info'][i]
         single_frame_commands = data['command'][i]
         # TODO Fetch your feature and arrange they in your format

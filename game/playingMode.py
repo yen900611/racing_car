@@ -6,8 +6,9 @@ from .env import *
 import pygame
 import random
 
+
 class PlayingMode(GameMode):
-    def __init__(self, user_num:int):
+    def __init__(self, user_num: int):
         super(PlayingMode, self).__init__()
         self.frame = 0
         '''音效初始化'''
@@ -27,15 +28,15 @@ class PlayingMode(GameMode):
         self.end_line = 20000
         self.camera_vel = 0
         self.cars_num = 15
-        #user數量
+        # user數量
         for user in range(user_num):
             car = self.create_user(user)
         self.winner = []
         self.status = "ALIVE"
         self.creat_computerCar_time = pygame.time.get_ticks()
-        self.lane_center = [35,105,175,245,315,385,455,525,595]
+        self.lane_center = [35, 105, 175, 245, 315, 385, 455, 525, 595]
 
-    def update_sprite(self,command:list):
+    def update_sprite(self, command: list):
         self.frame += 1
         self.handle_event()
         self.all_sprites.update()
@@ -73,7 +74,8 @@ class PlayingMode(GameMode):
     def print_result(self):
         self.winner.reverse()
         for user in self.winner:
-            print("Rank" + str(self.winner.index(user)+1) + " : Player " + str(user.car_no + 1))
+            print("Rank" + str(self.winner.index(user)+1) +
+                  " : Player " + str(user.car_no + 1))
 
     def revise_camera(self):
         if self.camera_vel < self.maxVel:
@@ -83,7 +85,7 @@ class PlayingMode(GameMode):
         elif self.camera_vel == self.maxVel:
             self.camera_vel -= 3
 
-    def create_user(self, user_no:int):
+    def create_user(self, user_no: int):
         rect_x = random.choice(lane_center)
         lane_center.remove(rect_x)
         self.car = UserCar(rect_x, self.startLine, user_no)
@@ -114,7 +116,7 @@ class PlayingMode(GameMode):
         else:
             return False
 
-    def collide_with_cars(self,car):
+    def collide_with_cars(self, car):
         self.cars.remove(car)
         hits = pygame.sprite.spritecollide(car, self.cars, False)
         for hit in hits:
@@ -141,8 +143,8 @@ class PlayingMode(GameMode):
     def draw_bg(self):
         super(PlayingMode, self).draw_bg()
         self.bg_img.fill(GREY)
-        pygame.draw.line(self.screen ,WHITE ,(630,0) ,(630,1000) , 10)
-        pygame.draw.line(self.screen ,WHITE ,(0,0) ,(0,1000) , 10)
+        pygame.draw.line(self.screen, WHITE, (630, 0), (630, 1000), 10)
+        pygame.draw.line(self.screen, WHITE, (0, 0), (0, 1000), 10)
 
         '''畫出每台車子的資訊'''
         self.draw_user_imformation()
@@ -152,19 +154,22 @@ class PlayingMode(GameMode):
 
         '''顯示出已出局的玩家'''
         for car in self.winner:
-            self.draw_information(self.screen, "Player"+str(car.car_no+1), 17, 715, 730-self.winner.index(car)*20)
+            self.draw_information(
+                self.screen, "Player"+str(car.car_no+1), 17, 715, 730-self.winner.index(car)*20)
 
     def creat_computercar(self):
         if pygame.time.get_ticks() - self.creat_computerCar_time > 1200 and len(self.cars) < self.cars_num:
             for i in range(3):
-                self.computerCar = ComputerCar(random.choice(self.lane_center[i*3:i*3+3]), random.choice([HEIGHT + 120, -200]),self.cars)
+                self.computerCar = ComputerCar(random.choice(
+                    self.lane_center[i*3:i*3+3]), random.choice([HEIGHT + 120, -200]), self.cars)
                 self.cars.add(self.computerCar)
                 self.all_sprites.add(self.computerCar)
                 self.creat_computerCar_time = pygame.time.get_ticks()
 
     def draw_user_imformation(self):
         for car in self.user_cars:
-            self.draw_information(self.screen, "Player" + str(car.car_no+1) + "("+user_image[4][car.car_no]+")", 17, 715, (car.car_no) * 120 + 10)
+            self.draw_information(self.screen, "Player" + str(car.car_no+1) +
+                                  "("+USER_COLOR[car.car_no]+")", 17, 715, (car.car_no) * 120 + 10)
             self.draw_information(self.screen, "vel : " + str(round(car.velocity, 2)), 17, 715,
                                   (car.car_no) * 120 + 40)
             self.draw_information(self.screen, "distance : " + str(abs(round(car.distance, 2))), 17, 715,
