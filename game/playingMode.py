@@ -35,6 +35,7 @@ class PlayingMode(GameMode):
         self.status = "ALIVE"
         self.creat_computerCar_time = pygame.time.get_ticks()
         self.lane_center = [35, 105, 175, 245, 315, 385, 455, 525, 595]
+        self.touch_ceiling = False
 
     def update_sprite(self, command: list):
         self.frame += 1
@@ -44,6 +45,17 @@ class PlayingMode(GameMode):
         self.creat_computercar()
         self.cars_info = []
 
+        if self.maxVel == 15:
+            if self.touch_ceiling:
+                self.camera_vel = self.maxVel
+            else:
+                self.camera_vel = self.maxVel - 3
+        elif self.maxVel == 0:
+            self.camera_vel = 1
+        else:
+            self.revise_camera()
+        self.touch_ceiling = False
+
         for car in self.user_cars:
             car.update(command[car.car_no])
 
@@ -51,10 +63,8 @@ class PlayingMode(GameMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling and len(self.user_cars) > 1:
-                self.camera_vel = self.maxVel
-            else:
-                self.revise_camera()
+            if car.rect.top <= self.ceiling :
+                self.touch_ceiling = True
 
         for car in self.cars:
             '''碰撞偵測'''
@@ -82,8 +92,8 @@ class PlayingMode(GameMode):
             self.camera_vel += 0.5
         elif self.camera_vel > self.maxVel+1:
             self.camera_vel -= 0.5
-        elif self.camera_vel == self.maxVel:
-            self.camera_vel -= 3
+        else:
+            pass
 
     def create_user(self, user_no: int):
         rect_x = random.choice(lane_center)
