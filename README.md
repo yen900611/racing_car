@@ -28,12 +28,13 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m RacingCar [the number of user] `
+`python MLGame.py -m RacingCar [the number of user] <difficulty>`
     * 機器學習模式：
-`python MLGame.py -i ml_play_template.py RacingCar [the number of user]`
+`python MLGame.py -i ml_play_template.py RacingCar [the number of user] <difficulty>`
 
 ### 遊戲參數
 
+* `difficulty`:遊戲模式，可選擇"NORMAL"或"COIN"。
 * `the number of user`：指定遊戲玩家人數，最少需一名玩家。單機手動模式最多兩名(鍵盤位置不足)，機器學習模式至多四名。
 
 ## 詳細遊戲資料
@@ -133,4 +134,4 @@ def update(self, scene_info):
 
 賽車是多人遊戲，所以在啟動機器學習模式時，需要利用 `-i <script_for_1P> -i <script_for_2P> -i <script_for_3P> -i <script_for_4P>` 指定最多四個不同的玩家程式。
 * For example
-`python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2`
+`python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2 NORMAL`

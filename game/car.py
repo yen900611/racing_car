@@ -1,5 +1,5 @@
 import pygame
-
+import time
 from .I_Commander import I_Commander
 from .env import *
 import random
@@ -15,6 +15,7 @@ class Car(pygame.sprite.Sprite):
         self.distance = 0
         self.car_no = 0
         self.car_info ={}
+        self.coin_num = 0
 
     def speedUp(self):
         self.velocity += 0.3
@@ -45,10 +46,15 @@ class Car(pygame.sprite.Sprite):
     def get_position(self):
         return (self.rect.left, self.rect.top)
 
+    def get_coin_num(self):
+        return self.coin_num
+
     def get_info(self):
         self.car_info = {"id":self.car_no,
                          "pos":(self.rect.centerx,self.rect.centery),
-                         "velocity":self.get_velocity()}
+                         "distance":self.distance,
+                         "velocity":self.get_velocity(),
+                         "coin_num":self.get_coin_num()}
         return self.car_info
 
 class UserCar(Car):
@@ -56,7 +62,7 @@ class UserCar(Car):
         Car.__init__(self,x ,y)
         self.car_no = user_no
         self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,user_image[self.car_no])), car_size)
-        self.lastUpdateTime = pygame.time.get_ticks()
+        self.lastUpdateTime = time.time()
         self.coin_num = 0
 
     def update(self,control_dic):
@@ -83,14 +89,14 @@ class UserCar(Car):
             self.moveLeft()
         if RIGHT_cmd in control_list:
             self.moveRight()
-        if pygame.time.get_ticks() - self.lastUpdateTime > 150:
+        if time.time() - self.lastUpdateTime > 0.150:
             if SPEED_cmd in control_list:
                 self.speedUp()
             elif BRAKE_cmd in control_list:
                 self.brakeDown()
             else:
                 self.slowDown()
-            self.lastUpdateTime = pygame.time.get_ticks()
+            self.lastUpdateTime = time.time()
 
 class ComputerCar(Car):
     def __init__(self,x,y,other_cars):
