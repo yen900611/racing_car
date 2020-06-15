@@ -149,33 +149,6 @@ class RacingCar:
                 "player_4_coin_num":player_4_coin_num,
                 "game_result": self.game_mode.winner}
 
-        # elif self.game_type == "COIN":
-        #     for coin in self.game_mode.coins:
-        #         coin_pos.append(coin.get_position())
-        #     scene_info = {
-        #         "frame": self.game_mode.frame,
-        #         "status": self.game_mode.status,
-        #         "computer_cars": computer_cars_pos,
-        #         "lanes": lanes_pos,
-        #         "player1_pos": player_1_pos,
-        #         "player2_pos": player_2_pos,
-        #         "player3_pos": player_3_pos,
-        #         "player4_pos": player_4_pos,
-        #         "player_1_distance": player_1_distance,
-        #         "player_2_distance": player_2_distance,
-        #         "player_3_distance": player_3_distance,
-        #         "player_4_distance": player_4_distance,
-        #         "player_1_velocity": player_1_velocity,
-        #         "player_2_velocity": player_2_velocity,
-        #         "player_3_velocity": player_3_velocity,
-        #         "player_4_velocity": player_4_velocity,
-        #         "player_1_coin_num": player_1_coin_num,
-        #         "player_2_coin_num": player_2_coin_num,
-        #         "player_3_coin_num": player_3_coin_num,
-        #         "player_4_coin_num": player_4_coin_num,
-        #         "coins":coin_pos,
-        #         "game_result": self.game_mode.winner}
-
         return scene_info
 
     def get_game_info(self):
