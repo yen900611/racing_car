@@ -155,7 +155,7 @@ class RacingCar:
             },
             "game_object": [
                 {"name": "lane", "size": [5, 30], "color": WHITE},
-                {"name": "computer_car", "size": car_size, "color": BLUEE},
+                {"name": "computer_car", "size": car_size, "color": BLUE},
                 {"name": "player1_car", "size": car_size, "color": YELLOW},
                 {"name": "player2_car", "size": car_size, "color": GREEN},
                 {"name": "player3_car", "size": car_size, "color": RED},
