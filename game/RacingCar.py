@@ -209,10 +209,10 @@ class RacingCar:
 
         if self.game_type == "COIN":
             game_progress["game_object"]["coin"] = scene_info["coin"]
-            game_progress["status"]["player_1_coin"] = scene_info["player_1_coin_num"]
-            game_progress["status"]["player_2_coin"] = scene_info["player_2_coin_num"]
-            game_progress["status"]["player_3_coin"] = scene_info["player_3_coin_num"]
-            game_progress["status"]["player_4_coin"] = scene_info["player_4_coin_num"]
+            game_progress["status"]["player_1_coin"] = scene_info["player_1_coin"]
+            game_progress["status"]["player_2_coin"] = scene_info["player_2_coin"]
+            game_progress["status"]["player_3_coin"] = scene_info["player_3_coin"]
+            game_progress["status"]["player_4_coin"] = scene_info["player_4_coin"]
 
         return game_progress
 
