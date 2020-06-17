@@ -3,21 +3,36 @@ from .env import *
 from .coin import Coin
 import pygame
 import random
+import time
 
 class CoinPlayingMode(PlayingMode):
     def __init__(self, user_num):
         super(CoinPlayingMode, self).__init__(user_num)
-        self.creat_coin_time = pygame.time.get_ticks()
+        self.creat_coin_time = time.time()
         self.coins = pygame.sprite.Group()
+        self.coin_lanes = [35, 105, 175, 245, 315, 385, 455, 525, 595]
+        self.is_crear_coin = False
 
-    def update_sprite(self,command:list):
+    def update_sprite(self, command: list):
         self.frame += 1
         self.handle_event()
         self.all_sprites.update()
         self.revise_speed_of_lane()
         self.creat_computercar()
         self.cars_info = []
-        self.creat_coins()
+        if self.is_creat_coin():
+            self.creat_coins()
+
+        if self.maxVel >= 13:
+            if self.touch_ceiling:
+                self.camera_vel = self.maxVel
+            else:
+                self.camera_vel = self.maxVel - 2
+        elif self.maxVel == 0:
+            self.camera_vel = 1
+        else:
+            self.revise_camera()
+        self.touch_ceiling = False
 
         for car in self.user_cars:
             car.update(command[car.car_no])
@@ -27,10 +42,8 @@ class CoinPlayingMode(PlayingMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling and len(self.user_cars) > 1:
-                self.camera_vel = self.maxVel
-            else:
-                self.revise_camera()
+            if car.rect.top <= self.ceiling :
+                self.touch_ceiling = True
 
         for car in self.cars:
             '''碰撞偵測'''
@@ -48,18 +61,27 @@ class CoinPlayingMode(PlayingMode):
             self.status = "GAMEOVER"
 
     def creat_coins(self):
-        if pygame.time.get_ticks() - self.creat_coin_time > 5000:
-            coin = Coin(random.choice(self.lane_center), 0)
+        if time.time() - self.creat_coin_time > 2.5:
+            coin = Coin(random.choice(self.coin_lanes), 0)
+            self.coin_lanes.remove(coin.rect.centerx)
             self.all_sprites.add(coin)
             self.coins.add(coin)
-            self.creat_coin_time = pygame.time.get_ticks()
-        pass
+            self.creat_coin_time = time.time()
+        if len(self.coin_lanes) == 0:
+            self.coin_lanes = [35, 105, 175, 245, 315, 385, 455, 525, 595]
+        else:
+            pass
 
     def collide_coins(self,car):
         hits = pygame.sprite.spritecollide(car, self.coins, True)
         for hit in hits:
             car.coin_num += 1
         pass
+
+    def is_creat_coin(self):
+        if self.maxVel >=13:
+            self.is_crear_coin = True
+        return self.is_crear_coin
 
     def is_car_arrive_end(self, car):
         if car.distance > self.end_line:

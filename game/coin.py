@@ -7,7 +7,7 @@ class Coin(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"金幣.png")),(20,20))
         self.rect = self.image.get_rect()
         self.rect.center = x ,y
-        self.vel = 7
+        self.vel = 5
 
     def update(self, *args):
         self.rect.centery += self.vel

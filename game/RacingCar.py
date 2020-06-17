@@ -1,8 +1,10 @@
 import pygame
 
+from games.RacingCar.game import game_progress
 from .playingMode import PlayingMode
 from .coinPlayMode import CoinPlayingMode
 from .env import *
+from .game_progress import *
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
@@ -56,7 +58,6 @@ class RacingCar:
         if not self.isRunning():
             return "QUIT"
         self.draw()
-
 
     def reset(self):
 
@@ -183,36 +184,13 @@ class RacingCar:
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info
-        game_progress = {
-                "game_object": {
-                    "lane": scene_info["lanes"],
-                    "computer_car": scene_info["computer_cars"],
-                    "player1_car": [scene_info["player1_pos"]],
-                    "player2_car": [scene_info["player2_pos"]],
-                    "player3_car": [scene_info["player3_pos"]],
-                    "player4_car": [scene_info["player4_pos"]],
-                    "player1_car_icon": [(645,500)],
-                    "player2_car_icon": [(680,500)],
-                    "player3_car_icon": [(715,500)],
-                    "player4_car_icon": [(750,500)],
-                },
-                "status": {
-                     "player_1_distance": scene_info["player_1_distance"],
-                     "player_1_velocity": scene_info["player_1_velocity"],
-                     "player_2_distance": scene_info["player_2_distance"],
-                     "player_2_velocity": scene_info["player_2_velocity"],
-                     "player_3_distance": scene_info["player_3_distance"],
-                     "player_3_velocity": scene_info["player_3_velocity"],
-                     "player_4_distance": scene_info["player_4_distance"],
-                     "player_4_velocity": scene_info["player_4_velocity"],}
-            }
+        game_progress = {}
+
+        if self.game_type == "NORMAL":
+            game_progress = normal_game_progress(scene_info)
 
         if self.game_type == "COIN":
-            game_progress["game_object"]["coin"] = scene_info["coin"]
-            game_progress["status"]["player_1_coin"] = scene_info["player_1_coin"]
-            game_progress["status"]["player_2_coin"] = scene_info["player_2_coin"]
-            game_progress["status"]["player_3_coin"] = scene_info["player_3_coin"]
-            game_progress["status"]["player_4_coin"] = scene_info["player_4_coin"]
+            game_progress = coin_game_progress(scene_info)
 
         return game_progress
 
