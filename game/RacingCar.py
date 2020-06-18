@@ -44,8 +44,6 @@ class RacingCar:
                 "player4": player_4_pos,
                 "cars_info": self.game_mode.cars_info
                 }
-        # TODO
-        # 注意給玩家的座標需要是中心點
         if self.game_type == "COIN":
             player_info["coins"] = scene_info["coin"]
 
