@@ -130,8 +130,14 @@ class PlayingMode(GameMode):
         self.cars.remove(car)
         hits = pygame.sprite.spritecollide(car, self.cars, False)
         for hit in hits:
-            car.state = False
-            hit.state = False
+            if hit.distance > car.distance:
+                car.state = False
+                self.detect_car_state(car)
+                hit.state = False
+            else:
+                hit.state = False
+                self.detect_car_state(hit)
+                car.state = False
             # self.carCrash.play()
         self.cars.add(car)
 
