@@ -15,6 +15,7 @@ class GameMode(object):
         self.willChange = False
         self.nextMode = None
         self.all_sprites = pygame.sprite.Group()
+        self.close = False
 
     def ticks(self, fps=FPS):
         """This method should be called once per frame.
@@ -31,10 +32,10 @@ class GameMode(object):
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running = False
+                self.close = True
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
-            self.running = False
+            self.close = True
 
     def detect_collision(self):
         """ Detect the collision event between sprites.

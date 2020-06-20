@@ -18,6 +18,8 @@ class RacingCar:
             self.game_mode = CoinPlayingMode(user_num)
             self.game_type = "COIN"
 
+        self.user_num = user_num
+
     def get_player_scene_info(self) -> dict:
         scene_info = self.get_scene_info
         player_1_pos = ()
@@ -53,11 +55,14 @@ class RacingCar:
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
         self.game_mode.update_sprite(commands)
+        if self.game_mode.close:
+            return "QUIT"
         if not self.isRunning():
             return "RESET"
         self.draw()
 
     def reset(self):
+        self.__init__(self.user_num, self.game_type)
 
         pass
 

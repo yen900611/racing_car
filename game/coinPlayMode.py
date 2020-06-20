@@ -55,13 +55,20 @@ class CoinPlayingMode(PlayingMode):
             '''更新車子位置'''
             car.rect.centery += self.camera_vel - car.velocity
 
-        if len(self.user_cars) == 0:
+        if len(self.user_cars) <= 1 and self.end == False:
+            self.now_time = time.time()
+            self.end = True
+        if self.end and time.time() - self.now_time > 3 or len(self.user_cars) == 0:
+            if len(self.user_cars)==1:
+                for car in self.user_cars:
+                    car.state = False
+                    self.detect_car_state(car)
             self.print_result()
             self.running = False
             self.status = "GAMEOVER"
 
     def creat_coins(self):
-        if time.time() - self.creat_coin_time > 2.5:
+        if time.time() - self.creat_coin_time > 2:
             coin = Coin(random.choice(self.coin_lanes), 0)
             self.coin_lanes.remove(coin.rect.centerx)
             self.all_sprites.add(coin)

@@ -28,6 +28,7 @@ class PlayingMode(GameMode):
         self.end_line = 20000
         self.camera_vel = 0
         self.cars_num = 15
+        self.user_lane_center = [105, 245, 385, 525]
         # user數量
         for user in range(user_num):
             car = self.create_user(user)
@@ -81,7 +82,7 @@ class PlayingMode(GameMode):
         if len(self.user_cars) <= 1 and self.end == False:
             self.now_time = time.time()
             self.end = True
-        if self.end and time.time() - self.now_time > 3:
+        if self.end and time.time() - self.now_time > 3 or len(self.user_cars) == 0:
             if len(self.user_cars)==1:
                 for car in self.user_cars:
                     car.state = False
@@ -105,8 +106,8 @@ class PlayingMode(GameMode):
             pass
 
     def create_user(self, user_no: int):
-        rect_x = random.choice(lane_center)
-        lane_center.remove(rect_x)
+        rect_x = random.choice(self.user_lane_center)
+        self.user_lane_center.remove(rect_x)
         self.car = UserCar(rect_x, self.startLine, user_no)
         self.user_cars.add(self.car)
         self.cars.add(self.car)
