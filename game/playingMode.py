@@ -36,6 +36,8 @@ class PlayingMode(GameMode):
         self.creat_computerCar_time = pygame.time.get_ticks()
         self.lane_center = [35, 105, 175, 245, 315, 385, 455, 525, 595]
         self.touch_ceiling = False
+        self.now_time = 0
+        self.end = False
 
     def update_sprite(self, command: list):
         self.frame += 1
@@ -76,7 +78,14 @@ class PlayingMode(GameMode):
             '''更新車子位置'''
             car.rect.centery += self.camera_vel - car.velocity
 
-        if len(self.user_cars) == 0:
+        if len(self.user_cars) <= 1 and self.end == False:
+            self.now_time = time.time()
+            self.end = True
+        if self.end and time.time() - self.now_time > 3:
+            if len(self.user_cars)==1:
+                for car in self.user_cars:
+                    car.state = False
+                    self.detect_car_state(car)
             self.print_result()
             self.running = False
             self.status = "GAMEOVER"

@@ -54,7 +54,7 @@ class RacingCar:
         self.game_mode.detect_collision()
         self.game_mode.update_sprite(commands)
         if not self.isRunning():
-            return "QUIT"
+            return "RESET"
         self.draw()
 
     def reset(self):
