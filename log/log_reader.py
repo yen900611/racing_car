@@ -5,7 +5,7 @@ import json
 if __name__ == "__main__":
 
     log_file = path.join(path.dirname(__file__),
-                         'manual_2_COIN_2020-06-20_14-29-12.pickle')
+                         'log_template.pickle')
     with open(log_file, 'rb') as fp:
         data = pickle.load(fp)
 

@@ -123,9 +123,9 @@ class ComputerCar(Car):
         self.detect_other_cars(self.other_cars)
         self.speedUp()
         i = random.randrange(0, 12)
-        if i < 3:
+        if i < 2:
             self.moveLeft()
-        elif i >9:
+        elif i > 10:
             self.moveRight()
         else:pass
         if self.rect.centerx < self.start_rect -15:
