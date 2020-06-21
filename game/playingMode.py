@@ -45,11 +45,12 @@ class PlayingMode(GameMode):
         self.creat_computercar()
         self.cars_info = []
 
-        if self.maxVel == 15:
+        if self.maxVel >= 13:
             if self.touch_ceiling:
                 self.camera_vel = self.maxVel
             else:
-                self.camera_vel = self.maxVel - 3
+                self.camera_vel = self.maxVel - 2
+
         elif self.maxVel == 0:
             self.camera_vel = 1
         else:
@@ -63,7 +64,7 @@ class PlayingMode(GameMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling :
+            if car.rect.top <= self.ceiling:
                 self.touch_ceiling = True
 
         for car in self.cars:
@@ -89,9 +90,11 @@ class PlayingMode(GameMode):
 
     def revise_camera(self):
         if self.camera_vel < self.maxVel:
-            self.camera_vel += 0.5
+            self.camera_vel += 0.7
         elif self.camera_vel > self.maxVel+1:
-            self.camera_vel -= 0.5
+
+            self.camera_vel -= 0.7
+
         else:
             pass
 
@@ -130,15 +133,27 @@ class PlayingMode(GameMode):
         self.cars.remove(car)
         hits = pygame.sprite.spritecollide(car, self.cars, False)
         for hit in hits:
-            car.state = False
-            hit.state = False
+            if hit.distance > car.distance:
+                car.state = False
+                self.detect_car_state(car)
+                hit.state = False
+            else:
+                hit.state = False
+                self.detect_car_state(hit)
+                car.state = False
             # self.carCrash.play()
         self.cars.add(car)
 
     def is_car_arrive_end(self, car):
         if car.distance > self.end_line:
+            user_distance = []
             for user in self.user_cars:
-                user.state = False
+                user_distance.append(user.distance)
+            for user in self.user_cars:
+                if user.distance == min(user_distance):
+                    user_distance.remove(user.distance)
+                    user.state = False
+                    self.detect_car_state(user)
 
     def revise_speed_of_lane(self):
         self.user_vel = []

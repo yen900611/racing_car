@@ -6,7 +6,8 @@ from game import playingMode, I_Commander, coinPlayMode
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
-    game = playingMode.PlayingMode(4)
+    game = coinPlayMode.CoinPlayingMode(4)
+    # game = playingMode.PlayingMode(4)
 
     while game.isRunning():
         commands = []

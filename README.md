@@ -3,14 +3,10 @@
 [TOC]
 # 賽車
 
-**遊戲版本：1.5**
+**遊戲版本：1.6**
 
 ## 更新
-* 玩家車子的起始位置調整為畫面的2/3。
-* 改為九個車道，玩家起始位置不相鄰。
-* 遊戲畫面改為800 \* 800 像素。
-* 修改玩家淘汰機制，當玩家車子超過畫面外200像素時才會淘汰。
-* 增加電腦車子產生機制的說明。
+* 增加金幣模式
 
 ## 概觀
 
@@ -18,7 +14,7 @@
 
 遊戲開始時，玩家的車由畫面2/3的地方開始起跑，電腦的車子將會從畫面上方或下方進入。玩家的車子不會超過畫面前300像素。
 如果車子離開遊戲畫面(速度過慢導致從畫面下方離開、撞到左右兩側邊線)將判定為出局；碰撞到其他車子，不論電腦或是其他玩家則雙方都將出局。
-當有任一玩家距離達到20000，或是所有玩家因碰撞等原因出局時則遊戲結束，並依照當時畫面裡所有玩家的先後順序進行排名，排名包含未達到終點的已出局玩家。
+當有任一玩家距離達到20000，或是所有玩家因碰撞等原因出局時則遊戲結束。在普通模式時，依照當時畫面裡所有玩家的先後順序進行排名；金幣模式時則依金幣數量多寡，排名包含未達到終點的已出局玩家。
 
 ## 執行
 * 直接執行 預設是兩人遊戲
@@ -28,13 +24,13 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m RacingCar [the number of user] <difficulty>`
+`python MLGame.py -m RacingCar <the number of user> [difficulty]`
     * 機器學習模式：
-`python MLGame.py -i ml_play_template.py RacingCar [the number of user] <difficulty>`
+`python MLGame.py -i ml_play_template.py RacingCar <the number of user> [difficulty]`
 
 ### 遊戲參數
 
-* `difficulty`:遊戲模式，可選擇"NORMAL"或"COIN"。
+* `difficulty`:遊戲模式，可選擇"NORMAL"或"COIN"，預設為"NORMAL"。
 * `the number of user`：指定遊戲玩家人數，最少需一名玩家。單機手動模式最多兩名(鍵盤位置不足)，機器學習模式至多四名。
 
 ## 詳細遊戲資料
@@ -62,6 +58,11 @@
 * 車子從畫面上方或下方出現，不會左右移動切換車道，前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
 * 每台車最高速度皆不一樣。
 * 當遊戲中車子(包含玩家與電腦)數量未超過15輛時，每1.2秒將隨機產生三台車，位置為第123/456/789車到各一。
+
+#### 金幣
+* 20 \*20像素大小的矩形
+* 隨機從畫面上方出現，以5 pixel/frame的速度下降。
+* 電腦車子碰到金幣時金幣不會消失。
 
 ## 撰寫玩遊戲的程式
 
@@ -115,7 +116,7 @@ def update(self, scene_info):
 * `"player2"`：`(x, y)` tuple。2P的位置。
 * `"player3"`：`(x, y)` tuple。3P的位置。
 * `"player4"`：`(x, y)` tuple。4P的位置。
-* `"cars_info"`：`[{"id":int, "pos":(x,y), "velocity":int}]` list裡面包含數個字典。每個字典裡包含了車子的編號、位置、速度。
+* `"cars_info"`：`[{"id":int, "pos":(x,y), "velocity":int, "coin_num":int}]` list裡面包含數個字典。每個字典裡包含了車子的編號、位置、速度、金幣數量。
 
 #### 遊戲指令
 

@@ -55,25 +55,4 @@ class KeyBoardCommander(I_Commander):
             control_list.append("BRAKE")
 
         return control_list
-# # TODO
-# class AICommander(I_Commander):
-#     def __init__(self,other_cars, user):
-#         self.cars = other_cars
-#         self.car = user
-#
-#     def getControlDict(self):
-#         control_dic = {"LEFT": False,
-#                        "RIGHT": False,
-#                        "SPEED_UP":not self.is_close_with_other_car(),
-#                        "BRAKEDOWN":self.is_close_with_other_car()}
-#         return control_dic
-#
-#     def is_close_with_other_car(self):
-#         for each_car in self.cars:
-#             if abs(self.car.rect.centerx - each_car.rect.centerx) < 50 and each_car != self.car:
-#                 distance = self.car.rect.centery - each_car.rect.centery
-#                 if 170 > distance > 0:
-#                     return True
-#                 else:
-#                     return False
-#             else:pass
+
