@@ -11,9 +11,11 @@ class MLPlay:
             self.player_no = 3
         self.car_vel = 0
         self.car_pos = ()
-        pass
+        self.coin_num = 0
+        self.computer_cars = []
+        self.coins_pos = []
 
-    def update(self, scene_info):
+    def update(self, scene_info:dict):
         """
         Generate the command according to the received scene information
         """
@@ -21,6 +23,10 @@ class MLPlay:
         for car in scene_info["cars_info"]:
             if car["id"]==self.player_no:
                 self.car_vel = car["velocity"]
+                self.coin_num = car["coin_num"]
+        self.computer_cars = scene_info["computer_cars"]
+        if scene_info.__contains__("coins"):
+            self.coins_pos = scene_info["coins"]
 
         if scene_info["status"] != "ALIVE":
             return "RESET"

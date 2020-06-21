@@ -10,7 +10,6 @@ GREEN = (0, 255, 0)
 GREY = (190,190,190)
 BLUE = (3,28,252)
 FPS = 30
-lane_center = [105, 245, 385, 525]
 car_size = (40, 80)
 LEFT_cmd = "MOVE_LEFT"
 RIGHT_cmd = "MOVE_RIGHT"

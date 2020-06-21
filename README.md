@@ -55,9 +55,9 @@
 #### 電腦車子
 
 * 40 \* 80 像素大小的矩形
-* 車子從畫面上方或下方出現，不會左右移動切換車道，前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
+* 車子從畫面上方或下方出現，不會左右移動切換車道，但會在自己的車道內左右晃動。前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
 * 每台車最高速度皆不一樣。
-* 當遊戲中車子(包含玩家與電腦)數量未超過15輛時，每1.2秒將隨機產生三台車，位置為第123/456/789車到各一。
+* 當遊戲中車子(包含玩家與電腦)數量未超過15輛時，每1.2秒將隨機產生三台車，位置為第123/456/789車道各一。
 
 #### 金幣
 * 20 \*20像素大小的矩形
@@ -99,6 +99,10 @@ def update(self, scene_info):
     for car in scene_info["cars_info"]:
         if car["id"]==self.player_no:
             self.car_vel = car["velocity"]
+    if scene_info.__contains__("coins"):
+         self.coin_num = car["coin_num"]
+    self.computer_cars = scene_info["computer_cars"]
+    self.coins_pos = scene_info["coins"]
 
     if scene_info["status"] != "ALIVE":
         return "RESET"
@@ -117,6 +121,8 @@ def update(self, scene_info):
 * `"player3"`：`(x, y)` tuple。3P的位置。
 * `"player4"`：`(x, y)` tuple。4P的位置。
 * `"cars_info"`：`[{"id":int, "pos":(x,y), "velocity":int, "coin_num":int}]` list裡面包含數個字典。每個字典裡包含了車子的編號、位置、速度、金幣數量。
+金幣模式下，字典內容將新增金幣位置:
+* `"coins"`：`[(x, y)]` list裡面包含數個tuple。金幣的位置。
 
 #### 遊戲指令
 

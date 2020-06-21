@@ -17,6 +17,7 @@ class Car(pygame.sprite.Sprite):
         self.car_no = 0
         self.car_info = {}
         self.coin_num = 0
+        self.max_vel = random.randrange(10, 14)
 
     def speedUp(self):
         self.velocity += 0.3
@@ -68,6 +69,7 @@ class UserCar(Car):
         self.image = self.image.convert_alpha()
         self.lastUpdateTime = time.time()
         self.coin_num = 0
+        self.max_vel = 15
 
     def update(self, control_dic):
         self.handleKeyEvent(control_dic)
@@ -80,19 +82,22 @@ class UserCar(Car):
             self.state = False
         if self.rect.centery < 300:
             self.rect.centery = 300
-        if self.velocity > 15:
-            self.velocity = 15
+        if self.velocity > self.max_vel:
+            self.velocity = self.max_vel
         elif self.velocity < 0:
             self.velocity = 0
 
     def handleKeyEvent(self, control_list: list):
         if control_list == None:
             return True
-
         if LEFT_cmd in control_list:
             self.moveLeft()
-        if RIGHT_cmd in control_list:
+            self.max_vel = 14.5
+        elif RIGHT_cmd in control_list:
             self.moveRight()
+            self.max_vel = 14.5
+        else:
+            self.max_vel = 15
         if time.time() - self.lastUpdateTime > 0.150:
             if SPEED_cmd in control_list:
                 self.speedUp()
@@ -101,7 +106,6 @@ class UserCar(Car):
             else:
                 self.slowDown()
             self.lastUpdateTime = time.time()
-
 
 class ComputerCar(Car):
     def __init__(self, x, y, other_cars):
@@ -112,12 +116,23 @@ class ComputerCar(Car):
         self.other_cars = other_cars
         self.velocity = random.randrange(8, 14)
         self.car_no = random.randrange(101, 200)
-        self.max_vel = random.randrange(10, 14)
+        self.start_rect = x
 
     def update(self, *args):
         self.keep_in_screen()
         self.detect_other_cars(self.other_cars)
         self.speedUp()
+        i = random.randrange(0, 12)
+        if i < 2:
+            self.moveLeft()
+        elif i > 10:
+            self.moveRight()
+        else:pass
+        if self.rect.centerx < self.start_rect -15:
+            self.rect.centerx = self.start_rect -15
+        if self.rect.centerx > self.start_rect +15:
+            self.rect.centerx = self.start_rect +15
+
         if self.rect.centery < -210:
             self.state = False
         if self.velocity < 0:
