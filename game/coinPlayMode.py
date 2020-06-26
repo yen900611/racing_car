@@ -5,6 +5,7 @@ import pygame
 import random
 import time
 
+
 class CoinPlayingMode(PlayingMode):
     def __init__(self, user_num):
         super(CoinPlayingMode, self).__init__(user_num)
@@ -42,7 +43,7 @@ class CoinPlayingMode(PlayingMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling :
+            if car.rect.top <= self.ceiling:
                 self.touch_ceiling = True
 
         for car in self.cars:
@@ -59,7 +60,7 @@ class CoinPlayingMode(PlayingMode):
             self.now_time = time.time()
             self.end = True
         if self.end and time.time() - self.now_time > 3 or len(self.user_cars) == 0:
-            if len(self.user_cars)==1:
+            if len(self.user_cars) == 1:
                 for car in self.user_cars:
                     car.state = False
                     self.detect_car_state(car)
@@ -68,7 +69,7 @@ class CoinPlayingMode(PlayingMode):
             self.status = "GAMEOVER"
 
     def creat_coins(self):
-        if time.time() - self.creat_coin_time > 2:
+        if time.time() - self.creat_coin_time > 1.6:
             coin = Coin(random.choice(self.coin_lanes), 0)
             self.coin_lanes.remove(coin.rect.centerx)
             self.all_sprites.add(coin)
@@ -79,14 +80,14 @@ class CoinPlayingMode(PlayingMode):
         else:
             pass
 
-    def collide_coins(self,car):
+    def collide_coins(self, car):
         hits = pygame.sprite.spritecollide(car, self.coins, True)
         for hit in hits:
             car.coin_num += 1
         pass
 
     def is_creat_coin(self):
-        if self.maxVel >=13:
+        if self.maxVel >= 12:
             self.is_crear_coin = True
         return self.is_crear_coin
 

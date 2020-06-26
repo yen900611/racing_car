@@ -27,7 +27,7 @@ class PlayingMode(GameMode):
         self.ceiling = 350
         self.end_line = 20000
         self.camera_vel = 0
-        self.cars_num = 15
+        self.cars_num = 12
         self.user_lane_center = [105, 245, 385, 525]
         # user數量
         for user in range(user_num):
@@ -66,7 +66,7 @@ class PlayingMode(GameMode):
             self.is_car_arrive_end(car)
 
             '''if user reach ceiling'''
-            if car.rect.top <= self.ceiling :
+            if car.rect.top <= self.ceiling:
                 self.touch_ceiling = True
 
         for car in self.cars:
@@ -83,7 +83,7 @@ class PlayingMode(GameMode):
             self.now_time = time.time()
             self.end = True
         if self.end and time.time() - self.now_time > 3 or len(self.user_cars) == 0:
-            if len(self.user_cars)==1:
+            if len(self.user_cars) == 1:
                 for car in self.user_cars:
                     car.state = False
                     self.detect_car_state(car)
