@@ -14,14 +14,15 @@ class MLPlay:
         self.coin_num = 0
         self.computer_cars = []
         self.coins_pos = []
+        print("Initial ml script")
 
-    def update(self, scene_info:dict):
+    def update(self, scene_info: dict):
         """
         Generate the command according to the received scene information
         """
         self.car_pos = scene_info[self.player]
         for car in scene_info["cars_info"]:
-            if car["id"]==self.player_no:
+            if car["id"] == self.player_no:
                 self.car_vel = car["velocity"]
                 self.coin_num = car["coin_num"]
         self.computer_cars = scene_info["computer_cars"]
@@ -33,9 +34,9 @@ class MLPlay:
 
         return ["MOVE_LEFT", "MOVE_RIGHT", "SPEED", "BRAKE"]
 
-
     def reset(self):
         """
         Reset the status
         """
+        print("reset ml script")
         pass

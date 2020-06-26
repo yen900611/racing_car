@@ -107,6 +107,7 @@ class UserCar(Car):
                 self.slowDown()
             self.lastUpdateTime = time.time()
 
+
 class ComputerCar(Car):
     def __init__(self, x, y, other_cars):
         Car.__init__(self, x, y)
@@ -122,16 +123,17 @@ class ComputerCar(Car):
         self.keep_in_screen()
         self.detect_other_cars(self.other_cars)
         self.speedUp()
-        i = random.randrange(0, 12)
+        i = random.randint(0, 20)
         if i < 2:
             self.moveLeft()
-        elif i > 10:
+        elif i > 18:
             self.moveRight()
-        else:pass
-        if self.rect.centerx < self.start_rect -15:
-            self.rect.centerx = self.start_rect -15
-        if self.rect.centerx > self.start_rect +15:
-            self.rect.centerx = self.start_rect +15
+        else:
+            pass
+        if self.rect.centerx < self.start_rect - 15:
+            self.rect.centerx = self.start_rect - 15
+        if self.rect.centerx > self.start_rect + 15:
+            self.rect.centerx = self.start_rect + 15
 
         if self.rect.centery < -210:
             self.state = False
