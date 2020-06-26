@@ -32,10 +32,10 @@ class Car(pygame.sprite.Sprite):
             self.velocity += 0.3
 
     def moveRight(self):
-        self.rect.centerx += 2
+        self.rect.centerx += 3
 
     def moveLeft(self):
-        self.rect.centerx -= 2
+        self.rect.centerx -= 3
 
     def keep_in_screen(self):
         if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
