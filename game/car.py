@@ -1,9 +1,7 @@
 import pygame
 import time
-from .I_Commander import I_Commander
 from .env import *
 import random
-
 
 class Car(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -32,33 +30,23 @@ class Car(pygame.sprite.Sprite):
             self.velocity += 0.3
 
     def moveRight(self):
-        self.rect.centerx += 2
+        self.rect.centery += 3
 
     def moveLeft(self):
-        self.rect.centerx -= 2
+        self.rect.centery -= 3
 
     def keep_in_screen(self):
         if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
             self.velocity = 0
             self.state = False
 
-    def get_velocity(self):
-        return self.velocity
-
-    def get_position(self):
-        return (self.rect.left, self.rect.top)
-
-    def get_coin_num(self):
-        return self.coin_num
-
     def get_info(self):
         self.car_info = {"id": self.car_no,
-                         "pos": (self.rect.centerx, self.rect.centery),
+                         "pos": (self.rect.left, self.rect.top),
                          "distance": self.distance,
-                         "velocity": self.get_velocity(),
-                         "coin_num": self.get_coin_num()}
+                         "velocity": self.velocity,
+                         "coin_num": self.coin_num}
         return self.car_info
-
 
 class UserCar(Car):
     def __init__(self, x, y, user_no):
@@ -75,6 +63,7 @@ class UserCar(Car):
         self.handleKeyEvent(control_dic)
         self.keep_in_screen()
         self.distance += self.velocity
+        print(self.rect.center)
 
     def keep_in_screen(self):
         if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
@@ -107,21 +96,19 @@ class UserCar(Car):
                 self.slowDown()
             self.lastUpdateTime = time.time()
 
-
 class ComputerCar(Car):
-    def __init__(self, x, y, other_cars):
+    def __init__(self, x, y):
         Car.__init__(self, x, y)
         self.image = pygame.transform.scale(pygame.image.load(
             path.join(IMAGE_DIR, "電腦車2.png")), car_size)
-        self.image = self.image.convert_alpha()
-        self.other_cars = other_cars
+        # self.image = self.image.convert_alpha()
         self.velocity = random.randrange(8, 14)
         self.car_no = random.randrange(101, 200)
         self.start_rect = x
 
-    def update(self, *args):
+    def update(self,car):
         self.keep_in_screen()
-        self.detect_other_cars(self.other_cars)
+        self.detect_other_cars(car)
         self.speedUp()
         i = random.randint(0, 20)
         if i < 2:
@@ -130,6 +117,12 @@ class ComputerCar(Car):
             self.moveRight()
         else:
             pass
+        if self.velocity < 0:
+            self.velocity = 0
+        if self.velocity > self.max_vel:
+            self.velocity = self.max_vel
+
+    def keep_in_screen(self):
         if self.rect.centerx < self.start_rect - 15:
             self.rect.centerx = self.start_rect - 15
         if self.rect.centerx > self.start_rect + 15:
@@ -137,16 +130,11 @@ class ComputerCar(Car):
 
         if self.rect.centery < -210:
             self.state = False
-        if self.velocity < 0:
-            self.velocity = 0
-        if self.velocity > self.max_vel:
-            self.velocity = self.max_vel
 
-    def detect_other_cars(self, other_cars):
-        for each_car in other_cars:
-            if abs(self.rect.centerx - each_car.rect.centerx) < 50:
-                distance = self.rect.centery - each_car.rect.centery
-                if 160 > distance > 0:
-                    self.brakeDown()
+    def detect_other_cars(self, car):
+        if abs(self.rect.centerx - car.rect.centerx) < 50:
+            distance = self.rect.centery - car.rect.centery
+            if 160 > distance > 0:
+                self.brakeDown()
             else:
                 pass

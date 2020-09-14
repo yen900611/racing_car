@@ -2,7 +2,7 @@ import pygame
 
 from games.RacingCar.game import game_progress
 from .playingMode import PlayingMode
-from .coinPlayMode import CoinPlayingMode
+from .coinMode import CoinPlayingMode
 from .env import *
 from .game_progress import *
 
@@ -64,11 +64,8 @@ class RacingCar:
     def reset(self):
         self.__init__(self.user_num, self.game_type)
 
-        pass
-
     def isRunning(self):
         return self.game_mode.isRunning()
-        pass
 
     def draw(self):
         self.game_mode.draw_bg()

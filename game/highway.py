@@ -15,4 +15,7 @@ class Lane(pygame.sprite.Sprite):
             self.rect.bottom = 0
         if self.rect.bottom < 0:
             self.rect.top = HEIGHT
-        self.rect.centery += self.vel*2
+        self.move()
+
+    def move(self):
+        self.rect.centery += self.vel * 2
