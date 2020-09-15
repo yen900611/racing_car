@@ -18,6 +18,7 @@ if __name__ == '__main__':
         game.detect_collision()
         game.update_sprite(commands)
         game.draw_bg()
+        game.drawAllSprites()
         game.flip()
 
     pygame.quit()

@@ -18,8 +18,8 @@ class CoinPlayingMode(PlayingMode):
         self.frame += 1
         self.handle_event()
         self.all_sprites.update()
-        self.revise_speed_of_lane()
-        self.creat_computercar()
+        self._revise_speed_of_lane()
+        self._creat_computercar()
         self.cars_info = []
         if self.is_creat_coin():
             self.creat_coins()
@@ -32,15 +32,15 @@ class CoinPlayingMode(PlayingMode):
         elif self.maxVel == 0:
             self.camera_vel = 1
         else:
-            self.revise_camera()
+            self._revise_camera()
         self.touch_ceiling = False
 
-        for car in self.user_cars:
+        for car in self.users:
             car.update(command[car.car_no])
             self.collide_coins(car)
 
             '''是否通過終點'''
-            self.is_car_arrive_end(car)
+            self._is_car_arrive_end(car)
 
             '''if user reach ceiling'''
             if car.rect.top <= self.ceiling:
@@ -48,23 +48,23 @@ class CoinPlayingMode(PlayingMode):
 
         for car in self.cars:
             '''碰撞偵測'''
-            self.collide_with_cars(car)
+            self._collide_with_cars(car)
             '''偵測車子的狀態'''
-            self.detect_car_state(car)
+            self._detect_car_state(car)
             self.cars_info.append(car.get_info())
 
             '''更新車子位置'''
             car.rect.centery += self.camera_vel - car.velocity
 
-        if len(self.user_cars) <= 1 and self.end == False:
+        if len(self.users) <= 1 and self.end == False:
             self.now_time = time.time()
             self.end = True
-        if self.end and time.time() - self.now_time > 3 or len(self.user_cars) == 0:
-            if len(self.user_cars) == 1:
-                for car in self.user_cars:
+        if self.end and time.time() - self.now_time > 3 or len(self.users) == 0:
+            if len(self.users) == 1:
+                for car in self.users:
                     car.state = False
-                    self.detect_car_state(car)
-            self.print_result()
+                    self._detect_car_state(car)
+            self._print_result()
             self.running = False
             self.status = "GAMEOVER"
 
@@ -91,19 +91,19 @@ class CoinPlayingMode(PlayingMode):
             self.is_crear_coin = True
         return self.is_crear_coin
 
-    def is_car_arrive_end(self, car):
+    def _is_car_arrive_end(self, car):
         if car.distance > self.end_line:
             user_coins = []
-            for user in self.user_cars:
+            for user in self.users:
                 user_coins.append(user.coin_num)
-            for user in self.user_cars:
+            for user in self.users:
                 if user.coin_num == min(user_coins):
                     user_coins.remove(user.coin_num)
                     user.state = False
-                    self.detect_car_state(user)
+                    self._detect_car_state(user)
 
-    def draw_user_imformation(self):
-        for car in self.user_cars:
+    def _draw_user_imformation(self):
+        for car in self.users:
             self.draw_information(self.screen, "Player" + str(car.car_no+1) +
                                   "("+USER_COLOR[car.car_no]+")", 17, 715, (car.car_no) * 120 + 10)
             self.draw_information(self.screen, "vel : " + str(round(car.velocity, 2)), 17, 715,

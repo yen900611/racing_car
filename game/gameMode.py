@@ -60,7 +60,7 @@ class GameMode(object):
         """  This function should draw every sprite on specific surface.
         :return: None
         """
-        self.all_sprites.draw(self.screen)
+        pass
 
     def flip(self):
         """Update the full display Surface to the screen

@@ -4,7 +4,6 @@ from .I_Commander import I_Commander
 from .env import *
 import random
 
-
 class Car(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -42,21 +41,12 @@ class Car(pygame.sprite.Sprite):
             self.velocity = 0
             self.state = False
 
-    def get_velocity(self):
-        return self.velocity
-
-    def get_position(self):
-        return (self.rect.left, self.rect.top)
-
-    def get_coin_num(self):
-        return self.coin_num
-
     def get_info(self):
         self.car_info = {"id": self.car_no,
-                         "pos": (self.rect.centerx, self.rect.centery),
+                         "pos": (self.rect.left, self.rect.top),
                          "distance": self.distance,
-                         "velocity": self.get_velocity(),
-                         "coin_num": self.get_coin_num()}
+                         "velocity": self.velocity,
+                         "coin_num": self.coin_num}
         return self.car_info
 
 
@@ -71,8 +61,8 @@ class UserCar(Car):
         self.coin_num = 0
         self.max_vel = 15
 
-    def update(self, control_dic):
-        self.handleKeyEvent(control_dic)
+    def update(self, control_list):
+        self.handleKeyEvent(control_list)
         self.keep_in_screen()
         self.distance += self.velocity
 
