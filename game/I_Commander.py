@@ -9,15 +9,15 @@ class I_Commander(abc.ABC):
         pass
 
 keyboardSet = [
-    {"MOVE_LEFT": pygame.K_LEFT,
-     "MOVE_RIGHT": pygame.K_RIGHT,
-     "SPEED": pygame.K_UP,
-     "BRAKE": pygame.K_DOWN},
+    {"MOVE_LEFT": pygame.K_UP,
+     "MOVE_RIGHT": pygame.K_DOWN,
+     "SPEED": pygame.K_LEFT,
+     "BRAKE": pygame.K_RIGHT},
 
-    {"MOVE_LEFT": pygame.K_a,
-     "MOVE_RIGHT": pygame.K_d,
-     "SPEED": pygame.K_w,
-     "BRAKE": pygame.K_s},
+    {"MOVE_LEFT": pygame.K_w,
+     "MOVE_RIGHT": pygame.K_s,
+     "SPEED": pygame.K_a,
+     "BRAKE": pygame.K_d},
 
     {"MOVE_LEFT": pygame.K_SPACE,
      "MOVE_RIGHT": pygame.K_SPACE,

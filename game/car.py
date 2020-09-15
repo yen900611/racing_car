@@ -10,7 +10,7 @@ class Car(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface(car_size)
         self.rect = self.image.get_rect()
-        self.rect.center = x, y
+        self.rect.left,self.rect.top = x, y
         self.state = True
         self.velocity = 0
         self.distance = 0
@@ -32,10 +32,10 @@ class Car(pygame.sprite.Sprite):
             self.velocity += 0.3
 
     def moveRight(self):
-        self.rect.centerx += 3
+        self.rect.centery += 3
 
     def moveLeft(self):
-        self.rect.centerx -= 3
+        self.rect.centery -= 3
 
     def keep_in_screen(self):
         if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
@@ -77,11 +77,12 @@ class UserCar(Car):
         self.distance += self.velocity
 
     def keep_in_screen(self):
-        if self.rect.left < 0 or self.rect.right > 630 or self.rect.centery > HEIGHT+200:
+        if self.rect.left < -100 or self.rect.right > WIDTH+200 or self.rect.centery > 405 or self.rect.centery < 0:
             self.velocity = 0
+            print("not in screen")
             self.state = False
-        if self.rect.centery < 300:
-            self.rect.centery = 300
+        if self.rect.centerx > HEIGHT-100:
+            self.rect.centerx = HEIGHT-100
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
         elif self.velocity < 0:
@@ -130,12 +131,8 @@ class ComputerCar(Car):
             self.moveRight()
         else:
             pass
-        if self.rect.centerx < self.start_rect - 15:
-            self.rect.centerx = self.start_rect - 15
-        if self.rect.centerx > self.start_rect + 15:
-            self.rect.centerx = self.start_rect + 15
 
-        if self.rect.centery < -210:
+        if self.rect.centerx < -210:
             self.state = False
         if self.velocity < 0:
             self.velocity = 0

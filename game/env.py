@@ -1,7 +1,7 @@
 from os import path
 
-WIDTH = 800
-HEIGHT = 800
+WIDTH = 900
+HEIGHT = 600
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -10,7 +10,7 @@ GREEN = (0, 255, 0)
 GREY = (190,190,190)
 BLUE = (3,28,252)
 FPS = 30
-car_size = (40, 80)
+car_size = (60, 30)
 LEFT_cmd = "MOVE_LEFT"
 RIGHT_cmd = "MOVE_RIGHT"
 SPEED_cmd = "SPEED"

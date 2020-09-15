@@ -32,10 +32,10 @@ class GameMode(object):
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.close = True
+                self.running = False
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
-            self.close = True
+            self.running = False
 
     def detect_collision(self):
         """ Detect the collision event between sprites.
