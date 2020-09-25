@@ -15,3 +15,24 @@ class Lane(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.right = WIDTH
         self.rect.centerx -= velocity*2
+
+class Enviroment(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((50,600))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.center = (250,300)
+        self.status = "START"
+        pass
+
+    def update(self,vel):
+        if self.status == "START":
+            self.rect.centerx -= vel
+            if self.rect.right < 0:
+                self.status = "FINISH"
+                self.rect.centerx = finish_line
+        else:
+            self.rect.centerx -= vel
+
+        pass

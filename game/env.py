@@ -7,7 +7,7 @@ HEIGHT = 600
 FPS = 30
 startLine = 120
 ceiling = 350
-end_line = 20000
+finish_line = 20000
 cars_num = 12
 
 '''color'''
@@ -16,7 +16,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
-GREY = (190,190,190)
+GREY = (140,140,140)
 BLUE = (3,28,252)
 
 '''object size'''
@@ -31,7 +31,9 @@ SPEED_cmd = "SPEED"
 BRAKE_cmd = "BRAKE"
 
 '''data path'''
-USER_IMAGE = ["使用者車.png", "使用者車2.png", "使用者車3.png", "使用者車4.png"]
+USER_IMAGE = [["car1.png","撞擊.png","car1-bad.png"],["car2.png","撞擊.png","car2-bad.png"],
+              ["car3.png","撞擊.png","car3-bad.png"], ["car4.png","撞擊.png","car4-bad.png"]]
+COMPUTER_CAR_IMAGE = ["computer_car.png","撞擊.png","computer_car-bad.png"]
 USER_COLOR = ["white", "chartreuse", "pink", "azure"]
 IMAGE_DIR = path.join(path.dirname(__file__), 'image')
 SOUND_DIR = path.join(path.dirname(__file__), 'sound')

@@ -11,13 +11,13 @@ class I_Commander(abc.ABC):
 keyboardSet = [
     {"MOVE_LEFT": pygame.K_UP,
      "MOVE_RIGHT": pygame.K_DOWN,
-     "SPEED": pygame.K_LEFT,
-     "BRAKE": pygame.K_RIGHT},
+     "SPEED": pygame.K_RIGHT,
+     "BRAKE": pygame.K_LEFT},
 
     {"MOVE_LEFT": pygame.K_w,
      "MOVE_RIGHT": pygame.K_s,
-     "SPEED": pygame.K_a,
-     "BRAKE": pygame.K_d},
+     "SPEED": pygame.K_d,
+     "BRAKE": pygame.K_a},
 
     {"MOVE_LEFT": pygame.K_SPACE,
      "MOVE_RIGHT": pygame.K_SPACE,
