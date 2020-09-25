@@ -31,6 +31,10 @@ class PlayingMode(GameMode):
         status incloud "START"、"RUNNING"、"END"
         '''
         self.status = "START"
+        if user_num == 1:
+            self.is_single = True
+        else:
+            self.is_single = False
         self.line = Enviroment()
         self.lanes.add(self.line)
         self.touch_ceiling = False
@@ -65,7 +69,7 @@ class PlayingMode(GameMode):
 
 
                 '''if user reach ceiling'''
-                if car.rect.right <= ceiling:
+                if car.rect.right >= ceiling:
                     self.touch_ceiling = True
 
             for car in self.cars:
@@ -134,7 +138,7 @@ class PlayingMode(GameMode):
                         path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), car_size)
 
     def _is_game_end(self):
-        if 1 == len(self.users):
+        if 1 == len(self.users) and self.is_single == False:
             if self.users.sprites()[0].distance >= max(self.all_distance):
                 self.status = "END"
             else:
@@ -200,14 +204,10 @@ class PlayingMode(GameMode):
                 self.cars.add(self.computerCar)
 
     def _draw_user_imformation(self):
-        pass
-        # for car in self.user_cars:
-        #     self.draw_information(self.screen, "Player" + str(car.car_no+1) +
-        #                           "("+USER_COLOR[car.car_no]+")", 17, 715, (car.car_no) * 120 + 10)
-        #     self.draw_information(self.screen, "vel : " + str(round(car.velocity, 2)), 17, 715,
-        #                           (car.car_no) * 120 + 40)
-        #     self.draw_information(self.screen, "distance : " + str(abs(round(car.distance, 2))), 17, 715,
-        #                           (car.car_no) * 120 + 70)
+        for car in self.users:
+            self.draw_information(self.screen, "Player" + str(car.car_no+1), 17, (car.car_no*200)+20,450 + 10)
+            self.draw_information(self.screen, "vel : " + str(round(car.velocity, 2)), 17, (car.car_no*200)+20,450 + 40)
+            self.draw_information(self.screen, "distance : " + str(abs(round(car.distance, 2))), 17, (car.car_no*200)+20,450 + 70)
 
     def rank(self):
         if len(self.users)!=0:

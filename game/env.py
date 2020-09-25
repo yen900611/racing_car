@@ -6,7 +6,7 @@ HEIGHT = 600
 '''environment data'''
 FPS = 30
 startLine = 120
-ceiling = 350
+ceiling = 600
 finish_line = 20000
 cars_num = 12
 

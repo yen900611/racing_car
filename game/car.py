@@ -18,10 +18,15 @@ class Car(pygame.sprite.Sprite):
         self.max_vel = random.randrange(10, 14)
 
     def speedUp(self):
-        self.velocity += 0.3
+        if self.velocity < 5:
+            self.velocity += 0.12
+        elif self.velocity < 10:
+            self.velocity += 0.08
+        else:
+            self.velocity += 0.04
 
     def brakeDown(self):
-        self.velocity -= 1.7
+        self.velocity -= 1
 
     def slowDown(self):
         if self.velocity > 1:
@@ -69,11 +74,11 @@ class UserCar(Car):
 
     def keep_in_screen(self):
         if self.rect.left < -100 or self.rect.bottom > 405 or self.rect.top < 0:
-            print("out of screen")
+            if self.state == False:
+                self.kill()
             self.state = False
-            self.kill()
-        if self.rect.centerx > WIDTH-100:
-            self.rect.centerx = WIDTH-100
+        if self.rect.centerx > ceiling:
+            self.rect.centerx = ceiling
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
         elif self.velocity < 0:
@@ -135,6 +140,8 @@ class ComputerCar(Car):
         if self.rect.centery > self.start_rect + 1:
             self.rect.centery = self.start_rect + 10
         if self.rect.centerx < -210:
+            if self.state == False:
+                self.kill()
             self.state = False
 
     def detect_other_cars(self, car):
@@ -150,6 +157,7 @@ class Camera():
         self.velocity = 0
 
     def update(self,car_velocity,touch_ceiling):
+        print(self.velocity)
         self.revise_velocity(car_velocity,touch_ceiling)
 
     def revise_velocity(self,car_velocity,touch_ceiling):
@@ -163,9 +171,9 @@ class Camera():
             self.velocity = 1
         else:
             if self.velocity < car_velocity:
-                self.velocity += 0.5
+                self.velocity += 0.05
             elif self.velocity > car_velocity+1:
-                self.velocity -= 0.5
+                self.velocity -= 0.05
             else:
                 pass
             pass

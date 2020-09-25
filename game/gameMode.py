@@ -85,5 +85,5 @@ class GameMode(object):
         font = pygame.font.Font(pygame.font.match_font("arial"), size)
         text_surface = font.render(text , True , WHITE)
         text_rect = text_surface.get_rect()
-        text_rect.center = (x, y)
+        text_rect.left,text_rect.top = (x, y)
         surf.blit(text_surface , text_rect)
