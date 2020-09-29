@@ -22,7 +22,6 @@ class PlayingMode(GameMode):
         self.all_distance = []
         self.maxVel = 0
         self._init_lanes()
-        # self.camera_vel = 0
         # user數量
         for user in range(user_num):
             self._init_user(user)
@@ -166,16 +165,6 @@ class PlayingMode(GameMode):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(PlayingMode, self).draw_bg()
         self.bg_img.fill(GREY)
-
-
-
-        # for i in range(20):
-        #     for j in range(8):
-        #         if i%2 == 0:
-        #             color = RED
-        #         else:
-        #             color = WHITE
-        #         pygame.draw.line(self.screen,color,(i*45,(j+1)*50),((i+1)*45,(j+1)*50),5)
         pygame.draw.line(self.screen, WHITE, (0, 450), (WIDTH, 450), 5)
 
         '''畫出每台車子的資訊'''
@@ -183,11 +172,6 @@ class PlayingMode(GameMode):
 
         self.all_sprites.draw(self.screen)
         self.users.draw(self.screen)
-
-        '''顯示出已出局的玩家'''
-        # for car in self.winner:
-        #     self.draw_information(
-        #         self.screen, "Player"+str(car.car_no+1), 17, 715, 730-self.winner.index(car)*20)
 
     def drawAllSprites(self):
         '''show all cars and lanes on screen,call this fuction per frame'''

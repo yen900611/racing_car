@@ -10,8 +10,8 @@ class Coin(pygame.sprite.Sprite):
         self.vel = 5
 
     def update(self, *args):
-        self.rect.centery += self.vel
-        if self.rect.centery > HEIGHT:
+        self.rect.centerx -= self.vel
+        if self.rect.centerx < 0:
             self.kill()
 
     def get_position(self):

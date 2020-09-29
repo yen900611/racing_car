@@ -26,7 +26,7 @@ class Car(pygame.sprite.Sprite):
             self.velocity += 0.04
 
     def brakeDown(self):
-        self.velocity -= 1
+        self.velocity -= 0.5
 
     def slowDown(self):
         if self.velocity > 1:
@@ -91,10 +91,10 @@ class UserCar(Car):
             self.moveLeft()
             self.max_vel = 14.5
 
-        elif RIGHT_cmd in control_list:
+        if RIGHT_cmd in control_list:
             self.moveRight()
             self.max_vel = 14.5
-        else:
+        if LEFT_cmd not in control_list and RIGHT_cmd not in control_list:
             self.max_vel = 15
         if SPEED_cmd in control_list:
             self.speedUp()
@@ -147,7 +147,7 @@ class ComputerCar(Car):
     def detect_other_cars(self, car):
         if abs(self.rect.centery - car.rect.centery) < 40:
             distance = car.rect.centerx - self.rect.centerx
-            if 160 > distance > 0:
+            if 300 > distance > 0:
                 self.brakeDown()
             else:
                 pass
@@ -157,7 +157,6 @@ class Camera():
         self.velocity = 0
 
     def update(self,car_velocity,touch_ceiling):
-        print(self.velocity)
         self.revise_velocity(car_velocity,touch_ceiling)
 
     def revise_velocity(self,car_velocity,touch_ceiling):
@@ -176,4 +175,3 @@ class Camera():
                 self.velocity -= 0.05
             else:
                 pass
-            pass
