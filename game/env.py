@@ -34,6 +34,6 @@ BRAKE_cmd = "BRAKE"
 USER_IMAGE = [["car1.png","撞擊.png","car1-bad.png"],["car2.png","撞擊.png","car2-bad.png"],
               ["car3.png","撞擊.png","car3-bad.png"], ["car4.png","撞擊.png","car4-bad.png"]]
 COMPUTER_CAR_IMAGE = ["computer_car.png","撞擊.png","computer_car-bad.png"]
-USER_COLOR = ["white", "chartreuse", "pink", "azure"]
+USER_COLOR = [WHITE, YELLOW, BLUE, RED]
 IMAGE_DIR = path.join(path.dirname(__file__), 'image')
 SOUND_DIR = path.join(path.dirname(__file__), 'sound')

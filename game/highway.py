@@ -19,20 +19,16 @@ class Lane(pygame.sprite.Sprite):
 class Enviroment(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50,600))
-        self.image.fill(RED)
+        self.image = pygame.Surface((20,450))
+        self.image.fill(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.center = (250,300)
-        self.status = "START"
-        pass
+        self.rect.center = 250,225
+        self.distance = 100
+        self.end_distance = finish_line
 
-    def update(self,vel):
-        if self.status == "START":
-            self.rect.centerx -= vel
-            if self.rect.right < 0:
-                self.status = "FINISH"
-                self.rect.centerx = finish_line
+    def update(self, *args):
+        if self.rect.right < 0:
+            self.distance = self.end_distance
+            self.image.fill(RED)
         else:
-            self.rect.centerx -= vel
-
-        pass
+            pass
