@@ -109,13 +109,13 @@ class ComputerCar(Car):
         if self.status:
             self.detect_other_cars(car)
             self.speedUp()
-            i = random.randint(0, 20)
-            if i < 2:
-                self.moveLeft()
-            elif i > 18:
-                self.moveRight()
-            else:
-                pass
+            # i = random.randint(0, 20)
+            # if i < 2:
+            #     self.moveLeft()
+            # elif i > 18:
+            #     self.moveRight()
+            # else:
+            #     pass
             if self.velocity < 0:
                 self.velocity = 0
             if self.velocity > self.max_vel:
@@ -127,14 +127,13 @@ class ComputerCar(Car):
 
 
     def keep_in_screen(self):
-        if self.rect.centery < self.start_rect - 10:
-            self.rect.centery = self.start_rect - 10
-        if self.rect.centery > self.start_rect + 1:
-            self.rect.centery = self.start_rect + 10
+        # if self.rect.centery < self.start_rect - 10:
+        #     self.rect.centery = self.start_rect - 10
+        # if self.rect.centery > self.start_rect + 1:
+        #     self.rect.centery = self.start_rect + 10
         if self.rect.centerx < -210:
-            # if self.status == False:
-            #     self.kill()
-            self.status = False
+            self.kill()
+            # self.status = False
 
     def detect_other_cars(self, car):
         if abs(self.rect.centery - car.rect.centery) < 40:

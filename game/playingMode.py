@@ -109,6 +109,7 @@ class PlayingMode(GameMode):
         return None
 
     def _init_lanes(self):
+        #TODO
         for i in range(9):
             for j in range(50):
                 self.lane = Lane(j * 60, i * 50)
@@ -197,10 +198,15 @@ class PlayingMode(GameMode):
                 self.cars.add(self.computerCar)
 
     def _draw_user_imformation(self):
-        pygame.draw.rect(self.screen,BLACK,pygame.Rect(450,495,400,60))
+        '''全縮圖'''
+        pygame.draw.rect(self.screen,BLACK,pygame.Rect(0,450,900,150))
         for user in self.users:
             pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
-                               (450+round(user.distance*(400/finish_line)),495+round(user.rect.centery*(60/450))),4)
+                               (round(user.distance*(900/finish_line)),450+round(user.rect.centery*(150/450))),4)
+        '''線縮圖'''
+        # pygame.draw.line(self.screen,BLACK,(0,450),(900,450),10)
+        # for user in self.users:
+        #     pygame.draw.circle(self.screen,USER_COLOR[user.car_no],(round(user.distance*(900/finish_line)),450),4)
 
     def rank(self):
         for car in self.eliminated_user:

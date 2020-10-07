@@ -7,7 +7,7 @@ HEIGHT = 600
 FPS = 30
 startLine = 120
 ceiling = 600
-finish_line = 20000
+finish_line = 2000
 cars_num = 12
 
 '''color'''
