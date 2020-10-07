@@ -103,7 +103,7 @@ class PlayingMode(GameMode):
                   " : Player " + str(user.car_no + 1))
 
     def _init_user(self, user_no: int):
-        self.car = UserCar(startLine,(user_no)*100+60 , 0,user_no)
+        self.car = UserCar((user_no)*100+60 , 0,user_no)
         self.users.add(self.car)
         self.cars.add(self.car)
         return None
@@ -190,10 +190,9 @@ class PlayingMode(GameMode):
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
             for i in range(3):
-                x = random.choice([550,-500])
+                x = random.choice([480,-480])
                 y = random.randint(0,8)
-                #TODO
-                self.computerCar = ComputerCar(450 + x, y * 50 +10,self.camera.position+x)
+                self.computerCar = ComputerCar(y * 50 +10,self.camera.position+x)
                 self.computerCars.add(self.computerCar)
                 self.cars.add(self.computerCar)
 
