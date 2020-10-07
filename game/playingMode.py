@@ -54,7 +54,7 @@ class PlayingMode(GameMode):
 
             '''update sprite'''
             self.line.update()
-            self.lanes.update(self.maxVel)
+            self.lanes.update(self.camera.position)
             self.line.rect.centerx = self.line.distance - self.camera.position +450
 
             for car in self.users:
@@ -109,10 +109,9 @@ class PlayingMode(GameMode):
         return None
 
     def _init_lanes(self):
-        #TODO
         for i in range(9):
-            for j in range(50):
-                self.lane = Lane(j * 60, i * 50)
+            for j in range(20):
+                self.lane = Lane(i * 50, j * 50-150)
                 self.lanes.add(self.lane)
 
     def _detect_car_status(self, car):
@@ -189,10 +188,10 @@ class PlayingMode(GameMode):
 
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
-            for i in range(3):
-                x = random.choice([480,-480])
+            for i in range(2):
+                x = random.choice([550,-500])
                 y = random.randint(0,8)
-                self.computerCar = ComputerCar(y * 50 +10,self.camera.position+x)
+                self.computerCar = ComputerCar(y * 50 +10,self.camera.position+x,x+420)
                 self.computerCars.add(self.computerCar)
                 self.cars.add(self.computerCar)
 

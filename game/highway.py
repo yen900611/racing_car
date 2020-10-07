@@ -2,19 +2,23 @@ import pygame
 from .env import *
 
 class Lane(pygame.sprite.Sprite):
-    def __init__(self,x,y):
+    def __init__(self,y,distance):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface(lane_size)
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.center = x ,y
+        self.rect.center = distance+150,y
+        self.distance = distance
 
-    def update(self, velocity):
-        if self.rect.right > WIDTH:
-            self.rect.left = 0
-        if self.rect.left < 0:
-            self.rect.right = WIDTH
-        self.rect.centerx -= velocity*2
+    def update(self, camera):
+        if self.rect.right < 0:
+            self.distance += 1000
+        self.rect.centerx = self.distance-camera+450
+        # if self.rect.right > WIDTH:
+        #     self.rect.left = 0
+        # if self.rect.left < 0:
+        #     self.rect.right = WIDTH
+        # self.rect.centerx -= velocity*2
 
 class Enviroment(pygame.sprite.Sprite):
     def __init__(self):

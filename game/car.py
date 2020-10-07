@@ -15,13 +15,13 @@ class Car(pygame.sprite.Sprite):
         self.car_no = 0
         self.car_info = {}
         self.coin_num = 0
-        self.max_vel = random.randrange(10, 14)
+        self.max_vel = random.randint(10, 14)
 
     def speedUp(self):
         self.velocity += 0.01*(self.velocity**0.6)+0.04
 
     def brakeDown(self):
-        self.velocity -= 0.1
+        self.velocity -= 0.4
 
     def slowDown(self):
         if self.velocity > 1:
@@ -36,7 +36,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.centery -= 4
 
     def keep_in_screen(self):
-        if self.rect.left < -200 or self.rect.right > 1200 or self.rect.top < 0:
+        if self.rect.left < -250 or self.rect.right > 1200 or self.rect.top < 0:
             self.kill()
 
     def get_info(self):
@@ -94,19 +94,20 @@ class UserCar(Car):
             self.slowDown()
 
 class ComputerCar(Car):
-    def __init__(self, y,distance):
+    def __init__(self, y,distance,x):
         Car.__init__(self,y,distance)
         self.image = pygame.transform.scale(pygame.image.load(
             path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[0])), car_size)
+        self.rect.left,self.rect.top = (x,y)
         self.image = self.image.convert_alpha()
-        self.velocity = random.randrange(10, 14)
+        self.velocity = random.randint(0,5)
         self.car_no = random.randrange(101, 200)
         self.distance = distance
 
     def update(self,car):
         if self.status:
+            self.distance += self.velocity
             self.detect_other_cars(car)
-            self.speedUp()
             if self.velocity < 0:
                 self.velocity = 0
             if self.velocity > self.max_vel:
@@ -122,7 +123,7 @@ class ComputerCar(Car):
             if 300 > distance > 0:
                 self.brakeDown()
             else:
-                pass
+                self.speedUp()
 
 class Camera():
     def __init__(self):
@@ -135,14 +136,14 @@ class Camera():
 
     def revise_velocity(self,car_velocity):
         if car_velocity >= 13:
-            self.velocity = car_velocity-1
+            self.velocity = car_velocity-0.5
 
         elif car_velocity == 0:
             self.velocity = 1
         else:
             if self.velocity < car_velocity:
-                self.velocity += 0.1
+                self.velocity += 0.05
             elif self.velocity > car_velocity+1:
-                self.velocity -= 0.1
+                self.velocity -= 0.05
             else:
                 pass
