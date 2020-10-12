@@ -8,26 +8,26 @@ class Car(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface(car_size)
         self.rect = self.image.get_rect()
-        self.rect.centerx,self.rect.top = distance+150, y
+        self.rect.left,self.rect.top = distance, y
         self.status = True
         self.velocity = 0
         self.distance = distance
         self.car_no = 0
         self.car_info = {}
         self.coin_num = 0
-        self.max_vel = random.randint(10, 14)
+        self.max_vel = random.randint(10, 16)
 
     def speedUp(self):
         self.velocity += 0.01*(self.velocity**0.6)+0.04
 
     def brakeDown(self):
-        self.velocity -= 0.4
+        self.velocity -= 0.2
 
     def slowDown(self):
         if self.velocity > 1:
-            self.velocity -= 0.3
+            self.velocity -= 0.05
         elif 0 <= self.velocity < 0.9:
-            self.velocity += 0.3
+            self.velocity += 0.05
 
     def moveRight(self):
         self.rect.centery += 4
@@ -36,7 +36,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.centery -= 4
 
     def keep_in_screen(self):
-        if self.rect.left < -250 or self.rect.right > 1200 or self.rect.top < 0:
+        if self.rect.left < -250 or self.rect.right > 1300 or self.rect.top < 100:
             self.kill()
 
     def get_info(self):
@@ -67,7 +67,7 @@ class UserCar(Car):
         self.keep_in_screen()
 
     def keep_in_screen(self):
-        if self.rect.right < -100 or self.rect.bottom > 450 or self.rect.top < 0:
+        if self.rect.right < -100 or self.rect.bottom > 550 or self.rect.top < 100:
             self.status = False
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
@@ -100,14 +100,23 @@ class ComputerCar(Car):
             path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[0])), car_size)
         self.rect.left,self.rect.top = (x,y)
         self.image = self.image.convert_alpha()
-        self.velocity = random.randint(0,5)
+        self.velocity = random.randint(8,12)
         self.car_no = random.randrange(101, 200)
         self.distance = distance
+        self.action = None
 
-    def update(self,car):
+    def update(self,cars):
         if self.status:
+            for car in cars:
+                self.detect_other_cars(car)
+                if self.action == "stop":
+                    self.brakeDown()
+                    break
+                elif self.action == "continue":
+                    self.speedUp()
+                else:
+                    pass
             self.distance += self.velocity
-            self.detect_other_cars(car)
             if self.velocity < 0:
                 self.velocity = 0
             if self.velocity > self.max_vel:
@@ -120,14 +129,14 @@ class ComputerCar(Car):
     def detect_other_cars(self, car):
         if abs(self.rect.centery - car.rect.centery) < 40:
             distance = car.rect.centerx - self.rect.centerx
-            if 300 > distance > 0:
-                self.brakeDown()
+            if 400 > distance > 0:
+                self.action = "stop"
             else:
-                self.speedUp()
+                self.action = "continue"
 
 class Camera():
     def __init__(self):
-        self.position = 300
+        self.position = 500
         self.velocity = 0
 
     def update(self,car_velocity):

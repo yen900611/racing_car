@@ -1,14 +1,13 @@
 from os import path
 '''width and height'''
-WIDTH = 900
-HEIGHT = 600
+WIDTH = 1000
+HEIGHT = 700
 
 '''environment data'''
 FPS = 30
-startLine = 120
 ceiling = 600
 finish_line = 20000
-cars_num = 12
+cars_num = 15
 
 '''color'''
 BLACK = (0, 0, 0)
@@ -31,6 +30,8 @@ SPEED_cmd = "SPEED"
 BRAKE_cmd = "BRAKE"
 
 '''data path'''
+BACKGROUND_IMAGE = "ground.jpg"
+START_LINE_IMAGE = "start.png"
 USER_IMAGE = [["car1.png","撞擊.png","car1-bad.png"],["car2.png","撞擊.png","car2-bad.png"],
               ["car3.png","撞擊.png","car3-bad.png"], ["car4.png","撞擊.png","car4-bad.png"]]
 COMPUTER_CAR_IMAGE = ["computer_car.png","撞擊.png","computer_car-bad.png"]
