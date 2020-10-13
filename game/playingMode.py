@@ -182,6 +182,8 @@ class PlayingMode(GameMode):
         self.lanes.draw(self.screen)
         self.cars.draw(self.screen)
 
+
+
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
             for i in range(2):

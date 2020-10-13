@@ -41,7 +41,7 @@ class CoinMode(GameMode):
         self.lanes.add(self.line)
         self.end = False
         self.creat_coin_frame = 0
-        self.coin_lanes = [25, 75, 125, 175, 225, 275, 325, 375, 425]
+        self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
 
     def update_sprite(self, command: list):
         '''update the model of game,call this fuction per frame'''
@@ -187,17 +187,18 @@ class CoinMode(GameMode):
         pygame.draw.rect(self.screen,BLACK,pygame.Rect(0,650,1000,50))
         for user in self.users:
             pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
-                               (round(user.distance*(900/finish_line)),650+round(user.rect.top*(50/500))),4)
+                               (round(user.distance*(1000/finish_line)),650+round(user.rect.top*(50/500))),4)
 
     def rank(self):
+        user_coin = []
+        for user in self.users:
+            user_coin.append(user.coin_num)
         while len(self.users) != 0:
-            for car in self.users:
-                if car.coin_num == min(self.coin_num):
-                    self.winner.append(car)
-                    self.coin_num.remove(car.coin_num)
-                    car.kill()
-                else:
-                    pass
+            for user in self.users:
+                if user.coin_num == min(user_coin):
+                    self.winner.append(user)
+                    user_coin.remove(user.coin_num)
+                    user.kill()
 
     def creat_coins(self):
         if self.frame - self.creat_coin_frame > FPS*2:
@@ -207,7 +208,7 @@ class CoinMode(GameMode):
             self.coins.add(coin)
             self.creat_coin_frame = self.frame
         if len(self.coin_lanes) == 0:
-            self.coin_lanes = [25, 75, 125, 175, 225, 275, 325, 375, 425]
+            self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
         else:
             pass
 
