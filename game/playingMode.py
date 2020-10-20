@@ -6,7 +6,7 @@ import pygame
 import random
 
 class PlayingMode(GameMode):
-    def __init__(self, user_num: int):
+    def __init__(self, user_num: int, sound_controller):
         super(PlayingMode, self).__init__()
         self.frame = 0
         pygame.font.init()
@@ -17,6 +17,11 @@ class PlayingMode(GameMode):
         self.computerCars = pygame.sprite.Group()
         self.lanes = pygame.sprite.Group()
         self.camera = Camera()
+
+        '''sound'''
+        self.sound_controller = sound_controller
+        # pygame.mixer.init()
+        # self.hit_sound = pygame.mixer.Sound(path.join(SOUND_DIR,"explosion.wav"))
 
         self.cars_info = []
         self.user_distance = []
@@ -38,6 +43,7 @@ class PlayingMode(GameMode):
         self.line = Enviroment()
         self.lanes.add(self.line)
         self.end = False
+        self.car_lanes =[110, 160, 210, 260, 310, 360, 410, 460, 510]
 
     def update_sprite(self, command: list):
         '''update the model of game,call this fuction per frame'''
@@ -95,6 +101,8 @@ class PlayingMode(GameMode):
             self.cars.remove(car)
             hits = pygame.sprite.spritecollide(car, self.cars, False)
             for hit in hits:
+                if hit.status == True:
+                    self.sound_controller.play_hit_sound()
                 hit.status = False
                 car.status = False
             self.cars.add(car)
@@ -166,9 +174,12 @@ class PlayingMode(GameMode):
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(PlayingMode, self).draw_bg()
-        bg_image = pygame.image.load(path.join(IMAGE_DIR,BACKGROUND_IMAGE))
+        bg_image = pygame.image.load(path.join(IMAGE_DIR,BACKGROUND_IMAGE[0]))
         bg_image = bg_image.convert_alpha()
         self.bg_img.blit(bg_image,(0,0))
+
+        rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
+        self.bg_img.blit(rank_image,(WIDTH-325, 5))
 
         '''畫出每台車子的資訊'''
         self._draw_user_imformation()
@@ -182,16 +193,16 @@ class PlayingMode(GameMode):
         self.lanes.draw(self.screen)
         self.cars.draw(self.screen)
 
-
-
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
-            for i in range(2):
                 x = random.choice([650,-700])
-                y = random.randint(0,8)
-                self.computerCar = ComputerCar(y * 50 +110,self.camera.position+x,x+500)
+                y = random.choice(self.car_lanes)
+                self.computerCar = ComputerCar(y,self.camera.position+x,x+500)
                 self.computerCars.add(self.computerCar)
                 self.cars.add(self.computerCar)
+                self.car_lanes.remove(y)
+        if len(self.car_lanes) == 0:
+            self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
     def _draw_user_imformation(self):
         '''全縮圖'''
@@ -199,6 +210,10 @@ class PlayingMode(GameMode):
         for user in self.users:
             pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
                                (round(user.distance*(900/finish_line)),650+round(user.rect.top*(50/500))),4)
+
+        '''顯示玩家里程數'''
+        for user in self.users:
+            self.draw_information(self.screen, str(round(user.distance/10))+"km", 17, 720+user.car_no*78,45)
 
     def rank(self):
         while len(self.eliminated_user) > 0:

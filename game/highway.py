@@ -14,16 +14,11 @@ class Lane(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.distance += 1150
         self.rect.centerx = self.distance-camera+450
-        # if self.rect.right > WIDTH:
-        #     self.rect.left = 0
-        # if self.rect.left < 0:
-        #     self.rect.right = WIDTH
-        # self.rect.centerx -= velocity*2
 
 class Enviroment(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(path.join(IMAGE_DIR,START_LINE_IMAGE))
+        self.image = pygame.image.load(path.join(IMAGE_DIR,START_LINE_IMAGE[0]))
         self.rect = self.image.get_rect()
         self.rect.left,self.rect.top = 60,100
         self.distance = 60
@@ -32,5 +27,6 @@ class Enviroment(pygame.sprite.Sprite):
     def update(self, *args):
         if self.rect.right < 0:
             self.distance = self.end_distance
+            self.image = pygame.image.load(path.join(IMAGE_DIR, START_LINE_IMAGE[1]))
         else:
             pass

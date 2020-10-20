@@ -1,13 +1,17 @@
 import pygame
 import time
 
-from game import playingMode,I_Commander,coinPlayMode
+from game import playingMode,I_Commander,coinPlayMode,sound_controller
 
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
-    game = coinPlayMode.CoinMode(4)
-    # game = playingMode.PlayingMode(4)
+    sound_controller = sound_controller.SoundController("on")
+    game = coinPlayMode.CoinMode(4,sound_controller)
+    # game = playingMode.PlayingMode(4,sound_controller)
+    sound_controller.play_music()
+    # pygame.mixer.init()
+    # pygame.mixer.music.play(-1)
 
     while game.isRunning():
         commands = []

@@ -6,10 +6,6 @@ def normal_game_progress(scene_info: dict):
         "player2_car": [scene_info["player2_pos"]],
         "player3_car": [scene_info["player3_pos"]],
         "player4_car": [scene_info["player4_pos"]],
-        "player1_car_icon": [(730, 395)],
-        "player2_car_icon": [(730, 430)],
-        "player3_car_icon": [(730, 465)],
-        "player4_car_icon": [(730, 500)],
     },
         "status": {
         "player_1_distance": scene_info["player_1_distance"],
@@ -32,10 +28,7 @@ def coin_game_progress(scene_info: dict):
         "player2_car": [scene_info["player2_pos"]],
         "player3_car": [scene_info["player3_pos"]],
         "player4_car": [scene_info["player4_pos"]],
-        "player1_car_icon": [(730, 395)],
-        "player2_car_icon": [(730, 430)],
-        "player3_car_icon": [(730, 465)],
-        "player4_car_icon": [(730, 500)],
+
     },
         "status": {
         "player_1_distance": scene_info["player_1_distance"],

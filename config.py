@@ -20,7 +20,6 @@ GAME_PARAMS = {
     },
     "user_num": {
         "type": positive_int,
-
         "default": 3,
         "help": ("[Optional] The score that the game will be exited "
                  "when either side reaches it.[default: %(default)s]")
@@ -31,6 +30,10 @@ GAME_PARAMS = {
         "nargs": "?",
         "default": "NORMAL",
         "help": "Specify the game style. Choices: %(choices)s"
+    },
+    "sound":{
+        "choices":("on","off"),
+        "default":"off"
     }
 }
 

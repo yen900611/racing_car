@@ -5,17 +5,18 @@ from .playingMode import PlayingMode
 from .coinPlayMode import CoinPlayingMode
 from .env import *
 from .game_progress import *
+from .sound_controller import *
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
-
 class RacingCar:
-    def __init__(self, user_num: int, difficulty):
+    def __init__(self, user_num: int, difficulty,sound):
+        self.sound_controller = SoundController(sound)
         if difficulty == "NORMAL":
-            self.game_mode = PlayingMode(user_num)
+            self.game_mode = PlayingMode(user_num,self.sound_controller)
             self.game_type = "NORMAL"
         elif difficulty == "COIN":
-            self.game_mode = CoinPlayingMode(user_num)
+            self.game_mode = CoinPlayingMode(user_num,self.sound_controller)
             self.game_type = "COIN"
 
         self.user_num = user_num
@@ -168,17 +169,14 @@ class RacingCar:
                 "size": [WIDTH, HEIGHT]
             },
             "game_object": [
-                {"name": "lane", "size": [5, 30], "color": WHITE},
-                {"name": "coin", "size": [20, 20], "color": YELLOW},
-                {"name": "computer_car", "size": car_size, "color": BLUE},
-                {"name": "player1_car", "size": car_size, "color": YELLOW},
-                {"name": "player2_car", "size": car_size, "color": GREEN},
-                {"name": "player3_car", "size": car_size, "color": RED},
-                {"name": "player4_car", "size": car_size, "color": WHITE},
-                {"name": "player1_car_icon", "size": (10,10), "color": YELLOW},
-                {"name": "player2_car_icon", "size": (10,10), "color": GREEN},
-                {"name": "player3_car_icon", "size": (10,10), "color": RED},
-                {"name": "player4_car_icon", "size": (10,10), "color": WHITE},
+                {"name": "lane", "size": lane_size, "color": WHITE},
+                {"name": "coin", "size": coin_size, "color": YELLOW},
+                {"name": "computer_car", "size": car_size, "color": BLACK},
+                {"name": "player1_car", "size": car_size, "color": WHITE},
+                {"name": "player2_car", "size": car_size, "color": YELLOW},
+                {"name": "player3_car", "size": car_size, "color": BLUE},
+                {"name": "player4_car", "size": car_size, "color": RED},
+                {"name": "line", "size": (5,450), "color": WHITE}
             ]
         }
 
@@ -233,7 +231,6 @@ class RacingCar:
         if key_pressed_list[pygame.K_s]:cmd_2P.append(BRAKE_cmd)
 
         return [cmd_1P, cmd_2P]
-
 
 if __name__ == '__main__':
     pygame.init()

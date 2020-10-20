@@ -7,7 +7,7 @@ import pygame
 import random
 
 class CoinMode(GameMode):
-    def __init__(self, user_num: int):
+    def __init__(self, user_num: int, sound_controller):
         super(CoinMode, self).__init__()
         self.frame = 0
         pygame.font.init()
@@ -19,6 +19,11 @@ class CoinMode(GameMode):
         self.lanes = pygame.sprite.Group()
         self.coins = pygame.sprite.Group()
         self.camera = Camera()
+        '''sound'''
+        self.sound_controller = sound_controller
+        # pygame.mixer.init()
+        # self.hit_sound = pygame.mixer.Sound(path.join(SOUND_DIR,"explosion.wav"))
+        # self.coin_sound = pygame.mixer.Sound(path.join(SOUND_DIR,"coin.wav"))
 
         self.cars_info = []
         self.user_distance = []
@@ -42,6 +47,7 @@ class CoinMode(GameMode):
         self.end = False
         self.creat_coin_frame = 0
         self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
+        self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
     def update_sprite(self, command: list):
         '''update the model of game,call this fuction per frame'''
@@ -98,12 +104,15 @@ class CoinMode(GameMode):
             self.cars.remove(car)
             hits = pygame.sprite.spritecollide(car, self.cars, False)
             for hit in hits:
+                if hit.status:
+                    self.sound_controller.play_hit_sound()
                 hit.status = False
                 car.status = False
             self.cars.add(car)
         for car in self.users:
             hits = pygame.sprite.spritecollide(car, self.coins, True)
             for hit in hits:
+                self.sound_controller.play_coin_sound()
                 car.coin_num += 1
             pass
 
@@ -157,12 +166,18 @@ class CoinMode(GameMode):
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(CoinMode, self).draw_bg()
-        bg_image = pygame.image.load(path.join(IMAGE_DIR,BACKGROUND_IMAGE))
+        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0]))
         bg_image = bg_image.convert_alpha()
         self.bg_img.blit(bg_image,(0,0))
 
+        rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[0])).convert_alpha()
+        self.bg_img.blit(rank_image,(WIDTH-325, 5))
+
         '''畫出每台車子的資訊'''
         self._draw_user_imformation()
+        '''顯示玩家金幣數'''
+        for user in self.users:
+            self.draw_information(self.screen,str(user.coin_num), 17, 730+user.car_no*78,45)
 
         self.all_sprites.draw(self.screen)
         self.users.draw(self.screen)
@@ -175,12 +190,14 @@ class CoinMode(GameMode):
 
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
-            for i in range(2):
-                x = random.choice([650,-700])
-                y = random.randint(0,8)
-                self.computerCar = ComputerCar(y * 50 +110,self.camera.position+x,x+500)
-                self.computerCars.add(self.computerCar)
-                self.cars.add(self.computerCar)
+            x = random.choice([650,-700])
+            y = random.choice(self.car_lanes)
+            self.computerCar = ComputerCar(y,self.camera.position+x,x+500)
+            self.computerCars.add(self.computerCar)
+            self.cars.add(self.computerCar)
+            self.car_lanes.remove(y)
+        if len(self.car_lanes) == 0:
+            self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
     def _draw_user_imformation(self):
         '''全縮圖'''
