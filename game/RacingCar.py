@@ -1,7 +1,7 @@
 import pygame
 
 from .playingMode import PlayingMode
-from .coinPlayMode import CoinPlayingMode
+from .coinPlayMode import CoinMode
 from .env import *
 from .sound_controller import *
 
@@ -15,7 +15,7 @@ class RacingCar:
             self.game_mode = PlayingMode(user_num,self.sound_controller)
             self.game_type = "NORMAL"
         elif difficulty == "COIN":
-            self.game_mode = CoinPlayingMode(user_num,self.sound_controller)
+            self.game_mode = CoinMode(user_num,self.sound_controller)
             self.game_type = "COIN"
 
         self.user_num = user_num
@@ -43,6 +43,7 @@ class RacingCar:
 
     def draw(self):
         self.game_mode.draw_bg()
+        self.game_mode.drawAllSprites()
         self.game_mode.flip()
 
     @property
@@ -58,7 +59,7 @@ class RacingCar:
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
-            "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]
+            "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)],
             "game_result": self.game_mode.winner}
 
         for car in self.game_mode.cars_info:
@@ -112,7 +113,7 @@ class RacingCar:
         if self.game_type == "NORMAL":
             game_progress = {"game_object": {
         "lane": scene_info["lanes"],
-        "line":scene_info["line]
+        "line":scene_info["line"],
         "computer_car": scene_info["computer_cars"],
         "player1_car": [scene_info["player1_pos"]],
         "player2_car": [scene_info["player2_pos"]],
@@ -124,7 +125,7 @@ class RacingCar:
         if self.game_type == "COIN":
             game_progress = {"game_object": {
         "lane": scene_info["lanes"],
-        "line":scene_info["line"]
+        "line":scene_info["line"],
         "coin": scene_info["coin"],
         "computer_car": scene_info["computer_cars"],
         "player1_car": [scene_info["player1_pos"]],
@@ -161,15 +162,15 @@ class RacingCar:
         cmd_1P = []
         cmd_2P = []
 
-        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append(LEFT_cmd)
-        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append(RIGHT_cmd)
-        if key_pressed_list[pygame.K_UP]:cmd_1P.append(SPEED_cmd)
-        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append(SPEED_cmd)
+        if key_pressed_list[pygame.K_UP]:cmd_1P.append(LEFT_cmd)
+        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append(RIGHT_cmd)
 
-        if key_pressed_list[pygame.K_a]: cmd_2P.append(LEFT_cmd)
-        if key_pressed_list[pygame.K_d]:cmd_2P.append(RIGHT_cmd)
-        if key_pressed_list[pygame.K_w]:cmd_2P.append(SPEED_cmd)
-        if key_pressed_list[pygame.K_s]:cmd_2P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_a]: cmd_2P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_d]:cmd_2P.append(SPEED_cmd)
+        if key_pressed_list[pygame.K_w]:cmd_2P.append(LEFT_cmd)
+        if key_pressed_list[pygame.K_s]:cmd_2P.append(RIGHT_cmd)
 
         return [cmd_1P, cmd_2P]
 
