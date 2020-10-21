@@ -108,7 +108,6 @@ class PlayingMode(GameMode):
             self.cars.add(car)
 
     def _print_result(self):
-        self.winner.reverse()
         for user in self.winner:
             print("Rank" + str(self.winner.index(user) + 1) +
                   " : Player " + str(user.car_no + 1))
@@ -222,3 +221,4 @@ class PlayingMode(GameMode):
                     self.winner.append(car)
                     self.user_distance.remove(car.distance)
                     self.eliminated_user.remove(car)
+        self.winner.reverse()

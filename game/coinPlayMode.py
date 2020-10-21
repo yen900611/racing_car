@@ -117,10 +117,8 @@ class CoinMode(GameMode):
             pass
 
     def _print_result(self):
-        #TODO
-        self.eliminated_user.reverse()
-        for user in self.eliminated_user:
-            print("Rank" + str(self.eliminated_user.index(user)+1) +
+        for user in self.winner:
+            print("Rank" + str(self.winner.index(user)+1) +
                   " : Player " + str(user.car_no + 1))
 
     def _init_user(self, user_no: int):
@@ -208,14 +206,21 @@ class CoinMode(GameMode):
 
     def rank(self):
         user_coin = []
-        for user in self.users:
+        for user in self.eliminated_user:
             user_coin.append(user.coin_num)
-        while len(self.users) != 0:
-            for user in self.users:
+        while len(self.eliminated_user) != 0:
+            for user in self.eliminated_user:
                 if user.coin_num == min(user_coin):
                     self.winner.append(user)
                     user_coin.remove(user.coin_num)
-                    user.kill()
+                    self.eliminated_user.remove(user)
+        self.winner.reverse()
+        for i in range(len(self.winner)-1):
+            if self.winner[i].coin_num == self.winner[i+1].coin_num:
+                if self.winner[i].distance < self.winner[i+1].distance:
+                    tem = self.winner[i]
+                    self.winner[i] = self.winner[i+1]
+                    self.winner[i+1] = tem
 
     def creat_coins(self):
         if self.frame - self.creat_coin_frame > FPS*2:
