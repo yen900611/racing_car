@@ -7,11 +7,9 @@ if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
     sound_controller = sound_controller.SoundController("on")
-    game = coinPlayMode.CoinMode(4,sound_controller)
-    # game = playingMode.PlayingMode(4,sound_controller)
+    # game = coinPlayMode.CoinMode(4,sound_controller)
+    game = playingMode.PlayingMode(4,sound_controller)
     sound_controller.play_music()
-    # pygame.mixer.init()
-    # pygame.mixer.music.play(-1)
 
     while game.isRunning():
         commands = []

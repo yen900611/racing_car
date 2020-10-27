@@ -76,6 +76,7 @@ class CoinMode(GameMode):
             self.computerCars.update(self.cars)
 
             for car in self.users:
+                self.user_out__screen(car)
                 self.user_distance.append(car.distance)
                 self.coin_num.append(car.coin_num)
                 car.update(command[car.car_no])
@@ -116,6 +117,12 @@ class CoinMode(GameMode):
                 car.coin_num += 1
             pass
 
+    def user_out__screen(self,car):
+        if car.status:
+                if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+                    self.sound_controller.play_lose_sound()
+                    car.status = False
+
     def _print_result(self):
         for user in self.winner:
             print("Rank" + str(self.winner.index(user)+1) +
@@ -147,13 +154,17 @@ class CoinMode(GameMode):
             else:
                 i = 1
                 car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), car_size)
+                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), (32,40))
+                car.rect = car.image.get_rect()
 
     def _is_game_end(self):
         if len(self.eliminated_user) == len(self.users):
             self.status = "END"
-        if self.frame > FPS*60:
+        if self.frame > FPS*57:
             self.status = "END"
+        for car in self.users:
+            if car.distance >= finish_line:
+                self.status = "END"
 
     def _revise_speed(self):
         self.user_vel = []
@@ -188,12 +199,12 @@ class CoinMode(GameMode):
 
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
-            x = random.choice([650,-700])
-            y = random.choice(self.car_lanes)
-            self.computerCar = ComputerCar(y,self.camera.position+x,x+500)
-            self.computerCars.add(self.computerCar)
-            self.cars.add(self.computerCar)
-            self.car_lanes.remove(y)
+                x = random.choice([650,-700])
+                y = random.choice(self.car_lanes)
+                self.computerCar = ComputerCar(y,self.camera.position+x,x+500)
+                self.computerCars.add(self.computerCar)
+                self.cars.add(self.computerCar)
+                self.car_lanes.remove(y)
         if len(self.car_lanes) == 0:
             self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
@@ -203,6 +214,14 @@ class CoinMode(GameMode):
         for user in self.users:
             pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
                                (round(user.distance*(1000/finish_line)),650+round(user.rect.top*(50/500))),4)
+            if user.status == False:
+                if user.car_no > 1:
+                    pygame.draw.line(self.screen,RED,(690 + user.car_no*75,20),(690 + user.car_no*75 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 75 - 20, 70), 2)
+
+                elif user.car_no <= 1:
+                    pygame.draw.line(self.screen,RED,(690 + user.car_no*70,20),(690 + user.car_no*70 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 70 - 20, 70), 2)
 
     def rank(self):
         user_coin = []

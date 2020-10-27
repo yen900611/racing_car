@@ -69,6 +69,7 @@ class PlayingMode(GameMode):
             self.line.rect.left = self.line.distance - self.camera.position +500
 
             for car in self.users:
+                self.user_out__screen(car)
                 self.user_distance.append(car.distance)
 
                 car.update(command[car.car_no])
@@ -107,6 +108,12 @@ class PlayingMode(GameMode):
                 car.status = False
             self.cars.add(car)
 
+    def user_out__screen(self,car):
+        if car.status:
+                if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+                    self.sound_controller.play_lose_sound()
+                    car.status = False
+
     def _print_result(self):
         for user in self.winner:
             print("Rank" + str(self.winner.index(user) + 1) +
@@ -138,7 +145,8 @@ class PlayingMode(GameMode):
             else:
                 i = 1
                 car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), car_size)
+                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), (32,40))
+                car.rect = car.image.get_rect()
 
     def _is_game_end(self):
         if len(self.users)-1 == len(self.eliminated_user) and self.is_single == False:

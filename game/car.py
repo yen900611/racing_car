@@ -3,6 +3,7 @@ import time
 from .env import *
 import random
 
+
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
         pygame.sprite.Sprite.__init__(self)
@@ -62,13 +63,14 @@ class UserCar(Car):
         if self.status:
             self.handleKeyEvent(control_list)
             self.distance += self.velocity
+            self.keep_in_screen()
         else:
             pass
-        self.keep_in_screen()
+
 
     def keep_in_screen(self):
-        if self.rect.right < -100 or self.rect.bottom > 550 or self.rect.top < 100:
-            self.status = False
+        # if self.rect.right < -100 or self.rect.bottom > 550 or self.rect.top < 100:
+        #     self.status = False
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
         elif self.velocity < 0:
