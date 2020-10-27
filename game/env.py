@@ -31,7 +31,7 @@ SPEED_cmd = "SPEED"
 BRAKE_cmd = "BRAKE"
 
 '''data path'''
-BACKGROUND_IMAGE = ["ground1.jpg", "ground2.jpg", "ground3.jpg"]
+BACKGROUND_IMAGE = ["ground1.jpg"]
 RANKING_IMAGE = ["info_coin.png", "info_km.png"]
 START_LINE_IMAGE = ["start.png", "finish.png"]
 USER_IMAGE = [["car1.png","撞擊.png","car1-bad.png"],["car2.png","撞擊.png","car2-bad.png"],
