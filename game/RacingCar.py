@@ -116,32 +116,19 @@ class RacingCar:
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info
-        game_progress = {}
-
-        if self.game_type == "NORMAL":
-            game_progress = {"game_object": {
+        game_progress = {"game_object": {
         "lane": scene_info["lanes"],
         "line":scene_info["line"],
         "computer_car": scene_info["computer_cars"],
-        "player1_car": [scene_info["player_1_pos"]],
-        "player2_car": [scene_info["player_2_pos"]],
-        "player3_car": [scene_info["player_3_pos"]],
-        "player4_car": [scene_info["player_4_pos"]]}
-    }
+        }}
+
+        for user in self.game_mode.users:
+            game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [scene_info["player_" + str(user.car_no+1) + "_pos"]]
+
 
 
         if self.game_type == "COIN":
-            game_progress = {"game_object": {
-        "lane": scene_info["lanes"],
-        "line":scene_info["line"],
-        "coin": scene_info["coin"],
-        "computer_car": scene_info["computer_cars"],
-        "player1_car": [scene_info["player_1_pos"]],
-        "player2_car": [scene_info["player_2_pos"]],
-        "player3_car": [scene_info["player_3_pos"]],
-        "player4_car": [scene_info["player_4_pos"]],}
-    }
-
+            game_progress["game_object"]["coin"] = scene_info["coin"]
 
         return game_progress
 
