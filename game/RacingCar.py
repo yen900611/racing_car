@@ -122,10 +122,9 @@ class RacingCar:
         "computer_car": scene_info["computer_cars"],
         }}
 
-        for user in self.game_mode.users:
-            game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [scene_info["player_" + str(user.car_no+1) + "_pos"]]
-
-
+        if scene_info["status"] == "RUNNING":
+            for user in self.game_mode.users:
+                game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [scene_info["player_" + str(user.car_no+1) + "_pos"]]
 
         if self.game_type == "COIN":
             game_progress["game_object"]["coin"] = scene_info["coin"]
