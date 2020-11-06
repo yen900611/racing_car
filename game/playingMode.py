@@ -182,7 +182,7 @@ class PlayingMode(GameMode):
 
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
-        super(CoinMode, self).draw_bg()
+        super(PlayingMode, self).draw_bg()
         bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert_alpha()
         self.bg_img.blit(bg_image,(self.background_x,0))
         if self.background_x <= 0-WIDTH:
