@@ -40,8 +40,9 @@ class PlayingMode(GameMode):
             self.is_single = True
         else:
             self.is_single = False
-        self.line = Enviroment()
+        self.line = Line()
         self.lanes.add(self.line)
+        self.background_x = 0
         self.end = False
         self.car_lanes =[110, 160, 210, 260, 310, 360, 410, 460, 510]
 
@@ -69,7 +70,7 @@ class PlayingMode(GameMode):
             self.line.rect.left = self.line.distance - self.camera.position +500
 
             for car in self.users:
-                self.user_out__screen(car)
+                # self.user_out__screen(car)
                 self.user_distance.append(car.distance)
 
                 car.update(command[car.car_no])
@@ -85,13 +86,14 @@ class PlayingMode(GameMode):
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 500
 
-        elif self.status == "END":
+        elif self.status == "END" and self.close == False:
             self.user_distance = []
             for user in self.users:
                 self.user_distance.append(user.distance)
             self.rank()
             self._print_result()
-            self.running = False
+            self.close = True
+            # self.running = False
             pass
         else:
             pass
@@ -108,11 +110,11 @@ class PlayingMode(GameMode):
                 car.status = False
             self.cars.add(car)
 
-    def user_out__screen(self,car):
-        if car.status:
-                if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
-                    self.sound_controller.play_lose_sound()
-                    car.status = False
+    # def user_out__screen(self,car):
+    #     if car.status:
+    #             if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+    #                 self.sound_controller.play_lose_sound()
+    #                 car.status = False
 
     def _print_result(self):
         for user in self.winner:
@@ -180,10 +182,12 @@ class PlayingMode(GameMode):
 
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
-        super(PlayingMode, self).draw_bg()
-        bg_image = pygame.image.load(path.join(IMAGE_DIR,BACKGROUND_IMAGE[0]))
-        bg_image = bg_image.convert_alpha()
-        self.bg_img.blit(bg_image,(0,0))
+        super(CoinMode, self).draw_bg()
+        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert_alpha()
+        self.bg_img.blit(bg_image,(self.background_x,0))
+        if self.background_x <= 0-WIDTH:
+            self.background_x = 0
+        self.background_x -= self.maxVel
 
         rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
         self.bg_img.blit(rank_image,(WIDTH-325, 5))
@@ -217,10 +221,18 @@ class PlayingMode(GameMode):
         for user in self.users:
             pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
                                (round(user.distance*(900/finish_line)),650+round(user.rect.top*(50/500))),4)
+            if user.status == False:
+                if user.car_no > 1:
+                    pygame.draw.line(self.screen,RED,(690 + user.car_no*75,20),(690 + user.car_no*75 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 75 - 20, 70), 2)
+
+                elif user.car_no <= 1:
+                    pygame.draw.line(self.screen,RED,(690 + user.car_no*70,20),(690 + user.car_no*70 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 70 - 20, 70), 2)
 
         '''顯示玩家里程數'''
         for user in self.users:
-            self.draw_information(self.screen, str(round(user.distance/10))+"km", 17, 720+user.car_no*78,45)
+            self.draw_information(self.screen, str(round(user.distance/10))+"m", 17, 720+user.car_no*78,45)
 
     def rank(self):
         while len(self.eliminated_user) > 0:

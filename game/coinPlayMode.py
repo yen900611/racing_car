@@ -42,7 +42,10 @@ class CoinMode(GameMode):
             self.is_single = True
         else:
             self.is_single = False
-        self.line = Enviroment()
+        self.line = Line()
+        self.background_x = 0
+        # self.background = Background()
+        # self.backgrounds.add(self.background)
         self.lanes.add(self.line)
         self.end = False
         self.creat_coin_frame = 0
@@ -74,9 +77,10 @@ class CoinMode(GameMode):
             self.line.rect.left = self.line.distance - self.camera.position +500
             self.coins.update()
             self.computerCars.update(self.cars)
+            # self.background.update()
 
             for car in self.users:
-                self.user_out__screen(car)
+                # self.user_out__screen(car)
                 self.user_distance.append(car.distance)
                 self.coin_num.append(car.coin_num)
                 car.update(command[car.car_no])
@@ -91,10 +95,11 @@ class CoinMode(GameMode):
 
             self._is_game_end()
 
-        elif self.status == "END":
+        elif self.status == "END" and self.close == False:
             self.rank()
             self._print_result()
-            self.running = False
+            self.close = True
+            # self.running = False
             pass
         else:
             pass
@@ -117,11 +122,11 @@ class CoinMode(GameMode):
                 car.coin_num += 1
             pass
 
-    def user_out__screen(self,car):
-        if car.status:
-                if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
-                    self.sound_controller.play_lose_sound()
-                    car.status = False
+    # def user_out__screen(self,car):
+    #     if car.status:
+    #             if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+    #                 self.sound_controller.play_lose_sound()
+    #                 car.status = False
 
     def _print_result(self):
         for user in self.winner:
@@ -148,14 +153,15 @@ class CoinMode(GameMode):
             if car in self.users:
                 i = 2
                 car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, USER_IMAGE[car.car_no][i])), car_size)
+                        path.join(IMAGE_DIR, USER_IMAGE[car.car_no][i])), car_size).convert()
                 if car not in self.eliminated_user:
                     self.eliminated_user.append(car)
             else:
                 i = 1
                 car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), (32,40))
-                car.rect = car.image.get_rect()
+                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), (32,40)).convert_alpha()
+
+                # car.rect = car.image.get_rect()
 
     def _is_game_end(self):
         if len(self.eliminated_user) == len(self.users):
@@ -175,11 +181,14 @@ class CoinMode(GameMode):
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(CoinMode, self).draw_bg()
-        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0]))
-        bg_image = bg_image.convert_alpha()
-        self.bg_img.blit(bg_image,(0,0))
+        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
+        rel_x = self.background_x % bg_image.get_rect().width
+        self.bg_img.blit(bg_image,(rel_x - bg_image.get_rect().width,0))
+        if rel_x <= WIDTH:
+            self.bg_img.blit(bg_image, (rel_x, 0))
+        self.background_x -= self.maxVel
 
-        rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[0])).convert_alpha()
+        rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[0])).convert()
         self.bg_img.blit(rank_image,(WIDTH-325, 5))
 
         '''畫出每台車子的資訊'''
