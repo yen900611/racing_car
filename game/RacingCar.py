@@ -36,10 +36,10 @@ class RacingCar:
         self.game_mode.update_sprite(commands)
         self.draw()
         if not self.isRunning():
-            return "RESET"
+            return "QUIT"
 
     def reset(self):
-        self.__init__(self.user_num, self.game_type,self.is_sound)
+        self.__init__(self.user_num,self.game_type,self.is_sound)
         pass
 
     def isRunning(self):
@@ -84,8 +84,6 @@ class RacingCar:
             for coin in self.game_mode.coins:
                 coin_pos.append(coin.get_position())
             scene_info["coin"] = coin_pos
-        if self.game_mode.status == "END":
-            print(scene_info)
 
         result = {}
         for user in self.game_mode.winner:

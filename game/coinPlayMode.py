@@ -49,6 +49,7 @@ class CoinMode(GameMode):
         self.lanes.add(self.line)
         self.end = False
         self.creat_coin_frame = 0
+        self.end_frame = 0
         self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
         self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
@@ -58,7 +59,7 @@ class CoinMode(GameMode):
         self.handle_event()
         self._revise_speed()
 
-        if self.status == "START" and self.frame > FPS*3:
+        if self.status == "START" and self.frame > FPS:
             self.status = "RUNNING"
             pass
         if self.status == "RUNNING":
@@ -100,9 +101,11 @@ class CoinMode(GameMode):
             self.rank()
             self._print_result()
             self.close = True
-            # self.running = False
+            self.end_frame = self.frame
             pass
         else:
+            if self.frame - self.end_frame > FPS:
+                self.running = False
             pass
 
     def detect_collision(self):

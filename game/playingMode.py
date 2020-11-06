@@ -44,6 +44,7 @@ class PlayingMode(GameMode):
         self.lanes.add(self.line)
         self.background_x = 0
         self.end = False
+        self.end_frame = 0
         self.car_lanes =[110, 160, 210, 260, 310, 360, 410, 460, 510]
 
     def update_sprite(self, command: list):
@@ -52,7 +53,7 @@ class PlayingMode(GameMode):
         self.handle_event()
         self._revise_speed()
 
-        if self.status == "START" and self.frame > FPS*2:
+        if self.status == "START" and self.frame > FPS:
             self.status = "RUNNING"
             pass
         if self.status == "RUNNING":
@@ -98,7 +99,8 @@ class PlayingMode(GameMode):
             # self.running = False
             pass
         else:
-            pass
+            if self.frame - self.end_frame > FPS:
+                self.running = False
 
     def detect_collision(self):
         super(PlayingMode,self).detect_collision()
