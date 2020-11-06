@@ -22,8 +22,13 @@ class RacingCar:
 
     def get_player_scene_info(self) -> dict:
         scene_info = self.get_scene_info
-
-        return scene_info
+        # print(scene_info)
+        return {
+            "ml_1P" : scene_info,
+            "ml_2P" : scene_info,
+            "ml_3P" : scene_info,
+            "ml_4P" : scene_info
+        }
 
     def update(self, commands):
         self.game_mode.handle_event()
@@ -59,8 +64,7 @@ class RacingCar:
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
-            "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)],
-            "game_result": self.game_mode.winner}
+            "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]}
 
         for car in self.game_mode.cars_info:
             cars_pos.append(car["pos"])
@@ -80,7 +84,13 @@ class RacingCar:
             for coin in self.game_mode.coins:
                 coin_pos.append(coin.get_position())
             scene_info["coin"] = coin_pos
+        if self.game_mode.status == "END":
+            print(scene_info)
 
+        result = {}
+        for user in self.game_mode.winner:
+            result["Rank" + str(self.game_mode.winner.index(user) + 1)] = "Player " + str(user.car_no + 1)
+        scene_info["game_result"] = result
         return scene_info
 
     def get_game_info(self):

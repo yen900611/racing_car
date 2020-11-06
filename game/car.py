@@ -69,8 +69,8 @@ class UserCar(Car):
 
 
     def keep_in_screen(self):
-        # if self.rect.right < -100 or self.rect.bottom > 550 or self.rect.top < 100:
-        #     self.status = False
+        if self.rect.top < 100 or self.rect.bottom > 550:
+            self.status = False
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
         elif self.velocity < 0:

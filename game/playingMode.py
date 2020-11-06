@@ -50,15 +50,17 @@ class PlayingMode(GameMode):
         '''update the model of game,call this fuction per frame'''
         self.frame += 1
         self.handle_event()
+        self._revise_speed()
 
-        if self.status == "START" and self.frame > FPS*3:
+        if self.status == "START" and self.frame > FPS*2:
             self.status = "RUNNING"
             pass
-        elif self.status == "RUNNING":
+        if self.status == "RUNNING":
+
             if self.frame > FPS*7:
                 self._creat_computercar()
             self._is_game_end()
-            self._revise_speed()
+
             self.cars_info = []
             self.camera.update(self.maxVel)
             self.user_distance = []
@@ -73,7 +75,7 @@ class PlayingMode(GameMode):
                 # self.user_out__screen(car)
                 self.user_distance.append(car.distance)
 
-                car.update(command[car.car_no])
+                car.update(command["ml_" + str(car.car_no+1) + "P"])
 
                 '''是否通過終點'''
                 self._is_car_arrive_end(car)
@@ -183,10 +185,11 @@ class PlayingMode(GameMode):
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(PlayingMode, self).draw_bg()
-        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert_alpha()
-        self.bg_img.blit(bg_image,(self.background_x,0))
-        if self.background_x <= 0-WIDTH:
-            self.background_x = 0
+        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
+        rel_x = self.background_x % bg_image.get_rect().width
+        self.bg_img.blit(bg_image,(rel_x - bg_image.get_rect().width,0))
+        if rel_x <= WIDTH:
+            self.bg_img.blit(bg_image, (rel_x, 0))
         self.background_x -= self.maxVel
 
         rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()

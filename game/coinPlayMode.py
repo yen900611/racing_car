@@ -56,18 +56,19 @@ class CoinMode(GameMode):
         '''update the model of game,call this fuction per frame'''
         self.frame += 1
         self.handle_event()
+        self._revise_speed()
 
         if self.status == "START" and self.frame > FPS*3:
             self.status = "RUNNING"
             pass
-        elif self.status == "RUNNING":
+        if self.status == "RUNNING":
             if self.frame > FPS*7:
                 self._creat_computercar()
             if self.is_creat_coin():
                 self.creat_coins()
             self.user_distance = []
             self.coin_num = []
-            self._revise_speed()
+
             self.cars_info = []
             self.camera.update(self.maxVel)
 
@@ -83,7 +84,7 @@ class CoinMode(GameMode):
                 # self.user_out__screen(car)
                 self.user_distance.append(car.distance)
                 self.coin_num.append(car.coin_num)
-                car.update(command[car.car_no])
+                car.update(command["ml_" + str(car.car_no+1) + "P"])
 
             for car in self.cars:
                 '''偵測車子的狀態'''
