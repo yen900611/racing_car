@@ -24,9 +24,6 @@ class MLPlay:
         if scene_info.__contains__("coin"):
             self.coin_pos = scene_info["coin"]
 
-        # if scene_info["status"] == "END":
-        #     return "RESET"
-
         return ["SPEED"]
 
     def reset(self):

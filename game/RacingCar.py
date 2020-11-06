@@ -22,7 +22,6 @@ class RacingCar:
 
     def get_player_scene_info(self) -> dict:
         scene_info = self.get_scene_info
-        # print(scene_info)
         return {
             "ml_1P" : scene_info,
             "ml_2P" : scene_info,
@@ -38,8 +37,6 @@ class RacingCar:
         if not self.isRunning():
             return "QUIT"
 
-        # test
-        self.get_game_progress()
 
     def reset(self):
         self.__init__(self.user_num,self.game_type,self.is_sound)
@@ -131,7 +128,6 @@ class RacingCar:
 
         if self.game_type == "COIN":
             game_progress["game_object"]["coin"] = scene_info["coin"]
-        print(game_progress)
         return game_progress
 
     def get_game_result(self):
