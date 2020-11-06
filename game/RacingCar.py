@@ -123,10 +123,10 @@ class RacingCar:
         "lane": scene_info["lanes"],
         "line":scene_info["line"],
         "computer_car": scene_info["computer_cars"],
-        "player1_car": [scene_info["player1_pos"]],
-        "player2_car": [scene_info["player2_pos"]],
-        "player3_car": [scene_info["player3_pos"]],
-        "player4_car": [scene_info["player4_pos"]]}
+        "player1_car": [scene_info["player_1_pos"]],
+        "player2_car": [scene_info["player_2_pos"]],
+        "player3_car": [scene_info["player_3_pos"]],
+        "player4_car": [scene_info["player_4_pos"]]}
     }
 
 
@@ -136,10 +136,10 @@ class RacingCar:
         "line":scene_info["line"],
         "coin": scene_info["coin"],
         "computer_car": scene_info["computer_cars"],
-        "player1_car": [scene_info["player1_pos"]],
-        "player2_car": [scene_info["player2_pos"]],
-        "player3_car": [scene_info["player3_pos"]],
-        "player4_car": [scene_info["player4_pos"]],}
+        "player1_car": [scene_info["player_1_pos"]],
+        "player2_car": [scene_info["player_2_pos"]],
+        "player3_car": [scene_info["player_3_pos"]],
+        "player4_car": [scene_info["player_4_pos"]],}
     }
 
 
