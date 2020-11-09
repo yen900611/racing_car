@@ -53,7 +53,7 @@ class CoinMode(GameMode):
         self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
         self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
-    def update_sprite(self, command: list):
+    def update_sprite(self, command):
         '''update the model of game,call this fuction per frame'''
         self.frame += 1
         self.handle_event()
@@ -133,9 +133,17 @@ class CoinMode(GameMode):
     #                 car.status = False
 
     def _print_result(self):
+        tem = []
         for user in self.winner:
-            print("Rank" + str(self.winner.index(user)+1) +
-                  " : Player " + str(user.car_no + 1))
+            tem.append({"Player":str(user.car_no + 1) + "P",
+                   "Coin":str(user.coin_num),
+                   "Distance":str(round(user.distance))+"m",
+                   })
+            print({"Player":str(user.car_no + 1) + "P",
+                   "Coin":str(user.coin_num),
+                   "Distance":str(round(user.distance))+"m",
+                   })
+        self.winner = tem
 
     def _init_user(self, user_no: int):
         self.car = UserCar((user_no)*100+160 , 0,user_no)

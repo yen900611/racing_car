@@ -33,6 +33,7 @@ keyboardSet = [
 
 class KeyBoardCommander(I_Commander):
     def __init__(self, keyboard_no=0):
+        self.no = keyboard_no
         self.speedKey = keyboardSet[keyboard_no]["SPEED"]
         self.brakeKey = keyboardSet[keyboard_no]["BRAKE"]
         self.moveLeftKey = keyboardSet[keyboard_no]["MOVE_LEFT"]

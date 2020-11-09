@@ -47,7 +47,7 @@ class PlayingMode(GameMode):
         self.end_frame = 0
         self.car_lanes =[110, 160, 210, 260, 310, 360, 410, 460, 510]
 
-    def update_sprite(self, command: list):
+    def update_sprite(self, command):
         '''update the model of game,call this fuction per frame'''
         self.frame += 1
         self.handle_event()
@@ -121,9 +121,15 @@ class PlayingMode(GameMode):
     #                 car.status = False
 
     def _print_result(self):
+        tem = []
         for user in self.winner:
-            print("Rank" + str(self.winner.index(user) + 1) +
-                  " : Player " + str(user.car_no + 1))
+            tem.append({"Player":str(user.car_no + 1) + "P",
+                   "Distance":str(round(user.distance))+"m",
+                   })
+            print({"Player":str(user.car_no + 1) + "P",
+                   "Distance":str(round(user.distance))+"m",
+                   })
+        self.winner = tem
 
     def _init_user(self, user_no: int):
         self.car = UserCar((user_no)*100+160 , 0,user_no)
@@ -237,7 +243,7 @@ class PlayingMode(GameMode):
 
         '''顯示玩家里程數'''
         for user in self.users:
-            self.draw_information(self.screen, str(round(user.distance/10))+"m", 17, 720+user.car_no*78,45)
+            self.draw_information(self.screen, str(round(user.distance))+"m", 17, 720+user.car_no*78,45)
 
     def rank(self):
         while len(self.eliminated_user) > 0:

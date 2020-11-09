@@ -85,10 +85,7 @@ class RacingCar:
                 coin_pos.append(coin.get_position())
             scene_info["coin"] = coin_pos
 
-        result = {}
-        for user in self.game_mode.winner:
-            result["Rank" + str(self.game_mode.winner.index(user) + 1)] = "Player " + str(user.car_no + 1)
-        scene_info["game_result"] = result
+        scene_info["game_result"] = self.game_mode.winner
         return scene_info
 
     def get_game_info(self):
@@ -136,15 +133,13 @@ class RacingCar:
         """
         scene_info = self.get_scene_info
         result = []
-        ranking = []
         for user in scene_info["game_result"]:
             result.append("GAME_DRAW")
-            ranking.append(str(user.car_no + 1) + "P")
 
         return {
             "frame_used": scene_info["frame"],
             "result": result,
-            "ranking": ranking
+            "ranking": scene_info["game_result"]
         }
 
     def get_keyboard_command(self):
