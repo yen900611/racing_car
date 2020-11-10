@@ -160,7 +160,8 @@ class RacingCar:
         if key_pressed_list[pygame.K_w]:cmd_2P.append(LEFT_cmd)
         if key_pressed_list[pygame.K_s]:cmd_2P.append(RIGHT_cmd)
 
-        return [cmd_1P, cmd_2P]
+        return {"ml_1P":cmd_1P,
+                "ml_2P":cmd_2P}
 
 if __name__ == '__main__':
     pygame.init()
