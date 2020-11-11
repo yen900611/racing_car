@@ -21,7 +21,7 @@ BLUE = (3,28,252)
 
 '''object size'''
 car_size = (60, 30)
-coin_size = (24,25)
+coin_size = (30,31)
 lane_size = (20,3)
 
 '''command'''
