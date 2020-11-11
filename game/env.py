@@ -18,6 +18,7 @@ YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 GREY = (140,140,140)
 BLUE = (3,28,252)
+LIGHT_BLUE = (33, 161, 241)
 
 '''object size'''
 car_size = (60, 30)

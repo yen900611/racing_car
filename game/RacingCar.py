@@ -99,7 +99,7 @@ class RacingCar:
             "game_object": [
                 {"name": "lane", "size": lane_size, "color": WHITE},
                 {"name": "coin", "size": coin_size, "color": YELLOW},
-                {"name": "computer_car", "size": car_size, "color": BLACK},
+                {"name": "computer_car", "size": car_size, "color": LIGHT_BLUE},
                 {"name": "player1_car", "size": car_size, "color": WHITE},
                 {"name": "player2_car", "size": car_size, "color": YELLOW},
                 {"name": "player3_car", "size": car_size, "color": BLUE},
