@@ -64,6 +64,7 @@ class RacingCar:
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
+            "background": self.game_mode.bg_x,
             "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]}
 
         for car in self.game_mode.cars_info:
@@ -92,36 +93,54 @@ class RacingCar:
         """
         Get the scene and object information for drawing on the web
         """
-        return {
+        game_info = {
+
             "scene": {
                 "size": [WIDTH, HEIGHT]
             },
             "game_object": [
+                {"name": "background", "size": (WIDTH, HEIGHT), "color": BLACK, "image": "ground0.jpg"},
                 {"name": "lane", "size": lane_size, "color": WHITE},
-                {"name": "coin", "size": coin_size, "color": YELLOW},
-                {"name": "computer_car", "size": car_size, "color": BLACK},
-                {"name": "player1_car", "size": car_size, "color": WHITE},
-                {"name": "player2_car", "size": car_size, "color": YELLOW},
-                {"name": "player3_car", "size": car_size, "color": BLUE},
-                {"name": "player4_car", "size": car_size, "color": RED},
-                {"name": "line", "size": (5,450), "color": WHITE}
-            ]
+                {"name": "coin", "size": coin_size, "color": YELLOW, "image":"logo,png"},
+                {"name": "computer_car", "size": car_size, "color": BLACK, "image": "computer_car.png"},
+                {"name": "player1_car", "size": car_size, "color": WHITE, "image": "car1.png"},
+                {"name": "player2_car", "size": car_size, "color": YELLOW, "image": "car2.png"},
+                {"name": "player3_car", "size": car_size, "color": BLUE, "image": "car3.png"},
+                {"name": "player4_car", "size": car_size, "color": RED, "image": "car4.png"},
+                {"name": "line", "size": (5,450), "color": WHITE, "image": "start.png"},
+                {"name": "icon", "size": (319,80), "color": BLACK, "image": "info_km.png"},
+            ],
+            "image": ["car1.png", "car2.png", "car3.png", "car4.png", "computer_car.png",
+                      "car1-bad.png", "car2-bad.png", "car3-bad.png", "car4-bad.png", "computer_die.png",
+                      "start.png", "finish.png", "info_coin.png", "info_km.png",
+                      "logo.png", "ground0.jpg"
+                      ]
         }
 
+        if self.game_type == "COIN":
+            game_info["game_object"][9]={"name": "icon", "size": (319,80), "color": BLACK, "image": "info_coin.png"}
+
+        return game_info
     def get_game_progress(self):
         """
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info
         game_progress = {"game_object": {
+        "background" :scene_info["background"],
         "lane": scene_info["lanes"],
+        "icon": (WIDTH-315, 5),
         "line":scene_info["line"],
         "computer_car": scene_info["computer_cars"],
         }}
 
         if scene_info["status"] == "RUNNING":
             for user in self.game_mode.users:
-                game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [scene_info["player_" + str(user.car_no) + "_pos"]]
+                if user.status  == False:
+                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
+                                                                                           "image":"car" + str(user.car_no+1) + "-bad.png"}]
+                else:
+                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"]}]
 
         if self.game_type == "COIN":
             game_progress["game_object"]["coin"] = scene_info["coin"]

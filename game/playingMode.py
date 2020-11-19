@@ -16,6 +16,7 @@ class PlayingMode(GameMode):
         self.cars = pygame.sprite.Group()
         self.computerCars = pygame.sprite.Group()
         self.lanes = pygame.sprite.Group()
+        self.traffic_cones = pygame.sprite.Group()
         self.camera = Camera()
 
         '''sound'''
@@ -43,6 +44,7 @@ class PlayingMode(GameMode):
         self.line = Line()
         self.lanes.add(self.line)
         self.background_x = 0
+        self.bg_x = 0
         self.end = False
         self.end_frame = 0
         self.car_lanes =[110, 160, 210, 260, 310, 360, 410, 460, 510]
@@ -195,13 +197,15 @@ class PlayingMode(GameMode):
         super(PlayingMode, self).draw_bg()
         bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
         rel_x = self.background_x % bg_image.get_rect().width
-        self.bg_img.blit(bg_image,(rel_x - bg_image.get_rect().width,0))
+        self.bg_x = rel_x - bg_image.get_rect().width
+        self.bg_img.blit(bg_image,(self.bg_x,0))
         if rel_x <= WIDTH:
-            self.bg_img.blit(bg_image, (rel_x, 0))
+            self.bg_x = rel_x
+            self.bg_img.blit(bg_image, (self.bg_x, 0))
         self.background_x -= self.maxVel
 
         rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
-        self.bg_img.blit(rank_image,(WIDTH-325, 5))
+        self.bg_img.blit(rank_image,(WIDTH-315, 5))
 
         '''畫出每台車子的資訊'''
         self._draw_user_imformation()
