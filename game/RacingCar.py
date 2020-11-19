@@ -102,7 +102,7 @@ class RacingCar:
                 {"name": "background", "size": (WIDTH, HEIGHT), "color": BLACK, "image": "ground0.jpg"},
                 {"name": "lane", "size": lane_size, "color": WHITE},
                 {"name": "coin", "size": coin_size, "color": YELLOW, "image":"logo,png"},
-                {"name": "computer_car", "size": car_size, "color": BLACK, "image": "computer_car.png"},
+                {"name": "computer_car", "size": car_size, "color": LIGHT_BLUE, "image": "computer_car.png"},
                 {"name": "player1_car", "size": car_size, "color": WHITE, "image": "car1.png"},
                 {"name": "player2_car", "size": car_size, "color": YELLOW, "image": "car2.png"},
                 {"name": "player3_car", "size": car_size, "color": BLUE, "image": "car3.png"},
@@ -182,13 +182,13 @@ class RacingCar:
         return {"ml_1P":cmd_1P,
                 "ml_2P":cmd_2P}
 
-if __name__ == '__main__':
-    pygame.init()
-    display = pygame.display.init()
-    game = Game(4)
-
-    while game.isRunning():
-        game.update(commands)
-        game.draw()
-
-    pygame.quit()
+# if __name__ == '__main__':
+#     pygame.init()
+#     display = pygame.display.init()
+#     game = Game(4)
+#
+#     while game.isRunning():
+#         game.update(commands)
+#         game.draw()
+#
+#     pygame.quit()
