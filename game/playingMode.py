@@ -198,6 +198,8 @@ class PlayingMode(GameMode):
         bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
         self.rel_x = self.background_x % bg_image.get_rect().width
         self.bg_x = self.rel_x - bg_image.get_rect().width
+        # self.bg_x =  bg_image.get_rect().width - self.rel_x
+
         self.bg_img.blit(bg_image,(self.bg_x,0))
         if self.rel_x <= WIDTH:
             self.bg_img.blit(bg_image, (self.rel_x, 0))
