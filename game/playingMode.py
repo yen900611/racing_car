@@ -45,6 +45,7 @@ class PlayingMode(GameMode):
         self.lanes.add(self.line)
         self.background_x = 0
         self.bg_x = 0
+        self.rel_x = 0
         self.end = False
         self.end_frame = 0
         self.car_lanes =[110, 160, 210, 260, 310, 360, 410, 460, 510]
@@ -195,12 +196,11 @@ class PlayingMode(GameMode):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(PlayingMode, self).draw_bg()
         bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
-        rel_x = self.background_x % bg_image.get_rect().width
-        self.bg_x = rel_x - bg_image.get_rect().width
+        self.rel_x = self.background_x % bg_image.get_rect().width
+        self.bg_x = self.rel_x - bg_image.get_rect().width
         self.bg_img.blit(bg_image,(self.bg_x,0))
-        if rel_x <= WIDTH:
-            self.bg_x = rel_x
-            self.bg_img.blit(bg_image, (self.bg_x, 0))
+        if self.rel_x <= WIDTH:
+            self.bg_img.blit(bg_image, (self.rel_x, 0))
         self.background_x -= self.maxVel
 
         rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()

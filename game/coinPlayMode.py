@@ -45,6 +45,7 @@ class CoinMode(GameMode):
         self.line = Line()
         self.background_x = 0
         self.bg_x = 0
+        self.rel_x = 0
         self.lanes.add(self.line)
         self.end = False
         self.creat_coin_frame = 0
@@ -193,12 +194,11 @@ class CoinMode(GameMode):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(CoinMode, self).draw_bg()
         bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
-        rel_x = self.background_x % bg_image.get_rect().width
-        self.bg_x = rel_x - bg_image.get_rect().width
+        self.rel_x = self.background_x % bg_image.get_rect().width
+        self.bg_x = self.rel_x - bg_image.get_rect().width
         self.bg_img.blit(bg_image,(self.bg_x,0))
-        if rel_x <= WIDTH:
-            self.bg_x = rel_x
-            self.bg_img.blit(bg_image, (self.bg_x, 0))
+        if self.rel_x <= WIDTH:
+            self.bg_img.blit(bg_image, (self.rel_x, 0))
         self.background_x -= self.maxVel
 
         rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[0])).convert()

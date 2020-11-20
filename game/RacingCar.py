@@ -62,7 +62,7 @@ class RacingCar:
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
-            "background": (self.game_mode.bg_x,0),
+            "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)]
             "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]}
 
         for car in self.game_mode.cars_info:
@@ -139,9 +139,10 @@ class RacingCar:
         """
         scene_info = self.get_scene_info
         game_progress = {"game_object": {
-        "background" : [self._progress_dict(scene_info["background"][0], scene_info["background"][1])],
+        "background" : [self._progress_dict(scene_info["background"][0][0], scene_info["background"][0][1]),
+                        self._progress_dict(scene_info["background"][1][0], scene_info["background"][1][1])],
         "icon": [self._progress_dict(WIDTH-315, 5)],
-        "line":[self._progress_dict(scene_info["line"][0][1], scene_info["line"][0][1])],
+        "line":[self._progress_dict(scene_info["line"][0][0], scene_info["line"][0][1])],
         },
         "game_user_information":[]}
 
