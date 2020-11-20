@@ -4,7 +4,6 @@ This is a base class for different mode in game.
 import pygame
 from .env import *
 
-
 class GameMode(object):
     def __init__(self, pygame_screen=pygame.display.set_mode((WIDTH, HEIGHT)), bg_img=pygame.Surface((WIDTH, HEIGHT))):
         self.screen = pygame_screen
@@ -12,10 +11,8 @@ class GameMode(object):
         self.bg_rect = bg_img.get_rect()
         self.clock = pygame.time.Clock()
         self.running = True
-        self.willChange = False
-        self.nextMode = None
         self.all_sprites = pygame.sprite.Group()
-        self.close = False
+        self.frame = 0
 
     def ticks(self, fps=FPS):
         """This method should be called once per frame.
@@ -27,7 +24,6 @@ class GameMode(object):
 
     def handle_event(self):
         """ Handle the event from window , mouse or button.
-
         :return: None
         """
         for event in pygame.event.get():
@@ -71,17 +67,7 @@ class GameMode(object):
     def isRunning(self) -> bool:
         return self.running
 
-    def getNextMode(self):
-        """
-         :return: gameMode
-        """
-        if self.willChange:
-            if self.nextMode:
-                self.willChange = False
-                return self.nextMode
-        return self
-
-    def draw_information(self,surf,text,size,x,y):
+    def draw_information(self, surf, text, size, x, y):
         font = pygame.font.Font(pygame.font.match_font("arial"), size)
         text_surface = font.render(text , True , WHITE)
         text_rect = text_surface.get_rect()

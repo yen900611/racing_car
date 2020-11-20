@@ -14,5 +14,8 @@ class Coin(pygame.sprite.Sprite):
         if self.rect.centerx < 0:
             self.kill()
 
+    def move(self):
+        self.rect.centery += self.vel
+
     def get_position(self):
         return (self.rect.left, self.rect.top)

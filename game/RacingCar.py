@@ -2,6 +2,7 @@ import pygame
 
 from .playingMode import PlayingMode
 from .coinPlayMode import CoinMode
+
 from .env import *
 from .sound_controller import *
 
@@ -39,11 +40,9 @@ class RacingCar:
 
     def reset(self):
         self.__init__(self.user_num,self.game_type,self.is_sound)
-        pass
 
     def isRunning(self):
         return self.game_mode.isRunning()
-        pass
 
     def draw(self):
         self.game_mode.draw_bg()

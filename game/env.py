@@ -42,6 +42,3 @@ USER_COLOR = [WHITE, YELLOW, BLUE, RED]
 IMAGE_DIR = path.join(path.dirname(__file__), 'image')
 SOUND_DIR = path.join(path.dirname(__file__), 'sound')
 
-# # pygame.mixer.init()
-# pygame.mixer.music.load(path.join(SOUND_DIR,"BGM.mp3"))
-# pygame.mixer.music.set_volume(0.4)

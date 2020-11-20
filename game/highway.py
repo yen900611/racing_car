@@ -30,17 +30,3 @@ class Line(pygame.sprite.Sprite):
             self.image = pygame.image.load(path.join(IMAGE_DIR, START_LINE_IMAGE[1]))
         else:
             pass
-
-# class Background(pygame.sprite.Sprite):
-#     def __init__(self):
-#         pygame.sprite.Sprite.__init__(self)
-#         self.image_no = 0
-#         self.image = pygame.image.load(path.join(IMAGE_DIR,BACKGROUND_IMAGE[self.image_no]))
-#         self.rect = self.image.get_rect()
-#         self.rect.center = WIDTH/2, HEIGHT/2
-#
-#     def update(self, *args):
-#         self.image_no += 1
-#         self.image = pygame.image.load(path.join(IMAGE_DIR,BACKGROUND_IMAGE[self.image_no]))
-#         if self.image_no == 2:
-#             self.image_no = 0

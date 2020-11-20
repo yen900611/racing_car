@@ -238,12 +238,12 @@ class CoinMode(GameMode):
                                (round(user.distance*(1000/finish_line)),650+round(user.rect.top*(50/500))),4)
             if user.status == False:
                 if user.car_no > 1:
-                    pygame.draw.line(self.screen,RED,(690 + user.car_no*75,20),(690 + user.car_no*75 +20,70),2)
-                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 75 - 20, 70), 2)
+                    pygame.draw.line(self.screen,RED,(700 + user.car_no*75,20),(700 + user.car_no*75 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 75 - 20, 70), 2)
 
                 elif user.car_no <= 1:
-                    pygame.draw.line(self.screen,RED,(690 + user.car_no*70,20),(690 + user.car_no*70 +20,70),2)
-                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 70 - 20, 70), 2)
+                    pygame.draw.line(self.screen,RED,(700 + user.car_no*70,20),(700 + user.car_no*70 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 70 - 20, 70), 2)
 
     def rank(self):
         user_coin = []

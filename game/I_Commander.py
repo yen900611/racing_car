@@ -1,5 +1,4 @@
 import abc
-import random
 
 import pygame
 
@@ -18,6 +17,7 @@ keyboardSet = [
      "MOVE_RIGHT": pygame.K_s,
      "SPEED": pygame.K_d,
      "BRAKE": pygame.K_a},
+
 
     {"MOVE_LEFT": pygame.K_SPACE,
      "MOVE_RIGHT": pygame.K_SPACE,

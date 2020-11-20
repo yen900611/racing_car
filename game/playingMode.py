@@ -5,6 +5,7 @@ from .env import *
 import pygame
 import random
 
+
 class PlayingMode(GameMode):
     def __init__(self, user_num: int, sound_controller):
         super(PlayingMode, self).__init__()
@@ -192,6 +193,7 @@ class PlayingMode(GameMode):
             self.user_vel.append(car.velocity)
         self.maxVel = max(self.user_vel)
 
+
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(PlayingMode, self).draw_bg()
@@ -239,12 +241,12 @@ class PlayingMode(GameMode):
                                (round(user.distance*(900/finish_line)),650+round(user.rect.top*(50/500))),4)
             if user.status == False:
                 if user.car_no > 1:
-                    pygame.draw.line(self.screen,RED,(690 + user.car_no*75,20),(690 + user.car_no*75 +20,70),2)
-                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 75 - 20, 70), 2)
+                    pygame.draw.line(self.screen,RED,(700 + user.car_no*75,20),(700 + user.car_no*75 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 75 - 20, 70), 2)
 
                 elif user.car_no <= 1:
-                    pygame.draw.line(self.screen,RED,(690 + user.car_no*70,20),(690 + user.car_no*70 +20,70),2)
-                    pygame.draw.line(self.screen, RED, (710 + user.car_no * 75, 20), (710 + user.car_no * 70 - 20, 70), 2)
+                    pygame.draw.line(self.screen,RED,(700 + user.car_no*70,20),(700 + user.car_no*70 +20,70),2)
+                    pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 70 - 20, 70), 2)
 
         '''顯示玩家里程數'''
         for user in self.users:
@@ -258,3 +260,4 @@ class PlayingMode(GameMode):
                     self.user_distance.remove(car.distance)
                     self.eliminated_user.remove(car)
         self.winner.reverse()
+

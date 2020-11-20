@@ -3,7 +3,6 @@ import time
 from .env import *
 import random
 
-
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
         pygame.sprite.Sprite.__init__(self)
