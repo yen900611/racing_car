@@ -155,12 +155,12 @@ class RacingCar:
         lane_pos = []
         for lane in scene_info["lanes"]:
             lane_pos.append(self._progress_dict(lane[0], lane[1]))
-        game_progress["lane"] = lane_pos
+        game_progress["game_object"]["lane"] = lane_pos
 
         computer_car_pos = []
         for computer in scene_info["computer_cars"]:
             computer_car_pos.append(self._progress_dict(computer[0], computer[1]))
-        game_progress["computer_car"] = computer_car_pos
+        game_progress["game_object"]["computer_car"] = computer_car_pos
 
         if self.game_type == "COIN":
             coin_pos = []
