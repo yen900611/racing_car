@@ -144,15 +144,15 @@ class RacingCar:
         "icon": [self._progress_dict(WIDTH-315, 5)],
         "line":[self._progress_dict(scene_info["line"][0][1], scene_info["line"][0][1])],
         },
-        "game_user_information":{
-            "player_1_distance":0
-        }}
+        "game_user_information":[]}
 
         if self.game_mode.status == "RUNNING":
             for user in self.game_mode.users:
-                game_progress["game_user_information"]["player_" + str(user.car_no+1) + "_distance"] = user.distance
+                user_info = {}
+                user_info["distance"] = user.distance
                 if self.game_type == "COIN":
-                    game_progress["game_user_information"]["player_" + str(user.car_no + 1) + "_coin_num"] = user.coin_num
+                    user_info["coin"] = user.coin_num
+                game_progress["game_user_information"].append(user_info)
 
                 if user.status  == False:
                     game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
