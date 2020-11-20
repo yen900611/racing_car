@@ -69,7 +69,6 @@ class RacingCar:
             cars_pos.append(car["pos"])
             if car["id"] <= 4:
                 scene_info["player_"+str(car["id"])+"_pos"] = car["pos"]
-                user_infomation.append(car)
             elif car["id"] > 100:
                 computer_cars_pos.append(car["pos"])
         scene_info["computer_cars"] = computer_cars_pos
