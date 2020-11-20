@@ -96,6 +96,7 @@ class UserCar(Car):
             self.slowDown()
 
 class ComputerCar(Car):
+
     def __init__(self, y,distance,x):
         Car.__init__(self,y,distance)
         self.image = pygame.transform.scale(pygame.image.load(

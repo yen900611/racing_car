@@ -104,7 +104,7 @@ class RacingCar:
                 {"name": "player2_car", "size": car_size, "color": YELLOW, "image": "car2.png"},
                 {"name": "player3_car", "size": car_size, "color": BLUE, "image": "car3.png"},
                 {"name": "player4_car", "size": car_size, "color": RED, "image": "car4.png"},
-                {"name": "line", "size": (5,450), "color": WHITE, "image": "start.png"},
+                {"name": "line", "size": (45,450), "color": WHITE, "image": "start.png"},
                 {"name": "icon", "size": (319,80), "color": BLACK, "image": "info_km.png"},
             ],
             "images": ["car1.png", "car2.png", "car3.png", "car4.png", "computer_car.png",
