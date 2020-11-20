@@ -37,7 +37,6 @@ class RacingCar:
         if not self.isRunning():
             return "QUIT"
 
-
     def reset(self):
         self.__init__(self.user_num,self.game_type,self.is_sound)
         pass
@@ -52,11 +51,10 @@ class RacingCar:
         self.game_mode.flip()
 
     @property
-    def get_scene_info(self) -> dict:
+    def get_scene_info(self):
         """
         Get the scene information
         """
-
         cars_pos = []
         computer_cars_pos = []
         lanes_pos = []
@@ -64,7 +62,7 @@ class RacingCar:
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
-            "background": self.game_mode.bg_x,
+            "background": (self.game_mode.bg_x,0),
             "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]}
 
         for car in self.game_mode.cars_info:
@@ -94,7 +92,6 @@ class RacingCar:
         Get the scene and object information for drawing on the web
         """
         game_info = {
-
             "scene": {
                 "size": [WIDTH, HEIGHT]
             },
@@ -110,7 +107,7 @@ class RacingCar:
                 {"name": "line", "size": (5,450), "color": WHITE, "image": "start.png"},
                 {"name": "icon", "size": (319,80), "color": BLACK, "image": "info_km.png"},
             ],
-            "image": ["car1.png", "car2.png", "car3.png", "car4.png", "computer_car.png",
+            "images": ["car1.png", "car2.png", "car3.png", "car4.png", "computer_car.png",
                       "car1-bad.png", "car2-bad.png", "car3-bad.png", "car4-bad.png", "computer_die.png",
                       "start.png", "finish.png", "info_coin.png", "info_km.png",
                       "logo.png", "ground0.jpg"
@@ -121,29 +118,55 @@ class RacingCar:
             game_info["game_object"][9]={"name": "icon", "size": (319,80), "color": BLACK, "image": "info_coin.png"}
 
         return game_info
+
+    def _progress_dict(self, pos_left, pos_top, size = None, color = None, image = None):
+        '''
+        :return:Dictionary for game_progress
+        '''
+        object = {"pos" : [pos_left, pos_top]}
+        if size != None:
+            object["size"] = size
+        if color != None:
+            object["color"] = color
+        if image != None:
+            object["image"] = image
+
+        return object
+
     def get_game_progress(self):
         """
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info
         game_progress = {"game_object": {
-        "background" :scene_info["background"],
-        "lane": scene_info["lanes"],
-        "icon": (WIDTH-315, 5),
-        "line":scene_info["line"],
-        "computer_car": scene_info["computer_cars"],
+        "background" : self._progress_dict(scene_info["background"][0], scene_info["background"][1]),
+        "icon": self._progress_dict(WIDTH-315, 5),
+        "line":self._progress_dict(scene_info["line"][0][1], scene_info["line"][0][1]),
         }}
 
-        if scene_info["status"] == "RUNNING":
-            for user in self.game_mode.users:
-                if user.status  == False:
-                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
-                                                                                           "image":"car" + str(user.car_no+1) + "-bad.png"}]
-                else:
-                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"]}]
+        # if self.game_mode.status == "RUNNING":
+        for user in self.game_mode.users:
+            if user.status  == False:
+                game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
+                                                                                       "image":"car" + str(user.car_no+1) + "-bad.png"}]
+            else:
+                game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"]}]
+
+        lane_pos = []
+        for lane in scene_info["lanes"]:
+            lane_pos.append(self._progress_dict(lane[0], lane[1]))
+        game_progress["lane"] = lane_pos
+
+        computer_car_pos = []
+        for computer in scene_info["computer_cars"]:
+            computer_car_pos.append(self._progress_dict(computer[0], computer[1]))
+        game_progress["computer_car"] = computer_car_pos
 
         if self.game_type == "COIN":
-            game_progress["game_object"]["coin"] = scene_info["coin"]
+            coin_pos = []
+            for coin in scene_info["coin"]:
+                coin_pos.append(self._progress_dict(coin[0], coin[1]))
+            game_progress["game_object"]["coin"] = coin_pos
         return game_progress
 
     def get_game_result(self):
