@@ -62,7 +62,7 @@ class RacingCar:
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
-            "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)]
+            "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)],
             "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]}
 
         for car in self.game_mode.cars_info:
