@@ -208,7 +208,7 @@ class CoinMode(GameMode):
         self._draw_user_imformation()
         '''顯示玩家金幣數'''
         for user in self.users:
-            self.draw_information(self.screen,str(user.coin_num), 17, 730+user.car_no*78,45)
+            self.draw_information(self.screen,str(user.coin_num), 17, 740+user.car_no*78,45)
 
         self.all_sprites.draw(self.screen)
         self.users.draw(self.screen)

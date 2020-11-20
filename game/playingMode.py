@@ -248,7 +248,7 @@ class PlayingMode(GameMode):
 
         '''顯示玩家里程數'''
         for user in self.users:
-            self.draw_information(self.screen, str(round(user.distance))+"m", 17, 720+user.car_no*78,45)
+            self.draw_information(self.screen, str(round(user.distance))+"m", 17, 730+user.car_no*78,45)
 
     def rank(self):
         while len(self.eliminated_user) > 0:
