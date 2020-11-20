@@ -148,7 +148,7 @@ class RacingCar:
         if self.game_mode.status == "RUNNING":
             for user in self.game_mode.users:
                 user_info = {}
-                user_info["distance"] = user.distance
+                user_info["distance"] = round(user.distance)
                 if self.game_type == "COIN":
                     user_info["coin"] = user.coin_num
                 game_progress["game_user_information"].append(user_info)
