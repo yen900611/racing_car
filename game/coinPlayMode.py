@@ -63,7 +63,7 @@ class CoinMode(GameMode):
             self.status = "RUNNING"
             pass
         if self.status == "RUNNING":
-            if self.frame > FPS*7:
+            if self.frame > FPS*4:
                 self._creat_computercar()
             if self.is_creat_coin():
                 self.creat_coins()

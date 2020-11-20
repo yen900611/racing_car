@@ -98,7 +98,7 @@ class RacingCar:
             "game_object": [
                 {"name": "background", "size": (2000, HEIGHT), "color": BLACK, "image": "ground0.jpg"},
                 {"name": "lane", "size": lane_size, "color": WHITE},
-                {"name": "coin", "size": coin_size, "color": YELLOW, "image":"logo,png"},
+                {"name": "coin", "size": coin_size, "color": YELLOW, "image":"logo.png"},
                 {"name": "computer_car", "size": car_size, "color": LIGHT_BLUE, "image": "computer_car.png"},
                 {"name": "player1_car", "size": car_size, "color": WHITE, "image": "car1.png"},
                 {"name": "player2_car", "size": car_size, "color": YELLOW, "image": "car2.png"},

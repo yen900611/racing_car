@@ -61,7 +61,7 @@ class PlayingMode(GameMode):
             pass
         if self.status == "RUNNING":
             self.cars_info = []
-            if self.frame > FPS*7:
+            if self.frame > FPS*4:
                 self._creat_computercar()
             self._is_game_end()
 
