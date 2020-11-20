@@ -1,17 +1,22 @@
 import pygame
-import time
 
-from game import playingMode, I_Commander
+from game import playingMode,I_Commander,coinPlayMode,sound_controller
+
 
 if __name__ == '__main__':
     pygame.init()
     display = pygame.display.init()
-    game = playingMode.PlayingMode(2)
+
+    sound_controller = sound_controller.SoundController("off")
+    game = coinPlayMode.CoinMode(4,sound_controller)
+    # game = playingMode.PlayingMode(4,sound_controller)
+    sound_controller.play_music()
 
     while game.isRunning():
-        commands = []
-        for i in range(2):
-            commands.append(I_Commander.KeyBoardCommander(i).getControlDict())
+        commands = {}
+        for i in range(4):
+            commands["ml_" + str(i+1) + "P"] = I_Commander.KeyBoardCommander(i).getControlDict()
+
         game.ticks()
         game.handle_event()
         game.detect_collision()

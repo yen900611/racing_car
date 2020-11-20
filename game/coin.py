@@ -4,15 +4,14 @@ from .env import *
 class Coin(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"金幣.png")),(20,20))
-        # self.image = self.image.convert_alpha()
+        self.image = pygame.transform.scale(pygame.image.load(path.join(IMAGE_DIR,"logo.png")),coin_size)
         self.rect = self.image.get_rect()
         self.rect.center = x ,y
         self.vel = 5
 
-    def update(self):
-        self.move()
-        if self.rect.centery > HEIGHT:
+    def update(self, *args):
+        self.rect.centerx -= self.vel
+        if self.rect.centerx < 0:
             self.kill()
 
     def move(self):

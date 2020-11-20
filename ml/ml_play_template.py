@@ -9,10 +9,7 @@ class MLPlay:
             self.player_no = 2
         elif self.player == "player4":
             self.player_no = 3
-        self.car_vel = 0
-        self.car_pos = ()
-        self.coin_num = 0
-        self.computer_cars = []
+        self.other_cars_position = []
         self.coins_pos = []
         print("Initial ml script")
 
@@ -20,19 +17,14 @@ class MLPlay:
         """
         Generate the command according to the received scene information
         """
-        self.car_pos = scene_info[self.player]
-        for car in scene_info["cars_info"]:
-            if car["id"] == self.player_no:
-                self.car_vel = car["velocity"]
-                self.coin_num = car["coin_num"]
-        self.computer_cars = scene_info["computer_cars"]
-        if scene_info.__contains__("coins"):
-            self.coins_pos = scene_info["coins"]
+        if scene_info["status"] == "RUNNING":
+            self.car_pos = scene_info["player_" + str(self.player_no) + "_pos"]
 
-        if scene_info["status"] != "ALIVE":
-            return "RESET"
+        self.other_cars_position = scene_info["cars_pos"]
+        if scene_info.__contains__("coin"):
+            self.coin_pos = scene_info["coin"]
 
-        return ["MOVE_LEFT", "MOVE_RIGHT", "SPEED", "BRAKE"]
+        return ["SPEED"]
 
     def reset(self):
         """

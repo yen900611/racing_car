@@ -56,7 +56,7 @@ class GameMode(object):
         """  This function should draw every sprite on specific surface.
         :return: None
         """
-        self.all_sprites.draw(self.screen)
+        pass
 
     def flip(self):
         """Update the full display Surface to the screen
@@ -67,9 +67,9 @@ class GameMode(object):
     def isRunning(self) -> bool:
         return self.running
 
-    def __draw_information(self, surf, text, size, x, y):
+    def draw_information(self, surf, text, size, x, y):
         font = pygame.font.Font(pygame.font.match_font("arial"), size)
         text_surface = font.render(text , True , WHITE)
         text_rect = text_surface.get_rect()
-        text_rect.center = (x, y)
+        text_rect.left,text_rect.top = (x, y)
         surf.blit(text_surface , text_rect)

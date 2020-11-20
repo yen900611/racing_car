@@ -1,197 +1,179 @@
 import pygame
 
-from games.RacingCar.game import game_progress
 from .playingMode import PlayingMode
-from .coinMode import CoinPlayingMode
+from .coinPlayMode import CoinMode
+
 from .env import *
-from .game_progress import *
+from .sound_controller import *
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
-
 class RacingCar:
-    def __init__(self, user_num: int, difficulty):
+    def __init__(self, user_num: int, difficulty,sound):
+        self.is_sound = sound
+        self.sound_controller = SoundController(self.is_sound)
         if difficulty == "NORMAL":
-            self.game_mode = PlayingMode(user_num)
+            self.game_mode = PlayingMode(user_num,self.sound_controller)
             self.game_type = "NORMAL"
         elif difficulty == "COIN":
-            self.game_mode = CoinPlayingMode(user_num)
+            self.game_mode = CoinMode(user_num,self.sound_controller)
             self.game_type = "COIN"
 
         self.user_num = user_num
 
     def get_player_scene_info(self) -> dict:
         scene_info = self.get_scene_info
-        player_1_pos = ()
-        player_2_pos = ()
-        player_3_pos = ()
-        player_4_pos = ()
-
-        for car in self.game_mode.cars_info:
-            if car["id"] == 0:
-                player_1_pos = car["pos"]
-            elif car["id"] == 1:
-                player_2_pos = car["pos"]
-            elif car["id"] == 2:
-                player_3_pos = car["pos"]
-            elif car["id"] == 3:
-                player_4_pos = car["pos"]
-
-        player_info = {"frame": self.game_mode.frame,
-                "status": self.game_mode.status,
-                "computer_cars": scene_info["computer_cars"],
-                "player1": player_1_pos,
-                "player2": player_2_pos,
-                "player3": player_3_pos,
-                "player4": player_4_pos,
-                "cars_info": self.game_mode.cars_info
-                }
-        if self.game_type == "COIN":
-            player_info["coins"] = scene_info["coin"]
-
-        return player_info
+        return {
+            "ml_1P" : scene_info,
+            "ml_2P" : scene_info,
+            "ml_3P" : scene_info,
+            "ml_4P" : scene_info
+        }
 
     def update(self, commands):
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
         self.game_mode.update_sprite(commands)
-        if self.game_mode.close:
-            return "QUIT"
-        if not self.isRunning():
-            return "RESET"
         self.draw()
+        if not self.isRunning():
+            return "QUIT"
 
     def reset(self):
-        self.__init__(self.user_num, self.game_type)
+        self.__init__(self.user_num,self.game_type,self.is_sound)
 
     def isRunning(self):
         return self.game_mode.isRunning()
 
     def draw(self):
         self.game_mode.draw_bg()
+        self.game_mode.drawAllSprites()
         self.game_mode.flip()
 
     @property
-    def get_scene_info(self) -> dict:
+    def get_scene_info(self):
         """
         Get the scene information
         """
+        cars_pos = []
         computer_cars_pos = []
         lanes_pos = []
-        player_1_pos = ()
-        player_2_pos = ()
-        player_3_pos = ()
-        player_4_pos = ()
-        player_1_distance = 0
-        player_2_distance = 0
-        player_3_distance = 0
-        player_4_distance = 0
-        player_1_velocity = 0
-        player_2_velocity = 0
-        player_3_velocity = 0
-        player_4_velocity = 0
-        player_1_coin_num = 0
-        player_2_coin_num = 0
-        player_3_coin_num = 0
-        player_4_coin_num = 0
-
-        for car in self.game_mode.cars_info:
-            if car["id"] >= 101:
-                computer_cars_pos.append((car["pos"][0]-20,car["pos"][1]-40))
-            elif car["id"] == 0:
-                player_1_pos = (car["pos"][0]-20,car["pos"][1]-40)
-                player_1_distance = car["distance"]
-                player_1_coin_num = car["coin_num"]
-                player_1_velocity = car["velocity"]
-
-            elif car["id"] == 1:
-                player_2_pos = (car["pos"][0]-20,car["pos"][1]-40)
-                player_2_distance = car["distance"]
-                player_2_coin_num = car["coin_num"]
-                player_2_velocity = car["velocity"]
-
-            elif car["id"] == 2:
-                player_3_pos = (car["pos"][0]-20,car["pos"][1]-40)
-                player_3_distance = car["distance"]
-                player_3_coin_num = car["coin_num"]
-                player_3_velocity = car["velocity"]
-
-            elif car["id"] == 3:
-                player_4_pos = (car["pos"][0]-20,car["pos"][1]-40)
-                player_4_distance = car["distance"]
-                player_4_coin_num = car["coin_num"]
-                player_4_velocity = car["velocity"]
-
-        for lane in self.game_mode.lanes:
-            lanes_pos.append((lane.rect.left, lane.rect.top))
 
         scene_info = {
             "frame": self.game_mode.frame,
             "status": self.game_mode.status,
-            "computer_cars": computer_cars_pos,
-            "lanes": lanes_pos,
-            "player1_pos": player_1_pos,
-            "player2_pos": player_2_pos,
-            "player3_pos": player_3_pos,
-            "player4_pos": player_4_pos,
-            "player_1_distance":player_1_distance,
-            "player_2_distance":player_2_distance,
-            "player_3_distance":player_3_distance,
-            "player_4_distance":player_4_distance,
-            "player_1_velocity":player_1_velocity,
-            "player_2_velocity":player_2_velocity,
-            "player_3_velocity":player_3_velocity,
-            "player_4_velocity":player_4_velocity,
-            "game_result": self.game_mode.winner}
+            "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)],
+            "line":[(self.game_mode.line.rect.left,self.game_mode.line.rect.top)]}
+
+        for car in self.game_mode.cars_info:
+            cars_pos.append(car["pos"])
+            if car["id"] <= 4:
+                scene_info["player_"+str(car["id"])+"_pos"] = car["pos"]
+            elif car["id"] > 100:
+                computer_cars_pos.append(car["pos"])
+        scene_info["computer_cars"] = computer_cars_pos
+        scene_info["cars_pos"] = cars_pos
+
+        for lane in self.game_mode.lanes:
+            lanes_pos.append((lane.rect.left, lane.rect.top))
+        scene_info["lanes"] = lanes_pos
 
         if self.game_type == "COIN":
             coin_pos = []
             for coin in self.game_mode.coins:
                 coin_pos.append(coin.get_position())
             scene_info["coin"] = coin_pos
-            scene_info["player_1_coin"] = player_1_coin_num
-            scene_info["player_2_coin"] = player_2_coin_num
-            scene_info["player_3_coin"] = player_3_coin_num
-            scene_info["player_4_coin"] = player_4_coin_num
 
+        scene_info["game_result"] = self.game_mode.winner
         return scene_info
 
     def get_game_info(self):
         """
         Get the scene and object information for drawing on the web
         """
-        return {
+        game_info = {
             "scene": {
                 "size": [WIDTH, HEIGHT]
             },
             "game_object": [
-                {"name": "lane", "size": [5, 30], "color": WHITE},
-                {"name": "coin", "size": [20, 20], "color": YELLOW},
-                {"name": "computer_car", "size": car_size, "color": BLUE},
-                {"name": "player1_car", "size": car_size, "color": YELLOW},
-                {"name": "player2_car", "size": car_size, "color": GREEN},
-                {"name": "player3_car", "size": car_size, "color": RED},
-                {"name": "player4_car", "size": car_size, "color": WHITE},
-                {"name": "player1_car_icon", "size": (10,10), "color": YELLOW},
-                {"name": "player2_car_icon", "size": (10,10), "color": GREEN},
-                {"name": "player3_car_icon", "size": (10,10), "color": RED},
-                {"name": "player4_car_icon", "size": (10,10), "color": WHITE},
-            ]
+                {"name": "background", "size": (2000, HEIGHT), "color": BLACK, "image": "ground0.jpg"},
+                {"name": "lane", "size": lane_size, "color": WHITE},
+                {"name": "coin", "size": coin_size, "color": YELLOW, "image":"logo.png"},
+                {"name": "computer_car", "size": car_size, "color": LIGHT_BLUE, "image": "computer_car.png"},
+                {"name": "player1_car", "size": car_size, "color": WHITE, "image": "car1.png"},
+                {"name": "player2_car", "size": car_size, "color": YELLOW, "image": "car2.png"},
+                {"name": "player3_car", "size": car_size, "color": BLUE, "image": "car3.png"},
+                {"name": "player4_car", "size": car_size, "color": RED, "image": "car4.png"},
+                {"name": "line", "size": (45,450), "color": WHITE, "image": "start.png"},
+                {"name": "icon", "size": (319,80), "color": BLACK, "image": "info_km.png"},
+            ],
+            "images": ["car1.png", "car2.png", "car3.png", "car4.png", "computer_car.png",
+                      "car1-bad.png", "car2-bad.png", "car3-bad.png", "car4-bad.png", "computer_die.png",
+                      "start.png", "finish.png", "info_coin.png", "info_km.png",
+                      "logo.png", "ground0.jpg"
+                      ]
         }
+
+        if self.game_type == "COIN":
+            game_info["game_object"][9]={"name": "icon", "size": (319,80), "color": BLACK, "image": "info_coin.png"}
+
+        return game_info
+
+    def _progress_dict(self, pos_left, pos_top, size = None, color = None, image = None):
+        '''
+        :return:Dictionary for game_progress
+        '''
+        object = {"pos" : [pos_left, pos_top]}
+        if size != None:
+            object["size"] = size
+        if color != None:
+            object["color"] = color
+        if image != None:
+            object["image"] = image
+
+        return object
 
     def get_game_progress(self):
         """
         Get the position of game objects for drawing on the web
         """
         scene_info = self.get_scene_info
-        game_progress = {}
+        game_progress = {"game_object": {
+        "background" : [self._progress_dict(scene_info["background"][0][0], scene_info["background"][0][1]),
+                        self._progress_dict(scene_info["background"][1][0], scene_info["background"][1][1])],
+        "icon": [self._progress_dict(WIDTH-315, 5)],
+        "line":[self._progress_dict(scene_info["line"][0][0], scene_info["line"][0][1])],
+        },
+        "game_user_information":[]}
 
-        if self.game_type == "NORMAL":
-            game_progress = normal_game_progress(scene_info)
+        if self.game_mode.status == "RUNNING":
+            for user in self.game_mode.users:
+                user_info = {}
+                user_info["distance"] = round(user.distance)
+                if self.game_type == "COIN":
+                    user_info["coin"] = user.coin_num
+                game_progress["game_user_information"].append(user_info)
+
+                if user.status  == False:
+                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
+                                                                                           "image":"car" + str(user.car_no+1) + "-bad.png"}]
+                else:
+                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"]}]
+
+        lane_pos = []
+        for lane in scene_info["lanes"]:
+            lane_pos.append(self._progress_dict(lane[0], lane[1]))
+        game_progress["game_object"]["lane"] = lane_pos
+
+        computer_car_pos = []
+        for computer in scene_info["computer_cars"]:
+            computer_car_pos.append(self._progress_dict(computer[0], computer[1]))
+        game_progress["game_object"]["computer_car"] = computer_car_pos
 
         if self.game_type == "COIN":
-            game_progress = coin_game_progress(scene_info)
-
+            coin_pos = []
+            for coin in scene_info["coin"]:
+                coin_pos.append(self._progress_dict(coin[0], coin[1]))
+            game_progress["game_object"]["coin"] = coin_pos
         return game_progress
 
     def get_game_result(self):
@@ -200,15 +182,13 @@ class RacingCar:
         """
         scene_info = self.get_scene_info
         result = []
-        ranking = []
         for user in scene_info["game_result"]:
             result.append("GAME_DRAW")
-            ranking.append(str(user.car_no + 1) + "P")
 
         return {
             "frame_used": scene_info["frame"],
             "result": result,
-            "ranking": ranking
+            "ranking": scene_info["game_result"]
         }
 
     def get_keyboard_command(self):
@@ -219,26 +199,26 @@ class RacingCar:
         cmd_1P = []
         cmd_2P = []
 
-        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append(LEFT_cmd)
-        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append(RIGHT_cmd)
-        if key_pressed_list[pygame.K_UP]:cmd_1P.append(SPEED_cmd)
-        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_LEFT]: cmd_1P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_RIGHT]:cmd_1P.append(SPEED_cmd)
+        if key_pressed_list[pygame.K_UP]:cmd_1P.append(LEFT_cmd)
+        if key_pressed_list[pygame.K_DOWN]:cmd_1P.append(RIGHT_cmd)
 
-        if key_pressed_list[pygame.K_a]: cmd_2P.append(LEFT_cmd)
-        if key_pressed_list[pygame.K_d]:cmd_2P.append(RIGHT_cmd)
-        if key_pressed_list[pygame.K_w]:cmd_2P.append(SPEED_cmd)
-        if key_pressed_list[pygame.K_s]:cmd_2P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_a]: cmd_2P.append(BRAKE_cmd)
+        if key_pressed_list[pygame.K_d]:cmd_2P.append(SPEED_cmd)
+        if key_pressed_list[pygame.K_w]:cmd_2P.append(LEFT_cmd)
+        if key_pressed_list[pygame.K_s]:cmd_2P.append(RIGHT_cmd)
 
-        return [cmd_1P, cmd_2P]
+        return {"ml_1P":cmd_1P,
+                "ml_2P":cmd_2P}
 
-
-if __name__ == '__main__':
-    pygame.init()
-    display = pygame.display.init()
-    game = Game(4)
-
-    while game.isRunning():
-        game.update(commands)
-        game.draw()
-
-    pygame.quit()
+# if __name__ == '__main__':
+#     pygame.init()
+#     display = pygame.display.init()
+#     game = Game(4)
+#
+#     while game.isRunning():
+#         game.update(commands)
+#         game.draw()
+#
+#     pygame.quit()

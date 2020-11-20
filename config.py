@@ -30,6 +30,10 @@ GAME_PARAMS = {
         "nargs": "?",
         "default": "NORMAL",
         "help": "Specify the game style. Choices: %(choices)s"
+    },
+    "sound":{
+        "choices":("on","off"),
+        "default":"off"
     }
 }
 
