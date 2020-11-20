@@ -144,13 +144,13 @@ class RacingCar:
         "line":self._progress_dict(scene_info["line"][0][1], scene_info["line"][0][1]),
         }}
 
-        # if self.game_mode.status == "RUNNING":
-        for user in self.game_mode.users:
-            if user.status  == False:
-                game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
-                                                                                       "image":"car" + str(user.car_no+1) + "-bad.png"}]
-            else:
-                game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"]}]
+        if self.game_mode.status == "RUNNING":
+            for user in self.game_mode.users:
+                if user.status  == False:
+                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
+                                                                                           "image":"car" + str(user.car_no+1) + "-bad.png"}]
+                else:
+                    game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"]}]
 
         lane_pos = []
         for lane in scene_info["lanes"]:

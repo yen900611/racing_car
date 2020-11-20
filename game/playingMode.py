@@ -54,15 +54,12 @@ class PlayingMode(GameMode):
         self.frame += 1
         self.handle_event()
         self._revise_speed()
-        self.cars_info = []
-        for car in self.cars:
-            self.cars_info.append(car.get_info())
 
         if self.status == "START" and self.frame > FPS:
             self.status = "RUNNING"
             pass
         if self.status == "RUNNING":
-
+            self.cars_info = []
             if self.frame > FPS*7:
                 self._creat_computercar()
             self._is_game_end()
@@ -88,7 +85,7 @@ class PlayingMode(GameMode):
             for car in self.cars:
                 '''偵測車子的狀態'''
                 self._detect_car_status(car)
-                # self.cars_info.append(car.get_info())
+                self.cars_info.append(car.get_info())
 
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 500
