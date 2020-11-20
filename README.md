@@ -159,3 +159,5 @@ def update(self, scene_info):
 賽車是多人遊戲，所以在啟動機器學習模式時，需要利用 `-i <script_for_1P> -i <script_for_2P> -i <script_for_3P> -i <script_for_4P>` 指定最多四個不同的玩家程式。
 * For example
 `python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2 NORMAL off`
+
+![](https://i.imgur.com/ubPC8Fp.jpg)
