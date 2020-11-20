@@ -69,6 +69,7 @@ class RacingCar:
             cars_pos.append(car["pos"])
             if car["id"] <= 4:
                 scene_info["player_"+str(car["id"])+"_pos"] = car["pos"]
+                user_infomation.append(car)
             elif car["id"] > 100:
                 computer_cars_pos.append(car["pos"])
         scene_info["computer_cars"] = computer_cars_pos
@@ -142,10 +143,17 @@ class RacingCar:
         "background" : [self._progress_dict(scene_info["background"][0], scene_info["background"][1])],
         "icon": [self._progress_dict(WIDTH-315, 5)],
         "line":[self._progress_dict(scene_info["line"][0][1], scene_info["line"][0][1])],
+        },
+        "game_user_information":{
+            "player_1_distance":0
         }}
 
         if self.game_mode.status == "RUNNING":
             for user in self.game_mode.users:
+                game_progress["game_user_information"]["player_" + str(user.car_no+1) + "_distance"] = user.distance
+                if self.game_type == "COIN":
+                    game_progress["game_user_information"]["player_" + str(user.car_no + 1) + "_coin_num"] = user.coin_num
+
                 if user.status  == False:
                     game_progress["game_object"]["player"+str(user.car_no+1) + "_car"] = [{"pos":scene_info["player_" + str(user.car_no) + "_pos"],
                                                                                            "image":"car" + str(user.car_no+1) + "-bad.png"}]
