@@ -39,6 +39,7 @@ class Car(pygame.sprite.Sprite):
             self.kill()
 
     def get_info(self):
+
         self.car_info = {"id": self.car_no,
                          "pos": (self.rect.left, self.rect.top),
                          "distance": self.distance,

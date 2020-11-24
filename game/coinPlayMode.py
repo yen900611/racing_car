@@ -246,22 +246,16 @@ class CoinMode(GameMode):
                     pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 70 - 20, 70), 2)
 
     def rank(self):
-        user_coin = []
-        for user in self.eliminated_user:
-            user_coin.append(user.coin_num)
+        user_value = []
+        for car in self.users:
+            user_value.append(car.coin_num * 100000 + car.distance)
         while len(self.eliminated_user) != 0:
-            for user in self.eliminated_user:
-                if user.coin_num == min(user_coin):
-                    self.winner.append(user)
-                    user_coin.remove(user.coin_num)
-                    self.eliminated_user.remove(user)
-        self.winner.reverse()
-        for i in range(len(self.winner)-1):
-            if self.winner[i].coin_num == self.winner[i+1].coin_num:
-                if self.winner[i].distance < self.winner[i+1].distance:
-                    tem = self.winner[i]
-                    self.winner[i] = self.winner[i+1]
-                    self.winner[i+1] = tem
+            for car in self.eliminated_user:
+                car_value = car.coin_num * 100000 + car.distance
+                if car_value == max(user_value):
+                    self.winner.append(car)
+                    user_value.remove(car_value)
+                    self.eliminated_user.remove(car)
 
     def creat_coins(self):
         if self.frame - self.creat_coin_frame > FPS*2:
