@@ -51,8 +51,11 @@ class UserCar(Car):
     def __init__(self, y,distance,user_no):
         Car.__init__(self, y,distance)
         self.car_no = user_no
-        self.image = pygame.transform.scale(pygame.image.load(
-            path.join(IMAGE_DIR, USER_IMAGE[self.car_no][0])), car_size)
+        self.image_list = [pygame.transform.scale(pygame.image.load(
+            path.join(IMAGE_DIR, USER_IMAGE[self.car_no][0])), car_size), pygame.transform.scale(pygame.image.load(
+            path.join(IMAGE_DIR, USER_IMAGE[self.car_no][1])), car_size)]
+
+        self.image = self.image_list[0]
         self.image = self.image.convert_alpha()
         self.lastUpdateTime = time.time()
         self.coin_num = 0
@@ -98,8 +101,10 @@ class ComputerCar(Car):
 
     def __init__(self, y,distance,x):
         Car.__init__(self,y,distance)
-        self.image = pygame.transform.scale(pygame.image.load(
-            path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[0])), car_size)
+        self.image_list = [pygame.transform.scale(pygame.image.load(
+            path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[0])), car_size),pygame.transform.scale(pygame.image.load(
+            path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[1])), (32,40))]
+        self.image = self.image_list[0]
         self.rect.left,self.rect.top = (x,y)
         self.image = self.image.convert_alpha()
         self.velocity = random.randint(8,12)

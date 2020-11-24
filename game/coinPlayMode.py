@@ -163,15 +163,11 @@ class CoinMode(GameMode):
         else:
             car.velocity = 0
             if car in self.users:
-                i = 2
-                car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, USER_IMAGE[car.car_no][i])), car_size).convert()
+                car.image = car.image_list[1]
                 if car not in self.eliminated_user:
                     self.eliminated_user.append(car)
             else:
-                i = 1
-                car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), (32,40)).convert_alpha()
+                car.image = car.image_list[1]
 
                 # car.rect = car.image.get_rect()
 
