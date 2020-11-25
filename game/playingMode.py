@@ -102,7 +102,7 @@ class PlayingMode(GameMode):
             # self.running = False
             pass
         else:
-            if self.frame - self.end_frame > FPS:
+            if self.frame - self.end_frame > FPS * 3:
                 self.running = False
 
     def detect_collision(self):
@@ -152,16 +152,11 @@ class PlayingMode(GameMode):
         else:
             car.velocity = 0
             if car in self.users:
-                i = 2
-                car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, USER_IMAGE[car.car_no][i])), car_size)
+                car.image = car.image_list[1]
                 if car not in self.eliminated_user:
                     self.eliminated_user.append(car)
             else:
-                i = 1
-                car.image = pygame.transform.scale(pygame.image.load(
-                        path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[i])), (32,40))
-                car.rect = car.image.get_rect()
+                car.image = car.image_list[1]
 
     def _is_game_end(self):
         if len(self.users)-1 == len(self.eliminated_user) and self.is_single == False:

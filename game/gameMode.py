@@ -13,6 +13,7 @@ class GameMode(object):
         self.running = True
         self.all_sprites = pygame.sprite.Group()
         self.frame = 0
+        self.close = False
 
     def ticks(self, fps=FPS):
         """This method should be called once per frame.
