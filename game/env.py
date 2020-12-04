@@ -1,5 +1,5 @@
 from os import path
-import pygame
+
 '''width and height'''
 WIDTH = 1000
 HEIGHT = 700
@@ -32,13 +32,16 @@ SPEED_cmd = "SPEED"
 BRAKE_cmd = "BRAKE"
 
 '''data path'''
+IMAGE_DIR = path.join(path.dirname(__file__), 'image')
+SOUND_DIR = path.join(path.dirname(__file__), 'sound')
 BACKGROUND_IMAGE = ["ground0.jpg"]
+
 RANKING_IMAGE = ["info_coin.png", "info_km.png"]
+
 START_LINE_IMAGE = ["start.png", "finish.png"]
 USER_IMAGE = [["car1.png","car1-bad.png"],["car2.png","car2-bad.png"],
               ["car3.png","car3-bad.png"], ["car4.png","car4-bad.png"]]
 COMPUTER_CAR_IMAGE = ["computer_car.png","computer_die.png"]
 USER_COLOR = [WHITE, YELLOW, BLUE, RED]
-IMAGE_DIR = path.join(path.dirname(__file__), 'image')
-SOUND_DIR = path.join(path.dirname(__file__), 'sound')
+
 

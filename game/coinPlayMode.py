@@ -21,9 +21,10 @@ class CoinMode(GameMode):
         self.camera = Camera()
         '''sound'''
         self.sound_controller = sound_controller
-        # pygame.mixer.init()
-        # self.hit_sound = pygame.mixer.Sound(path.join(SOUND_DIR,"explosion.wav"))
-        # self.coin_sound = pygame.mixer.Sound(path.join(SOUND_DIR,"coin.wav"))
+
+        '''image'''
+        self.bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
+        self.rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
 
         self.cars_info = []
         self.user_distance = []
@@ -189,16 +190,14 @@ class CoinMode(GameMode):
     def draw_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
         super(CoinMode, self).draw_bg()
-        bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
-        self.rel_x = self.background_x % bg_image.get_rect().width
-        self.bg_x = self.rel_x - bg_image.get_rect().width
-        self.bg_img.blit(bg_image,(self.bg_x,0))
+        self.rel_x = self.background_x % self.bg_image.get_rect().width
+        self.bg_x = self.rel_x - self.bg_image.get_rect().width
+        self.bg_img.blit(self.bg_image,(self.bg_x,0))
         if self.rel_x <= WIDTH:
-            self.bg_img.blit(bg_image, (self.rel_x, 0))
+            self.bg_img.blit(self.bg_image, (self.rel_x, 0))
         self.background_x -= self.maxVel
 
-        rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[0])).convert()
-        self.bg_img.blit(rank_image,(WIDTH-315, 5))
+        self.bg_img.blit(self.rank_image,(WIDTH-315, 5))
 
         '''畫出每台車子的資訊'''
         self._draw_user_imformation()
