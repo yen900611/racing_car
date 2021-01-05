@@ -131,10 +131,10 @@ def update(self, scene_info):
     * `"END"`：遊戲結束，計算排名與輸出結果
 * `"line"`:起跑線與終點線的位置。
 * `"computer_cars"`：`[(x, y)]` list裡面包含數個tuple。電腦車子的位置。
-* `"player_1_pos"`：`(x, y)` tuple。1P的位置。
-* `"player_2_pos"`：`(x, y)` tuple。2P的位置。
-* `"player_3_pos"`：`(x, y)` tuple。3P的位置。
-* `"player_4_pos"`：`(x, y)` tuple。4P的位置。
+* `"player_0_pos"`：`(x, y)` tuple。1P的位置。
+* `"player_1_pos"`：`(x, y)` tuple。2P的位置。
+* `"player_2_pos"`：`(x, y)` tuple。3P的位置。
+* `"player_3_pos"`：`(x, y)` tuple。4P的位置。
 * `"cars_pos"`：`[(x,y)]` :list裡面包含數個tuple。內容包含場上所有車子的位置。
 * `"lanes"`:`[(x,y)]`:list裡面包含數個tuple。內容為車道的位置。
 * `"game_result"`:`[{"Player":"1P","Distance":"3052m","Coin":3}]`遊戲結束時，回傳一個list，裡面包含數個字典，內容為玩家的編號(1P、2P)、行駛距離，金幣模式下增加玩家金幣數量。字典對應的Value接為字串，字典在list中的順序按照玩家排名。
