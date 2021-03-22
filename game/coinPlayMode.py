@@ -115,7 +115,7 @@ class CoinMode(GameMode):
             self.cars.remove(car)
             hits = pygame.sprite.spritecollide(car, self.cars, False)
             for hit in hits:
-                if hit.status:
+                if (hit.status == True and 0 < hit.rect.centerx < WIDTH):
                     self.sound_controller.play_hit_sound()
                 hit.status = False
                 car.status = False
@@ -168,7 +168,7 @@ class CoinMode(GameMode):
                 if car not in self.eliminated_user:
                     self.eliminated_user.append(car)
             else:
-                car.image = car.image_list[1]
+                car.kill()
 
                 # car.rect = car.image.get_rect()
 

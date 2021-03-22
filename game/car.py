@@ -36,7 +36,7 @@ class Car(pygame.sprite.Sprite):
 
     def keep_in_screen(self):
         if self.rect.left < -250 or self.rect.right > 1300 or self.rect.top < 100:
-            self.kill()
+            self.status = False
 
     def get_info(self):
 
@@ -98,14 +98,13 @@ class UserCar(Car):
             self.slowDown()
 
 class ComputerCar(Car):
-
     def __init__(self, y,distance,x):
         Car.__init__(self,y,distance)
         self.image_list = [pygame.transform.scale(pygame.image.load(
             path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[0])), car_size),pygame.transform.scale(pygame.image.load(
             path.join(IMAGE_DIR, COMPUTER_CAR_IMAGE[1])), (32,40))]
         self.image = self.image_list[0]
-        self.rect.left,self.rect.top = (x,y)
+        self.rect.left, self.rect.top = x, y
         self.image = self.image.convert_alpha()
         self.velocity = random.randint(8,12)
         self.car_no = random.randrange(101, 200)
@@ -115,7 +114,10 @@ class ComputerCar(Car):
     def update(self,cars):
         if self.status:
             for car in cars:
-                self.detect_other_cars(car)
+                if abs(self.rect.centery - car.rect.centery) < 40:
+                    self.detect_other_cars(car)
+                else:
+                    continue
                 if self.action == "stop":
                     self.brakeDown()
                     break
@@ -134,12 +136,14 @@ class ComputerCar(Car):
         self.keep_in_screen()
 
     def detect_other_cars(self, car):
-        if abs(self.rect.centery - car.rect.centery) < 40:
-            distance = car.rect.centerx - self.rect.centerx
-            if 400 > distance > 0:
-                self.action = "stop"
-            else:
-                self.action = "continue"
+        distance = car.rect.centerx - self.rect.centerx
+        if 400 > distance > 0:
+            self.action = "stop"
+        else:
+            self.action = "continue"
+
+    def re_create(self, distance):
+        self.distance = distance
 
 class Camera():
     def __init__(self):
