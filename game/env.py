@@ -35,13 +35,28 @@ BRAKE_cmd = "BRAKE"
 IMAGE_DIR = path.join(path.dirname(__file__), 'image')
 SOUND_DIR = path.join(path.dirname(__file__), 'sound')
 BACKGROUND_IMAGE = ["ground0.jpg"]
-
+COIN_IMAGE = "log.png"
 RANKING_IMAGE = ["info_coin.png", "info_km.png"]
 
-START_LINE_IMAGE = ["start.png", "finish.png"]
+START_LINE_IMAGE = "start.png"
+FINISH_LINE_IMAGE = "finish.png"
 USER_IMAGE = [["car1.png","car1-bad.png"],["car2.png","car2-bad.png"],
               ["car3.png","car3-bad.png"], ["car4.png","car4-bad.png"]]
 COMPUTER_CAR_IMAGE = ["computer_car.png","computer_die.png"]
 USER_COLOR = [WHITE, YELLOW, BLUE, RED]
+
+'''image url'''
+COMPUTER_CAR_URL = "https://raw.githubusercontent.com/yen900611/RacingCar/master/game/image/computer_car.png"
+USER_CAR_URL = ["https://github.com/yen900611/RacingCar/blob/master/game/image/car1.png?raw=true",
+                "https://github.com/yen900611/RacingCar/blob/master/game/image/car2.png?raw=true",
+                "https://github.com/yen900611/RacingCar/blob/master/game/image/car3.png?raw=true",
+                "https://github.com/yen900611/RacingCar/blob/master/game/image/car4.png?raw=true"]
+BACKGROUND_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/ground0.jpg?raw=true"
+INFO_COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/info_coin.png?raw=true"
+INFO_KM_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/info_km.png?raw=true"
+FINISH_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/finish.png?raw=true"
+START_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/start.png?raw=true"
+COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/logo.png?raw=true"
+
 
 

@@ -1,28 +1,26 @@
 import pygame
+from game import RacingCar
 
-from game import playingMode,I_Commander,coinPlayMode,sound_controller
-
+from games.Maze_Car.game_core.env import FPS
+from mlgame.view.view import PygameView
+from mlgame.gamedev.generic import quit_or_esc
 
 if __name__ == '__main__':
     pygame.init()
-    display = pygame.display.init()
+    game = RacingCar.RacingCar(1, "NORMAL", "off")
+    # game = RacingCar.RacingCar(1, "COIN", "off")
+    scene_init_info_dict = game.get_scene_init_data()
+    game_view = PygameView(scene_init_info_dict)
+    interval = 1 / 30
+    frame_count = 0
 
-    sound_controller = sound_controller.SoundController("on")
-    # game = coinPlayMode.CoinMode(4,sound_controller)
-    game = playingMode.PlayingMode(4,sound_controller)
-    sound_controller.play_music()
-
-    while game.isRunning():
-        commands = {}
-        for i in range(4):
-            commands["ml_" + str(i+1) + "P"] = I_Commander.KeyBoardCommander(i).getControlDict()
-
-        game.ticks()
-        game.handle_event()
-        game.detect_collision()
-        game.update_sprite(commands)
-        game.draw_bg()
-        game.drawAllSprites()
-        game.flip()
+    while game.isRunning() and not quit_or_esc():
+        pygame.time.Clock().tick_busy_loop(FPS)
+        game.update(game.get_keyboard_command())
+        game_progress_data = game.get_scene_progress_data()
+        game_view.draw_screen()
+        game_view.draw(game_progress_data)
+        game_view.flip()
+        frame_count += 1
 
     pygame.quit()
