@@ -6,6 +6,7 @@ import random
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
         pygame.sprite.Sprite.__init__(self)
+
         self.image = pygame.Surface(car_size)
         self.rect = self.image.get_rect()
         self.rect.left,self.rect.top = distance, y

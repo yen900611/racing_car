@@ -56,6 +56,7 @@ class CoinMode(GameMode):
 
     def update_sprite(self, command):
         '''update the model of game,call this fuction per frame'''
+        self.draw_bg()
         self.frame += 1
         self.handle_event()
         self._revise_speed()
@@ -192,27 +193,27 @@ class CoinMode(GameMode):
         super(CoinMode, self).draw_bg()
         self.rel_x = self.background_x % self.bg_image.get_rect().width
         self.bg_x = self.rel_x - self.bg_image.get_rect().width
-        self.bg_img.blit(self.bg_image,(self.bg_x,0))
-        if self.rel_x <= WIDTH:
-            self.bg_img.blit(self.bg_image, (self.rel_x, 0))
+        # self.bg_img.blit(self.bg_image,(self.bg_x,0))
+        # if self.rel_x <= WIDTH:
+        #     self.bg_img.blit(self.bg_image, (self.rel_x, 0))
         self.background_x -= self.maxVel
 
-        self.bg_img.blit(self.rank_image,(WIDTH-315, 5))
+        # self.bg_img.blit(self.rank_image,(WIDTH-315, 5))
 
         '''畫出每台車子的資訊'''
-        self._draw_user_imformation()
+        # self._draw_user_imformation()
         '''顯示玩家金幣數'''
-        for user in self.users:
-            self.draw_information(self.screen,str(user.coin_num), 17, 740+user.car_no*78,45)
+        # for user in self.users:
+        #     self.draw_information(self.screen,str(user.coin_num), 17, 740+user.car_no*78,45)
 
-        self.all_sprites.draw(self.screen)
-        self.users.draw(self.screen)
+        # self.all_sprites.draw(self.screen)
+        # self.users.draw(self.screen)
 
-    def drawAllSprites(self):
-        '''show all cars and lanes on screen,call this fuction per frame'''
-        super(CoinMode,self).drawAllSprites()
-        self.lanes.draw(self.screen)
-        self.cars.draw(self.screen)
+    # def drawAllSprites(self):
+        # '''show all cars and lanes on screen,call this fuction per frame'''
+        # super(CoinMode,self).drawAllSprites()
+        # self.lanes.draw(self.screen)
+        # self.cars.draw(self.screen)
 
     def _creat_computercar(self):
         if len(self.cars) < cars_num:
@@ -225,20 +226,20 @@ class CoinMode(GameMode):
         if len(self.car_lanes) == 0:
             self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
-    def _draw_user_imformation(self):
-        '''全縮圖'''
-        pygame.draw.rect(self.screen,BLACK,pygame.Rect(0,650,1000,50))
-        for user in self.users:
-            pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
-                               (round(user.distance*(1000/finish_line)),650+round(user.rect.top*(50/500))),4)
-            if user.status == False:
-                if user.car_no > 1:
-                    pygame.draw.line(self.screen,RED,(700 + user.car_no*75,20),(700 + user.car_no*75 +20,70),2)
-                    pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 75 - 20, 70), 2)
-
-                elif user.car_no <= 1:
-                    pygame.draw.line(self.screen,RED,(700 + user.car_no*70,20),(700 + user.car_no*70 +20,70),2)
-                    pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 70 - 20, 70), 2)
+    # def _draw_user_imformation(self):
+    #     '''全縮圖'''
+    #     pygame.draw.rect(self.screen,BLACK,pygame.Rect(0,650,1000,50))
+    #     for user in self.users:
+    #         pygame.draw.circle(self.screen,USER_COLOR[user.car_no],
+    #                            (round(user.distance*(1000/finish_line)),650+round(user.rect.top*(50/500))),4)
+    #         if user.status == False:
+    #             if user.car_no > 1:
+    #                 pygame.draw.line(self.screen,RED,(700 + user.car_no*75,20),(700 + user.car_no*75 +20,70),2)
+    #                 pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 75 - 20, 70), 2)
+    #
+    #             elif user.car_no <= 1:
+    #                 pygame.draw.line(self.screen,RED,(700 + user.car_no*70,20),(700 + user.car_no*70 +20,70),2)
+    #                 pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 70 - 20, 70), 2)
 
     def rank(self):
         user_value = []

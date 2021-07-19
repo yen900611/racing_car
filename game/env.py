@@ -11,14 +11,14 @@ finish_line = 20000
 cars_num = 22
 
 '''color'''
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-YELLOW = (255, 255, 0)
-GREEN = (0, 255, 0)
-GREY = (140,140,140)
-BLUE = (3,28,252)
-LIGHT_BLUE = (33, 161, 241)
+BLACK = "#000000"
+WHITE = "#ffffff"
+RED = "#ff0000"
+YELLOW = "#ffff00"
+GREEN = "#00ff00"
+GREY = "#8c8c8c"
+BLUE = "#0000ff"
+LIGHT_BLUE = "##21A1F1"
 
 '''object size'''
 car_size = (60, 30)
@@ -35,11 +35,11 @@ BRAKE_cmd = "BRAKE"
 IMAGE_DIR = path.join(path.dirname(__file__), 'image')
 SOUND_DIR = path.join(path.dirname(__file__), 'sound')
 BACKGROUND_IMAGE = ["ground0.jpg"]
-COIN_IMAGE = "log.png"
+COIN_IMAGE = "logo.png"
 RANKING_IMAGE = ["info_coin.png", "info_km.png"]
 
-START_LINE_IMAGE = "start.png"
-FINISH_LINE_IMAGE = "finish.png"
+START_LINE_IMAGE = ["start.png", "finish.png"]
+# FINISH_LINE_IMAGE =
 USER_IMAGE = [["car1.png","car1-bad.png"],["car2.png","car2-bad.png"],
               ["car3.png","car3-bad.png"], ["car4.png","car4-bad.png"]]
 COMPUTER_CAR_IMAGE = ["computer_car.png","computer_die.png"]
