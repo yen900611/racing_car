@@ -171,12 +171,13 @@ class RacingCar(PaiaGame):
         result = []
         for user in scene_info["game_result"]:
             result.append("GAME_DRAW")
+        ranking = scene_info["game_result"]
 
-        return {
-            "frame_used": scene_info["frame"],
-            "result": result,
-            "ranking": scene_info["game_result"]
-        }
+        return {"frame_used": self.frame_count,
+                "state": self.game_result_state,
+                "ranks": ranking,
+                "attachment": {},
+                }
 
     def get_keyboard_command(self):
         """
