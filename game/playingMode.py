@@ -7,10 +7,11 @@ import random
 
 
 class PlayingMode(GameMode):
-    def __init__(self, user_num: int, sound_controller):
+    def __init__(self, user_num: int, car_num, sound_controller):
         super(PlayingMode, self).__init__()
         self.frame = 0
         pygame.font.init()
+        self.cars_num = car_num
 
         '''set groups'''
         self.users = pygame.sprite.Group()
@@ -22,8 +23,6 @@ class PlayingMode(GameMode):
 
         '''sound'''
         self.sound_controller = sound_controller
-        # pygame.mixer.init()
-        # self.hit_sound = pygame.mixer.Sound(path.join(SOUND_DIR,"explosion.wav"))
 
         '''image'''
         self.bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
@@ -56,7 +55,7 @@ class PlayingMode(GameMode):
 
     def update_sprite(self, command):
         '''update the model of game,call this fuction per frame'''
-        self.draw_bg()
+        self.count_bg()
         self.frame += 1
         self.handle_event()
         self._revise_speed()
@@ -195,23 +194,12 @@ class PlayingMode(GameMode):
             self.user_vel.append(car.velocity)
         self.maxVel = max(self.user_vel)
 
-    def draw_bg(self):
+    def count_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
-        super(PlayingMode, self).draw_bg()
+        super(PlayingMode, self).count_bg()
         self.rel_x = self.background_x % self.bg_image.get_rect().width
         self.bg_x = self.rel_x - self.bg_image.get_rect().width
-
-        # self.bg_img.blit(self.bg_image, (self.bg_x, 0))
-        # if self.rel_x <= WIDTH:
-        #     self.bg_img.blit(self.bg_image, (self.rel_x, 0))
         self.background_x -= self.maxVel
-
-        # self.bg_img.blit(self.rank_image, (WIDTH - 315, 5))
-
-        '''畫出每台車子的資訊'''
-        # self._draw_user_imformation()
-        # self.all_sprites.draw(self.screen)
-        # self.users.draw(self.screen)
 
     def drawAllSprites(self):
         '''show all cars and lanes on screen,call this fuction per frame'''
@@ -220,46 +208,14 @@ class PlayingMode(GameMode):
         self.cars.draw(self.screen)
 
     def _creat_computercar(self):
-        # for lane in self.car_lanes:
-        #     computer_car = ComputerCar(lane,self.camera.position + 650, 1150)
-        #     self.computerCars.add(computer_car)
-        #     self.cars.add(computer_car)
-        #     computer_car = ComputerCar(lane, self.camera.position -700, -200)
-        #     self.computerCars.add(computer_car)
-        #     self.cars.add(computer_car)
 
-        if len(self.cars) < cars_num:
+        if len(self.cars) < self.cars_num:
             x = random.choice([650, -700])
             y = random.choice(self.car_lanes)
             computerCar = ComputerCar(y, self.camera.position + x, x + 500)
             self.computerCars.add(computerCar)
             self.cars.add(computerCar)
-        #     self.car_lanes.remove(y)
-        # if len(self.car_lanes) == 0:
-        #     self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
 
-    # def _draw_user_imformation(self):
-    #     '''全縮圖'''
-    #     pygame.draw.rect(self.screen, BLACK, pygame.Rect(0, 650, 1000, 50))
-    #     for user in self.users:
-    #         pygame.draw.circle(self.screen, USER_COLOR[user.car_no],
-    #                            (round(user.distance * (900 / finish_line)), 650 + round(user.rect.top * (50 / 500))), 4)
-    #         if user.status == False:
-    #             if user.car_no > 1:
-    #                 pygame.draw.line(self.screen, RED, (700 + user.car_no * 75, 20), (700 + user.car_no * 75 + 20, 70),
-    #                                  2)
-    #                 pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 75 - 20, 70),
-    #                                  2)
-    #
-    #             elif user.car_no <= 1:
-    #                 pygame.draw.line(self.screen, RED, (700 + user.car_no * 70, 20), (700 + user.car_no * 70 + 20, 70),
-    #                                  2)
-    #                 pygame.draw.line(self.screen, RED, (720 + user.car_no * 75, 20), (720 + user.car_no * 70 - 20, 70),
-    #                                  2)
-    #
-    #     '''顯示玩家里程數'''
-    #     for user in self.users:
-    #         self.draw_information(self.screen, str(round(user.distance)) + "m", 17, 730 + user.car_no * 78, 45)
 
     def rank(self):
         while len(self.eliminated_user) > 0:

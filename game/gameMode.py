@@ -47,7 +47,7 @@ class GameMode(object):
         self.all_sprites.update()
         pass
 
-    def draw_bg(self):
+    def count_bg(self):
         """  Draw a background on screen.
         :return:None
         """

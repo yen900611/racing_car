@@ -13,15 +13,16 @@ from .sound_controller import *
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
 class RacingCar(PaiaGame):
-    def __init__(self, user_num: int, difficulty,sound):
+    def __init__(self, user_num: int, difficulty, car_num, sound):
         super().__init__()
         self.is_sound = sound
+        cars_num = car_num
         self.sound_controller = SoundController(self.is_sound)
         if difficulty == "NORMAL":
-            self.game_mode = PlayingMode(user_num,self.sound_controller)
+            self.game_mode = PlayingMode(user_num,cars_num, self.sound_controller)
             self.game_type = "NORMAL"
         elif difficulty == "COIN":
-            self.game_mode = CoinMode(user_num,self.sound_controller)
+            self.game_mode = CoinMode(user_num,cars_num, self.sound_controller)
             self.game_type = "COIN"
 
         self.user_num = user_num
@@ -35,6 +36,38 @@ class RacingCar(PaiaGame):
             "ml_3P" : scene_info,
             "ml_4P" : scene_info
         }
+
+    @property
+    def get_scene_info(self):
+        """
+        Get the scene information
+        """
+        cars_pos = []
+        computer_cars_pos = []
+        lanes_pos = []
+
+        scene_info = {
+            "frame": self.game_mode.frame,
+            "status": self.game_mode.status,
+            "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)],}
+
+        for car in self.game_mode.cars_info:
+            cars_pos.append(car["pos"])
+            if car["id"] <= 4:
+                scene_info["player_"+str(car["id"])+"_pos"] = car["pos"]
+            elif car["id"] > 100:
+                computer_cars_pos.append(car["pos"])
+        scene_info["computer_cars"] = computer_cars_pos
+        scene_info["cars_pos"] = cars_pos
+
+        if self.game_type == "COIN":
+            coin_pos = []
+            for coin in self.game_mode.coins:
+                coin_pos.append(coin.get_position())
+            scene_info["coin"] = coin_pos
+
+        scene_info["game_result"] = self.game_mode.winner
+        return scene_info
 
     def update(self, commands):
         self.game_mode.handle_event()
@@ -62,10 +95,10 @@ class RacingCar(PaiaGame):
             game_info["assets"].append(
                 create_asset_init_data("player" + str(i+1) + "_car", car_size[0], coin_size[1], path.join(IMAGE_DIR, USER_IMAGE[i][0]), USER_CAR_URL[i]))
         game_info["assets"].append(create_asset_init_data("background", 2000, HEIGHT, path.join(IMAGE_DIR, BACKGROUND_IMAGE[0]), BACKGROUND_URL))
-        game_info["assets"].append(create_asset_init_data("coin", coin_size[0], coin_size[1], path.join(IMAGE_DIR, COIN_IMAGE), COIN_URL))
         game_info["assets"].append(create_asset_init_data("start_line", 45, 450, path.join(IMAGE_DIR, START_LINE_IMAGE[0]), START_URL))
         game_info["assets"].append(create_asset_init_data("finish_line", 45, 450, path.join(IMAGE_DIR, START_LINE_IMAGE[1]), FINISH_URL))
         if self.game_type == "COIN":
+            game_info["assets"].append(create_asset_init_data("coin", coin_size[0], coin_size[1], path.join(IMAGE_DIR, COIN_IMAGE), COIN_URL))
             game_info["assets"].append(create_asset_init_data("info_coin", 319, 80, path.join(IMAGE_DIR, RANKING_IMAGE[0]), INFO_COIN_URL))
         else:
             game_info["assets"].append(create_asset_init_data("info_km", 319, 80, path.join(IMAGE_DIR, RANKING_IMAGE[1]), INFO_KM_URL))
@@ -77,6 +110,7 @@ class RacingCar(PaiaGame):
         """
         Get the position of game objects for drawing on the web
         """
+        scene_info = self.get_scene_info
         game_progress = {
             "background": [],
             "object_list": [],
@@ -100,8 +134,8 @@ class RacingCar(PaiaGame):
         block = create_rect_view_data("block", 0, 650, 1000, 50, BLACK)
         game_progress["foreground"].append(block)
         # computer car
-        for car in self.game_mode.computerCars:
-            car_image = create_image_view_data("computer_car", car.rect[0], car.rect[1], car_size[0], car_size[1])
+        for car in scene_info["computer_cars"]:
+            car_image = create_image_view_data("computer_car", car[0], car[1], car_size[0], car_size[1])
             game_progress["object_list"].append(car_image)
         # user
         for user in self.game_mode.users:
@@ -122,6 +156,11 @@ class RacingCar(PaiaGame):
         for lane in self.game_mode.lanes:
             lane_surface = create_rect_view_data("lane", lane.rect[0], lane.rect[1], lane_size[0], lane_size[1], WHITE)
             game_progress["object_list"].append(lane_surface)
+        # coin
+        if self.game_type == "COIN":
+            for coin in scene_info["coin"]:
+                coin_image = create_image_view_data("coin", coin[0], coin[1], coin_size[0], coin_size[1])
+                game_progress["object_list"].append(coin_image)
         return game_progress
 
     def get_game_result(self):

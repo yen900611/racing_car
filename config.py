@@ -13,29 +13,6 @@ def positive_int(string):
     return value
 
 
-GAME_PARAMS = {
-    "()": {
-        "prog": "RacingCar",
-        "game_usage": "%(prog)s <user_num> [difficulty]"
-    },
-    "user_num": {
-        "type": positive_int,
-        "default": 3,
-        "help": ("[Optional] The score that the game will be exited "
-                 "when either side reaches it.[default: %(default)s]")
-    },
-    "difficulty": {
-        "choices": ("NORMAL", "COIN"),
-        "metavar": "difficulty",
-        "nargs": "?",
-        "default": "NORMAL",
-        "help": "Specify the game style. Choices: %(choices)s"
-    },
-    "sound":{
-        "choices":("on","off"),
-        "default":"off"
-    }
-}
 
 from .game.RacingCar import RacingCar
 import pygame
@@ -50,4 +27,34 @@ GAME_SETUP = {
         {"name": "ml_4P", "args": ("player4",)}
     ],
     "dynamic_ml_clients":True
+}
+GAME_PARAMS = {
+    "()": {
+        "prog": "RacingCar",
+        "game_usage": "%(prog)s <user_num> [difficulty] [car_num] [sound]"
+    },
+    "user_num": {
+        "type": positive_int,
+        "default": 3,
+        "help": ("[Optional] The score that the game will be exited "
+                 "when either side reaches it.[default: %(default)s]")
+    },
+    "difficulty": {
+        "choices": ("NORMAL", "COIN"),
+        "metavar": "difficulty",
+        "nargs": "?",
+        "default": "NORMAL",
+        "help": "Specify the game style. Choices: %(choices)s"
+    },
+    "car_num": {
+        "type": positive_int,
+        "default": 20,
+        "help": ("[Optional] The score that the game will be exited "
+                 "when either side reaches it.[default: %(default)s]")
+    },
+
+    "sound":{
+        "choices":("on","off"),
+        "default":"off"
+    }
 }

@@ -1,7 +1,7 @@
 # MLGame
 
 
-* 遊戲版本：`2.0.1`
+* 遊戲版本：`3.0.0`
 
 ## 更新
 
@@ -40,14 +40,15 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m RacingCar <the number of user> [difficulty] [sound]`
+`python MLGame.py -m RacingCar <the number of user> [difficulty] [car_num] [sound]`
     * 機器學習模式：
-`python MLGame.py -i ml_play_template.py RacingCar <the number of user> [difficulty] [sound]`
+`python MLGame.py -i ml_play_template.py RacingCar <the number of user> [difficulty] [car_num] [sound]`
 
 ### 遊戲參數
 
 * `sound`：由音效設定，可選擇"on"或"off"，預設為"off"
 * `difficulty`：遊戲模式，可選擇"NORMAL"或"COIN"，預設為"NORMAL"。
+* `car_num`：車子總數量，輸入數字，代表玩家加電腦的車子的數量，預設為20。
 * `the number of user`：指定遊戲玩家人數，最少需一名玩家。單機手動模式最多兩名(鍵盤位置不足)，機器學習模式至多四名。
 
 ## 詳細遊戲資料
@@ -129,14 +130,12 @@ def update(self, scene_info):
     * `"START"`：遊戲開始，此時所有物間都不會更新
     * `"RUNNING"`：遊戲進行中
     * `"END"`：遊戲結束，計算排名與輸出結果
-* `"line"`:起跑線與終點線的位置。
 * `"computer_cars"`：`[(x, y)]` list裡面包含數個tuple。電腦車子的位置。
 * `"player_0_pos"`：`(x, y)` tuple。1P的位置。
 * `"player_1_pos"`：`(x, y)` tuple。2P的位置。
 * `"player_2_pos"`：`(x, y)` tuple。3P的位置。
 * `"player_3_pos"`：`(x, y)` tuple。4P的位置。
 * `"cars_pos"`：`[(x,y)]` :list裡面包含數個tuple。內容包含場上所有車子的位置。
-* `"lanes"`:`[(x,y)]`:list裡面包含數個tuple。內容為車道的位置。
 * `"game_result"`:`[{"Player":"1P","Distance":"3052m","Coin":3}]`遊戲結束時，回傳一個list，裡面包含數個字典，內容為玩家的編號(1P、2P)、行駛距離，金幣模式下增加玩家金幣數量。字典對應的Value接為字串，字典在list中的順序按照玩家排名。
 金幣模式下，字典內容將新增金幣位置:
 * `"coins"`：`[(x, y)]` list裡面包含數個tuple。金幣的位置。

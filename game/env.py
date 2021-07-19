@@ -8,7 +8,6 @@ HEIGHT = 700
 FPS = 30
 ceiling = 600
 finish_line = 20000
-cars_num = 22
 
 '''color'''
 BLACK = "#000000"
