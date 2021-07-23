@@ -2,7 +2,7 @@ import pygame
 
 from .playingMode import PlayingMode
 from .coinPlayMode import CoinMode
-from mlgame.view.test_decorator import check_game_progress
+from mlgame.view.test_decorator import check_game_progress, check_game_result
 from mlgame.view.view_model import create_text_view_data, create_asset_init_data, create_image_view_data, \
     create_line_view_data, Scene, create_polygon_view_data, create_rect_view_data
 from mlgame.gamedev.game_interface import PaiaGame
@@ -70,6 +70,7 @@ class RacingCar(PaiaGame):
         return scene_info
 
     def update(self, commands):
+        self.frame_count += 1
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
         self.game_mode.update_sprite(commands)
@@ -78,7 +79,7 @@ class RacingCar(PaiaGame):
             return "QUIT"
 
     def reset(self):
-        self.__init__(self.user_num,self.game_type,self.is_sound)
+        pass
 
     def isRunning(self):
         return self.game_mode.isRunning()
@@ -163,20 +164,21 @@ class RacingCar(PaiaGame):
                 game_progress["object_list"].append(coin_image)
         return game_progress
 
+    # @check_game_result
     def get_game_result(self):
         """
         Get the game result for the web
         """
         scene_info = self.get_scene_info
         result = []
+        print(scene_info["game_result"])
         for user in scene_info["game_result"]:
             result.append("GAME_DRAW")
         ranking = scene_info["game_result"]
 
         return {"frame_used": self.frame_count,
                 "state": self.game_result_state,
-                "ranks": ranking,
-                "attachment": {},
+                "attachment": ranking,
                 }
 
     def get_keyboard_command(self):

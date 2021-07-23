@@ -129,11 +129,13 @@ class PlayingMode(GameMode):
     def _print_result(self):
         tem = []
         for user in self.winner:
-            tem.append({"Player": str(user.car_no + 1) + "P",
-                        "Distance": str(round(user.distance)) + "m",
+            tem.append({"player": str(user.car_no + 1) + "P",
+                        "distance": str(round(user.distance)) + "m",
+                        "rank": str(self.winner.index(user) + 1)
                         })
-            print({"Player": str(user.car_no + 1) + "P",
-                   "Distance": str(round(user.distance)) + "m",
+            print({"player": str(user.car_no + 1) + "P",
+                   "distance": str(round(user.distance)) + "m",
+                   "rank":str(self.winner.index(user)+1)
                    })
         self.winner = tem
 
