@@ -164,7 +164,7 @@ class RacingCar(PaiaGame):
                 game_progress["object_list"].append(coin_image)
         return game_progress
 
-    # @check_game_result
+    @check_game_result
     def get_game_result(self):
         """
         Get the game result for the web
