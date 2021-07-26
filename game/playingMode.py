@@ -52,6 +52,8 @@ class PlayingMode(GameMode):
         self.end = False
         self.end_frame = 0
         self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
+        for car in self.cars:
+            self.cars_info.append(car.get_info())
 
     def update_sprite(self, command):
         '''update the model of game,call this fuction per frame'''
@@ -188,7 +190,7 @@ class PlayingMode(GameMode):
             for user in self.users:
                 if user not in self.eliminated_user:
                     self.eliminated_user.append(user)
-            self.status = "END"
+            self.status = "FINISH"
 
     def _revise_speed(self):
         self.user_vel = []
