@@ -34,6 +34,7 @@ class RacingCar(PaiaGame):
         for car in self.game_mode.cars_info:
             player_data = {}
             player_data["frame"] = self.game_mode.frame
+            player_data["status"] = scene_info["status"]
             player_data["x"] = car["pos"][0]
             player_data["y"] = car["pos"][1]
             player_data["distance"] = car["distance"]
