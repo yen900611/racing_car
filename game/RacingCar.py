@@ -5,7 +5,7 @@ from .coinPlayMode import CoinMode
 from mlgame.view.test_decorator import check_game_progress, check_game_result
 from mlgame.view.view_model import create_text_view_data, create_asset_init_data, create_image_view_data, \
     create_line_view_data, Scene, create_polygon_view_data, create_rect_view_data
-from mlgame.gamedev.game_interface import PaiaGame
+from mlgame.gamedev.game_interface import PaiaGame, GameResultState
 
 from .env import *
 from .sound_controller import *
@@ -30,12 +30,28 @@ class RacingCar(PaiaGame):
 
     def game_to_player_data(self) -> dict:
         scene_info = self.get_scene_info
-        return {
-            "ml_1P" : scene_info,
-            "ml_2P" : scene_info,
-            "ml_3P" : scene_info,
-            "ml_4P" : scene_info
-        }
+        to_player_data = {}
+        for car in self.game_mode.cars_info:
+            player_data = {}
+            player_data["frame"] = self.game_mode.frame
+            player_data["x"] = car["pos"][0]
+            player_data["y"] = car["pos"][1]
+            player_data["distance"] = car["distance"]
+            player_data["velocity"] = car["velocity"]
+            player_data["cars_pos"] = scene_info["cars_pos"]
+            if self.game_mode == "COIN":
+                player_data["coin"] = scene_info["coin"]
+                player_data["coin_num"] = car["coin_num"]
+            to_player_data["ml_" + str(car["id"]+1) + "P"] = player_data
+        if to_player_data:
+            return to_player_data
+        else:
+            return {
+                "ml_1P" : scene_info,
+                "ml_2P" : scene_info,
+                "ml_3P" : scene_info,
+                "ml_4P" : scene_info
+            }
 
     @property
     def get_scene_info(self):
@@ -74,6 +90,8 @@ class RacingCar(PaiaGame):
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
         self.game_mode.update_sprite(commands)
+        if self.game_mode.status == "FINISH":
+            self.game_result_state = GameResultState.FINISH
         # self.draw()
         if not self.isRunning():
             return "QUIT"
@@ -139,6 +157,9 @@ class RacingCar(PaiaGame):
             car_image = create_image_view_data("computer_car", car[0], car[1], car_size[0], car_size[1])
             game_progress["object_list"].append(car_image)
         # user
+        for lane in self.game_mode.lanes:
+            lane_surface = create_rect_view_data("lane", lane.rect[0], lane.rect[1], lane_size[0], lane_size[1], WHITE)
+            game_progress["object_list"].append(lane_surface)
         for user in self.game_mode.users:
             user_image = create_image_view_data("player" + str(user.car_no+1) + "_car", user.rect[0], user.rect[1], car_size[0], car_size[1])
             game_progress["object_list"].append(user_image)
@@ -154,9 +175,6 @@ class RacingCar(PaiaGame):
             for user in self.game_mode.users:
                 score = create_text_view_data(str(round(user.distance)) + "m", 730 + user.car_no * 77, 45, WHITE, "20px Arial")
                 game_progress["foreground"].append(score)
-        for lane in self.game_mode.lanes:
-            lane_surface = create_rect_view_data("lane", lane.rect[0], lane.rect[1], lane_size[0], lane_size[1], WHITE)
-            game_progress["object_list"].append(lane_surface)
         # coin
         if self.game_type == "COIN":
             for coin in scene_info["coin"]:
@@ -171,7 +189,6 @@ class RacingCar(PaiaGame):
         """
         scene_info = self.get_scene_info
         result = []
-        print(scene_info["game_result"])
         for user in scene_info["game_result"]:
             result.append("GAME_DRAW")
         ranking = scene_info["game_result"]

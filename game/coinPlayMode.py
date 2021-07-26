@@ -54,6 +54,8 @@ class CoinMode(GameMode):
         self.end_frame = 0
         self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
         self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
+        for car in self.cars:
+            self.cars_info.append(car.get_info())
 
     def update_sprite(self, command):
         '''update the model of game,call this fuction per frame'''
@@ -181,7 +183,7 @@ class CoinMode(GameMode):
             self.status = "END"
         for car in self.users:
             if car.distance >= finish_line:
-                self.status = "END"
+                self.status = "FINISH"
 
     def _revise_speed(self):
         self.user_vel = []
