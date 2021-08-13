@@ -27,6 +27,5 @@ class Line(pygame.sprite.Sprite):
     def update(self, *args):
         if self.rect.right < 0:
             self.distance = self.end_distance
-            self.image = pygame.image.load(path.join(IMAGE_DIR, START_LINE_IMAGE[1]))
         else:
             pass
