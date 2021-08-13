@@ -1,5 +1,5 @@
 """
-This is a base class for different mode in game.
+This is a base class for different mode in src.
 """
 import pygame
 from .env import *

@@ -2,6 +2,6 @@
 /__pycache__
 /log
 /units
-game/coin_rank.py
-game/image/car/
+src/coin_rank.py
+asset/image/car/
 game_draw_example

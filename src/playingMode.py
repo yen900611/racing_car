@@ -25,8 +25,7 @@ class PlayingMode(GameMode):
         self.sound_controller = sound_controller
 
         '''image'''
-        self.bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
-        self.rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
+        self.bg_image = pygame.Surface((2000, HEIGHT))
         self.cars_info = []
         self.user_distance = []
         self.maxVel = 0
@@ -37,9 +36,9 @@ class PlayingMode(GameMode):
         self.eliminated_user = []
         self.winner = []
         '''
-        status incloud "START"、"RUNNING"、"END"
+        status incloud "GAME_ALIVE"、"GAME_PASS"、"GAME_OVER"
         '''
-        self.status = "START"
+        self.status = "GAME_ALIVE"
         if user_num == 1:
             self.is_single = True
         else:
@@ -56,16 +55,13 @@ class PlayingMode(GameMode):
             self.cars_info.append(car.get_info())
 
     def update_sprite(self, command):
-        '''update the model of game,call this fuction per frame'''
+        '''update the model of src,call this fuction per frame'''
         self.count_bg()
         self.frame += 1
         self.handle_event()
         self._revise_speed()
 
-        if self.status == "START" and self.frame > FPS:
-            self.status = "RUNNING"
-            pass
-        if self.status == "RUNNING":
+        if self.status == "GAME_ALIVE":
             self.cars_info = []
             if self.frame > FPS * 4:
                 self._creat_computercar()
@@ -97,7 +93,7 @@ class PlayingMode(GameMode):
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 500
 
-        elif self.status == "END" and self.close == False:
+        elif self.status == ("GAME_PASS" or "GAME_OVER") and self.close == False:
             self.user_distance = []
             for user in self.users:
                 self.user_distance.append(user.distance)
@@ -176,12 +172,12 @@ class PlayingMode(GameMode):
             for car in self.users:
                 if car not in self.eliminated_user and car.distance > max(eliminated_user_distance) + 100:
                     self.eliminated_user.append(car)
-                    self.status = "END"
+                    self.status = "GAME_PASS"
                     return None
                 else:
                     pass
         elif len(self.eliminated_user) == len(self.users):
-            self.status = "END"
+            self.status = "GAME_OVER"
         else:
             pass
 
@@ -190,7 +186,7 @@ class PlayingMode(GameMode):
             for user in self.users:
                 if user not in self.eliminated_user:
                     self.eliminated_user.append(user)
-            self.status = "FINISH"
+            self.status = "GAME_PASS"
 
     def _revise_speed(self):
         self.user_vel = []

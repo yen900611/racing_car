@@ -18,7 +18,7 @@ class Lane(pygame.sprite.Sprite):
 class Line(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(path.join(IMAGE_DIR,START_LINE_IMAGE[0])).convert()
+        self.image = pygame.Surface((20, 5))
         self.rect = self.image.get_rect()
         self.rect.left,self.rect.top = 60,100
         self.distance = 60

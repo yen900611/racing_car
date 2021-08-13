@@ -1,14 +1,11 @@
 # MLGame
 
 
-* 遊戲版本：`3.0.1`
+* 遊戲版本：`3.0.2`
 
 ## 更新
 
 ## 遊戲說明
-
-
-
 
 ### 遊戲玩法
 
@@ -40,9 +37,9 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m RacingCar <the number of user> [difficulty] [car_num] [sound]`
+`python MLGame.py -m racing_car <the number of user> [difficulty] [car_num] [sound]`
     * 機器學習模式：
-`python MLGame.py -i ml_play_template.py RacingCar <the number of user> [difficulty] [car_num] [sound]`
+`python MLGame.py -i ml_play_template.py racing_car <the number of user> [difficulty] [car_num] [sound]`
 
 ### 遊戲參數
 
@@ -126,6 +123,7 @@ def update(self, scene_info):
 以下是該字典物件的鍵值對應：
 
 * `"frame"`：整數。紀錄的是第幾影格的場景資訊
+* `"status"`:字串。說明當前遊戲狀，遊戲進行中為"RUNNING"，遊戲結束時回傳"END"。
 * `"x"`：數值，玩家的x座標。
 * `"y"`：數值，玩家的y座標。
 * `"distance"`：數值，玩家已前進的距離。

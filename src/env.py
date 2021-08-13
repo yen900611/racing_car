@@ -31,6 +31,7 @@ SPEED_cmd = "SPEED"
 BRAKE_cmd = "BRAKE"
 
 '''data path'''
+ASSET_IMAGE_DIR = path.join(path.dirname(__file__), "../asset/image")
 IMAGE_DIR = path.join(path.dirname(__file__), 'image')
 SOUND_DIR = path.join(path.dirname(__file__), 'sound')
 BACKGROUND_IMAGE = ["ground0.jpg"]

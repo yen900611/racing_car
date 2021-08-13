@@ -1,0 +1,50 @@
+{
+  "game_name": "racing_car",
+  "version": "3.0.2",
+  "url": "https://github.com/yen900611/RacingCar",
+  "game_params": [
+    {
+      "name": "user_num",
+      "verbose": "參賽人數",
+      "type": "int",
+      "max": 4,
+      "min": 1,
+      "default": 1,
+      "help": "set the number of user."
+    },
+    {
+      "name": "game_type",
+      "verbose": "遊戲模式",
+      "type": "str",
+      "choices": [
+        {
+          "verbose": "NORMAL",
+          "value": "NORMAL"
+        },
+        {
+          "verbose": "COIN",
+          "value": "COIN"
+        }
+      ],
+      "help": "choose the type of game",
+      "default": "NORMAL"
+    },
+        {
+      "name": "car_num",
+      "verbose": "車子總數量",
+      "type": "int",
+      "max": 30,
+      "min": 1,
+      "default": 20,
+      "help": "set the number of car, include user and computer cars."
+    },
+    {
+      "name": "sound",
+      "verbose": "遊戲音效",
+      "type": "str",
+      "choices":["on" ,"off"],
+      "help": "'on' can turn on the sound.",
+      "default": "on"
+    }
+  ]
+}

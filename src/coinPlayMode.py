@@ -1,4 +1,4 @@
-from games.racing_car.game.coin import Coin
+from games.racing_car.src.coin import Coin
 from .car import *
 from .highway import *
 from .gameMode import GameMode
@@ -24,9 +24,7 @@ class CoinMode(GameMode):
         self.sound_controller = sound_controller
 
         '''image'''
-        self.bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
-        self.rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
-
+        self.bg_image = pygame.Surface((2000, HEIGHT))
         self.cars_info = []
         self.user_distance = []
         self.maxVel = 0
@@ -37,9 +35,9 @@ class CoinMode(GameMode):
         self.eliminated_user = []
         self.winner = []
         '''
-        status incloud "START"、"RUNNING"、"END"
+        status incloud "GAME_ALIVE"、"GAME_PASS"、"GAME_OVER"
         '''
-        self.status = "START"
+        self.status = "GAME_ALIVE"
         if user_num == 1:
             self.is_single = True
         else:
@@ -58,16 +56,14 @@ class CoinMode(GameMode):
             self.cars_info.append(car.get_info())
 
     def update_sprite(self, command):
-        '''update the model of game,call this fuction per frame'''
+        '''update the model of src,call this fuction per frame'''
         self.count_bg()
         self.frame += 1
         self.handle_event()
         self._revise_speed()
 
-        if self.status == "START" and self.frame > FPS:
-            self.status = "RUNNING"
-            pass
-        if self.status == "RUNNING":
+
+        if self.status == "GAME_ALIVE":
             if self.frame > FPS*4:
                 self._creat_computercar()
             if self.is_creat_coin():
@@ -102,7 +98,7 @@ class CoinMode(GameMode):
 
             self._is_game_end()
 
-        elif self.status == "END" and self.close == False:
+        elif self.status == ("GAME_PASS" or "GAME_OVER") and self.close == False:
             self.rank()
             self._print_result()
             self.close = True
@@ -178,12 +174,12 @@ class CoinMode(GameMode):
 
     def _is_game_end(self):
         if len(self.eliminated_user) == len(self.users):
-            self.status = "END"
-        if self.frame > FPS*57:
-            self.status = "END"
+            self.status = "GAME_OVER"
+        if self.frame > FPS*60:
+            self.status = "GAME_OVER"
         for car in self.users:
-            if car.distance >= finish_line:
-                self.status = "FINISH"
+            if car.distance >= finish_line/2:
+                self.status = "GAME_PASS"
 
     def _revise_speed(self):
         self.user_vel = []
