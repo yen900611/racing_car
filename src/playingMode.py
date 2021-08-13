@@ -1,4 +1,3 @@
-from games.RacingCar.game.coin import Coin
 from .car import *
 from .highway import *
 from .gameMode import GameMode
@@ -6,9 +5,10 @@ from .env import *
 import pygame
 import random
 
-class CoinMode(GameMode):
+
+class PlayingMode(GameMode):
     def __init__(self, user_num: int, car_num, sound_controller):
-        super(CoinMode, self).__init__()
+        super(PlayingMode, self).__init__()
         self.frame = 0
         pygame.font.init()
         self.cars_num = car_num
@@ -18,15 +18,15 @@ class CoinMode(GameMode):
         self.cars = pygame.sprite.Group()
         self.computerCars = pygame.sprite.Group()
         self.lanes = pygame.sprite.Group()
-        self.coins = pygame.sprite.Group()
+        self.traffic_cones = pygame.sprite.Group()
         self.camera = Camera()
+
         '''sound'''
         self.sound_controller = sound_controller
 
         '''image'''
         self.bg_image = pygame.image.load(path.join(IMAGE_DIR, BACKGROUND_IMAGE[0])).convert()
         self.rank_image = pygame.image.load(path.join(IMAGE_DIR, RANKING_IMAGE[1])).convert_alpha()
-
         self.cars_info = []
         self.user_distance = []
         self.maxVel = 0
@@ -45,14 +45,12 @@ class CoinMode(GameMode):
         else:
             self.is_single = False
         self.line = Line()
+        self.lanes.add(self.line)
         self.background_x = 0
         self.bg_x = 0
         self.rel_x = 0
-        self.lanes.add(self.line)
         self.end = False
-        self.creat_coin_frame = 0
         self.end_frame = 0
-        self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
         self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
         for car in self.cars:
             self.cars_info.append(car.get_info())
@@ -68,29 +66,28 @@ class CoinMode(GameMode):
             self.status = "RUNNING"
             pass
         if self.status == "RUNNING":
-            if self.frame > FPS*4:
-                self._creat_computercar()
-            if self.is_creat_coin():
-                self.creat_coins()
-            self.user_distance = []
-            self.coin_num = []
-
             self.cars_info = []
+            if self.frame > FPS * 4:
+                self._creat_computercar()
+            self._is_game_end()
+
             self.camera.update(self.maxVel)
+            self.user_distance = []
 
             '''update sprite'''
             self.line.update()
-            self.lanes.update(self.camera.position)
-            self.line.rect.left = self.line.distance - self.camera.position +500
-            self.coins.update()
             self.computerCars.update(self.cars)
-            # self.background.update()
+            self.lanes.update(self.camera.position)
+            self.line.rect.left = self.line.distance - self.camera.position + 500
 
             for car in self.users:
                 # self.user_out__screen(car)
                 self.user_distance.append(car.distance)
-                self.coin_num.append(car.coin_num)
-                car.update(command["ml_" + str(car.car_no+1) + "P"])
+                # self.cars_info.append(car.get_info())
+                car.update(command["ml_" + str(car.car_no + 1) + "P"])
+
+                '''是否通過終點'''
+                self._is_car_arrive_end(car)
 
             for car in self.cars:
                 '''偵測車子的狀態'''
@@ -100,21 +97,21 @@ class CoinMode(GameMode):
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 500
 
-            self._is_game_end()
-
         elif self.status == "END" and self.close == False:
+            self.user_distance = []
+            for user in self.users:
+                self.user_distance.append(user.distance)
             self.rank()
             self._print_result()
             self.close = True
-            self.end_frame = self.frame
+            # self.running = False
             pass
         else:
-            if self.frame - self.end_frame > FPS:
+            if self.frame - self.end_frame > FPS * 3:
                 self.running = False
-            pass
 
     def detect_collision(self):
-        super(CoinMode,self).detect_collision()
+        super(PlayingMode, self).detect_collision()
         for car in self.cars:
             self.cars.remove(car)
             hits = pygame.sprite.spritecollide(car, self.cars, False)
@@ -124,12 +121,6 @@ class CoinMode(GameMode):
                 hit.status = False
                 car.status = False
             self.cars.add(car)
-        for car in self.users:
-            hits = pygame.sprite.spritecollide(car, self.coins, True)
-            for hit in hits:
-                self.sound_controller.play_coin_sound()
-                car.coin_num += 1
-            pass
 
     # def user_out__screen(self,car):
     #     if car.status:
@@ -140,19 +131,18 @@ class CoinMode(GameMode):
     def _print_result(self):
         tem = []
         for user in self.winner:
-            tem.append({"player":str(user.car_no + 1) + "P",
-                   "coin":str(user.coin_num),
-                   "distance":str(round(user.distance))+"m",
-                    "rank": str(self.winner.index(user) + 1)
-                   })
-            print({"player":str(user.car_no + 1) + "P",
-                   "coin":str(user.coin_num),
-                   "distance":str(round(user.distance))+"m",
+            tem.append({"player": str(user.car_no + 1) + "P",
+                        "distance": str(round(user.distance)) + "m",
+                        "rank": self.winner.index(user) + 1
+                        })
+            print({"player": str(user.car_no + 1) + "P",
+                   "distance": str(round(user.distance)) + "m",
+                   "rank":self.winner.index(user)+1
                    })
         self.winner = tem
 
     def _init_user(self, user_no: int):
-        self.car = UserCar((user_no)*100+160 , 0,user_no)
+        self.car = UserCar((user_no) * 100 + 160, 0, user_no)
         self.users.add(self.car)
         self.cars.add(self.car)
         return None
@@ -160,7 +150,7 @@ class CoinMode(GameMode):
     def _init_lanes(self):
         for i in range(8):
             for j in range(23):
-                self.lane = Lane(i * 50+150, j * 50-150)
+                self.lane = Lane(i * 50 + 150, j * 50 - 150)
                 self.lanes.add(self.lane)
 
     def _detect_car_status(self, car):
@@ -174,16 +164,33 @@ class CoinMode(GameMode):
                     self.eliminated_user.append(car)
             else:
                 car.kill()
-
+                # x = random.choice([650, -700])
+                # car.re_create(self.camera.position + x)
+                pass
 
     def _is_game_end(self):
-        if len(self.eliminated_user) == len(self.users):
+        if len(self.users) - 1 == len(self.eliminated_user) and self.is_single == False:
+            eliminated_user_distance = []
+            for car in self.eliminated_user:
+                eliminated_user_distance.append(car.distance)
+            for car in self.users:
+                if car not in self.eliminated_user and car.distance > max(eliminated_user_distance) + 100:
+                    self.eliminated_user.append(car)
+                    self.status = "END"
+                    return None
+                else:
+                    pass
+        elif len(self.eliminated_user) == len(self.users):
             self.status = "END"
-        if self.frame > FPS*57:
-            self.status = "END"
-        for car in self.users:
-            if car.distance >= finish_line:
-                self.status = "FINISH"
+        else:
+            pass
+
+    def _is_car_arrive_end(self, car):
+        if car.distance > finish_line:
+            for user in self.users:
+                if user not in self.eliminated_user:
+                    self.eliminated_user.append(user)
+            self.status = "FINISH"
 
     def _revise_speed(self):
         self.user_vel = []
@@ -193,48 +200,32 @@ class CoinMode(GameMode):
 
     def count_bg(self):
         '''show the background and imformation on screen,call this fuction per frame'''
-        super(CoinMode, self).count_bg()
+        super(PlayingMode, self).count_bg()
         self.rel_x = self.background_x % self.bg_image.get_rect().width
         self.bg_x = self.rel_x - self.bg_image.get_rect().width
         self.background_x -= self.maxVel
 
+    def drawAllSprites(self):
+        '''show all cars and lanes on screen,call this fuction per frame'''
+        super(PlayingMode, self).drawAllSprites()
+        self.lanes.draw(self.screen)
+        self.cars.draw(self.screen)
+
     def _creat_computercar(self):
+
         if len(self.cars) < self.cars_num:
-                x = random.choice([650,-700])
-                y = random.choice(self.car_lanes)
-                self.computerCar = ComputerCar(y,self.camera.position+x,x+500)
-                self.computerCars.add(self.computerCar)
-                self.cars.add(self.computerCar)
-                self.car_lanes.remove(y)
-        if len(self.car_lanes) == 0:
-            self.car_lanes = [110, 160, 210, 260, 310, 360, 410, 460, 510]
+            x = random.choice([650, -700])
+            y = random.choice(self.car_lanes)
+            computerCar = ComputerCar(y, self.camera.position + x, x + 500)
+            self.computerCars.add(computerCar)
+            self.cars.add(computerCar)
+
 
     def rank(self):
-        user_value = []
-        for car in self.users:
-            user_value.append(car.coin_num * 100000 + car.distance)
-        while len(self.eliminated_user) != 0:
+        while len(self.eliminated_user) > 0:
             for car in self.eliminated_user:
-                car_value = car.coin_num * 100000 + car.distance
-                if car_value == max(user_value):
+                if car.distance == min(self.user_distance):
                     self.winner.append(car)
-                    user_value.remove(car_value)
+                    self.user_distance.remove(car.distance)
                     self.eliminated_user.remove(car)
-
-    def creat_coins(self):
-        if self.frame - self.creat_coin_frame > FPS*2:
-            coin = Coin(WIDTH,random.choice(self.coin_lanes))
-            self.coin_lanes.remove(coin.rect.centery)
-            self.all_sprites.add(coin)
-            self.coins.add(coin)
-            self.creat_coin_frame = self.frame
-        if len(self.coin_lanes) == 0:
-            self.coin_lanes = [125, 175, 225, 275, 325, 375, 425, 475, 525]
-        else:
-            pass
-
-    def is_creat_coin(self):
-        if self.maxVel >= 11:
-            return True
-        else:
-            return False
+        self.winner.reverse()
