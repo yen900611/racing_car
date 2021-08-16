@@ -3,25 +3,45 @@ This is a base class for different mode in src.
 """
 import pygame
 from .env import *
+from .car import Camera, UserCar
+from .highway import Lane
 
 class GameMode(object):
-    def __init__(self, pygame_screen=pygame.display.set_mode((WIDTH, HEIGHT)), bg_img=pygame.Surface((WIDTH, HEIGHT))):
-        self.screen = pygame_screen
-        self.bg_img = bg_img.convert()
-        self.bg_rect = bg_img.get_rect()
-        self.clock = pygame.time.Clock()
+    def __init__(self, user_num: int, car_num, sound_controller):
+        self.bg_rect = pygame.Rect(0, 0, 2000, HEIGHT)
         self.running = True
-        self.all_sprites = pygame.sprite.Group()
         self.frame = 0
-        self.close = False
+        '''sound'''
+        self.sound_controller = sound_controller
 
-    def ticks(self, fps=FPS):
-        """This method should be called once per frame.
-        It will compute how many milliseconds have passed since the previous call.
-        :param fps: frame per second 每秒的繪圖次數
-        :return: None
-        """
-        self.clock.tick(fps)
+        '''groups'''
+        self.users = pygame.sprite.Group()
+        self.cars = pygame.sprite.Group()
+        self.computerCars = pygame.sprite.Group()
+        self.lanes = pygame.sprite.Group()
+        self.camera = Camera()
+
+        '''data set'''
+        self.cars_num = car_num
+        self.background_x = 0
+        self.rel_x = 0
+        self.bg_x = 0
+        self.maxVel = 0
+        self.user_distance = []
+        self.eliminated_user = []
+        self.winner = []
+        if user_num == 1:
+            self.is_single = True
+        else:
+            self.is_single = False
+
+        '''initial object'''
+        for user in range(user_num):
+            self._init_user(user)
+        self._init_lanes()
+
+        '''status incloud "GAME_ALIVE"、"GAME_PASS"、"GAME_OVER"'''
+        self.status = "GAME_ALIVE"
 
     def handle_event(self):
         """ Handle the event from window , mouse or button.
@@ -40,37 +60,53 @@ class GameMode(object):
         """
         pass
 
-    def update_sprite(self, command):
+    def update(self, command):
         """ This function should update every sprite in games.
         :return: None
         """
-        self.all_sprites.update()
         pass
 
     def count_bg(self):
         """  Draw a background on screen.
         :return:None
         """
-        self.screen.blit(self.bg_img, self.bg_rect)
-
-    def drawAllSprites(self):
-        """  This function should draw every sprite on specific surface.
-        :return: None
-        """
-        pass
-
-    def flip(self):
-        """Update the full display Surface to the screen
-        :return:None
-        """
-        pygame.display.flip()
+        self.rel_x = self.background_x % self.bg_rect.width
+        self.bg_x = self.rel_x - self.bg_rect.width
+        self.background_x -= self.maxVel
 
     def isRunning(self) -> bool:
         return self.running
 
-    def draw_information(self, surf, text, size, x, y):
-        font = pygame.font.Font(pygame.font.match_font("arial"), size)
-        text_surface = font.render(text , True , WHITE)
-        text_rect = text_surface.get_rect()
-        text_rect.left,text_rect.top = (x, y)
-        surf.blit(text_surface , text_rect)
+    def _init_user(self, user_no: int):
+        self.car = UserCar((user_no) * 100 + 160, 0, user_no)
+        self.users.add(self.car)
+        self.cars.add(self.car)
+
+    def _init_lanes(self):
+        for i in range(8):
+            for j in range(23):
+                self.lane = Lane(i * 50+150, j * 50-150)
+                self.lanes.add(self.lane)
+
+    # def user_out__screen(self,car):
+    #     if car.status:
+    #         if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+    #             self.sound_controller.play_lose_sound()
+    #             car.status = False
+
+    def _detect_car_status(self, car):
+        if car.status:
+            pass
+        else:
+            car.velocity = 0
+            if car in self.users:
+                if car not in self.eliminated_user:
+                    self.eliminated_user.append(car)
+            else:
+                car.kill()
+
+    def _revise_speed(self):
+        self.user_vel = []
+        for car in self.users:
+            self.user_vel.append(car.velocity)
+        self.maxVel = max(self.user_vel)

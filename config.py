@@ -18,12 +18,7 @@ from argparse import ArgumentTypeError
 GAME_SETUP = {
     "game": RacingCar,
 
-    "ml_clients": [
-        {"name": "ml_1P", "args": ("player1",)},
-        {"name": "ml_2P", "args": ("player2",)},
-        {"name": "ml_3P", "args": ("player3",)},
-        {"name": "ml_4P", "args": ("player4",)}
-    ],
+    "ml_clients":RacingCar.ai_clients(),
     "dynamic_ml_clients":True
 }
 

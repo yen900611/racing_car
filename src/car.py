@@ -6,10 +6,7 @@ import random
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
         pygame.sprite.Sprite.__init__(self)
-
-        self.image = pygame.Surface(car_size)
-        self.rect = self.image.get_rect()
-        self.rect.left,self.rect.top = distance, y
+        self.rect = pygame.Rect(distance, y, car_size[0],car_size[1])
         self.status = True
         self.velocity = 0
         self.distance = distance
@@ -40,9 +37,9 @@ class Car(pygame.sprite.Sprite):
             self.status = False
 
     def get_info(self):
-
         self.car_info = {"id": self.car_no,
-                         "pos": (self.rect.left, self.rect.top),
+                         "x":self.rect.x,
+                         "y":self.rect.y,
                          "distance": self.distance,
                          "velocity": self.velocity,
                          "coin_num": self.coin_num}
@@ -52,8 +49,6 @@ class UserCar(Car):
     def __init__(self, y,distance,user_no):
         Car.__init__(self, y,distance)
         self.car_no = user_no
-
-        self.image = pygame.Surface(car_size)
         self.lastUpdateTime = time.time()
         self.coin_num = 0
         self.max_vel = 15
@@ -97,7 +92,6 @@ class UserCar(Car):
 class ComputerCar(Car):
     def __init__(self, y,distance,x):
         Car.__init__(self,y,distance)
-        self.image = pygame.Surface(car_size)
         self.rect.left, self.rect.top = x, y
         self.velocity = random.randint(8,12)
         self.car_no = random.randrange(101, 200)

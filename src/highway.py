@@ -4,9 +4,7 @@ from .env import *
 class Lane(pygame.sprite.Sprite):
     def __init__(self,y,distance):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface(lane_size)
-        self.image.fill(WHITE)
-        self.rect = self.image.get_rect()
+        self.rect = pygame.Rect(0, 0, lane_size[0], lane_size[1])
         self.rect.center = distance+150,y
         self.distance = distance
 

@@ -13,45 +13,39 @@ from .sound_controller import *
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
 class RacingCar(PaiaGame):
-    def __init__(self, user_num: int, difficulty, car_num, sound):
+    def __init__(self, user_num: int, game_mode, car_num, sound):
         super().__init__()
         self.is_sound = sound
         cars_num = car_num
         self.sound_controller = SoundController(self.is_sound)
-        if difficulty == "NORMAL":
+        self.game_type = game_mode
+        if self.game_type == "NORMAL":
             self.game_mode = PlayingMode(user_num,cars_num, self.sound_controller)
-            self.game_type = "NORMAL"
-        elif difficulty == "COIN":
+        elif self.game_type == "COIN":
             self.game_mode = CoinMode(user_num,cars_num, self.sound_controller)
-            self.game_type = "COIN"
 
         self.user_num = user_num
-        self.scene = Scene(WIDTH, HEIGHT, "#000000")
+        self.scene = Scene(WIDTH, HEIGHT, BLACK)
 
     def game_to_player_data(self) -> dict:
         scene_info = self.get_scene_info
         to_player_data = {}
-        for car in self.game_mode.cars_info:
-            player_data = {}
-            player_data["frame"] = self.game_mode.frame
+        for user in self.game_mode.users:
+            player_data = user.get_info()
+            player_data["frame"] = scene_info["frame"]
             player_data["status"] = scene_info["status"]
-            player_data["x"] = car["pos"][0]
-            player_data["y"] = car["pos"][1]
-            player_data["distance"] = car["distance"]
-            player_data["velocity"] = car["velocity"]
-            player_data["cars_pos"] = scene_info["cars_pos"]
             if self.game_mode == "COIN":
                 player_data["coin"] = scene_info["coin"]
-                player_data["coin_num"] = car["coin_num"]
-            to_player_data["ml_" + str(car["id"]+1) + "P"] = player_data
+            to_player_data[str(player_data["id"]+1) + "P"] = player_data
+
         if to_player_data:
             return to_player_data
         else:
             return {
-                "ml_1P" : scene_info,
-                "ml_2P" : scene_info,
-                "ml_3P" : scene_info,
-                "ml_4P" : scene_info
+                "1P" : scene_info,
+                "2P" : scene_info,
+                "3P" : scene_info,
+                "4P" : scene_info
             }
 
     @property
@@ -68,12 +62,13 @@ class RacingCar(PaiaGame):
             "status": self.game_mode.status,
             "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)],}
 
-        for car in self.game_mode.cars_info:
-            cars_pos.append(car["pos"])
-            if car["id"] <= 4:
-                scene_info["player_"+str(car["id"])+"_pos"] = car["pos"]
-            elif car["id"] > 100:
-                computer_cars_pos.append(car["pos"])
+        for user in self.game_mode.cars:
+            car_info = user.get_info()
+            cars_pos.append((car_info["x"], car_info["y"]))
+            if car_info["id"] <= 4:
+                scene_info["player_"+str(car_info["id"])+"_pos"] = (car_info["x"], car_info["y"])
+            elif car_info["id"] > 100:
+                computer_cars_pos.append((car_info["x"], car_info["y"]))
         scene_info["computer_cars"] = computer_cars_pos
         scene_info["cars_pos"] = cars_pos
 
@@ -90,7 +85,7 @@ class RacingCar(PaiaGame):
         self.frame_count += 1
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
-        self.game_mode.update_sprite(commands)
+        self.game_mode.update(commands)
         if self.game_mode.status == "FINISH":
             self.game_result_state = GameResultState.FINISH
         # self.draw()
@@ -115,8 +110,8 @@ class RacingCar(PaiaGame):
             game_info["assets"].append(
                 create_asset_init_data("player" + str(i+1) + "_car", car_size[0], coin_size[1], path.join(ASSET_IMAGE_DIR, USER_IMAGE[i][0]), USER_CAR_URL[i]))
         game_info["assets"].append(create_asset_init_data("background", 2000, HEIGHT, path.join(ASSET_IMAGE_DIR, BACKGROUND_IMAGE[0]), BACKGROUND_URL))
-        game_info["assets"].append(create_asset_init_data("start_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[0]), START_URL))
-        game_info["assets"].append(create_asset_init_data("finish_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[1]), FINISH_URL))
+        # game_info["assets"].append(create_asset_init_data("start_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[0]), START_URL))
+        # game_info["assets"].append(create_asset_init_data("finish_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[1]), FINISH_URL))
         if self.game_type == "COIN":
             game_info["assets"].append(create_asset_init_data("coin", coin_size[0], coin_size[1], path.join(ASSET_IMAGE_DIR, COIN_IMAGE), COIN_URL))
             game_info["assets"].append(create_asset_init_data("info_coin", 319, 80, path.join(ASSET_IMAGE_DIR, RANKING_IMAGE[0]), INFO_COIN_URL))
@@ -219,8 +214,22 @@ class RacingCar(PaiaGame):
         if key_pressed_list[pygame.K_w]:cmd_2P.append(LEFT_cmd)
         if key_pressed_list[pygame.K_s]:cmd_2P.append(RIGHT_cmd)
 
-        return {"ml_1P":cmd_1P,
-                "ml_2P":cmd_2P,
-                "ml_3P":cmd_3P,
-                "ml_4P":cmd_4P,
+        return {"1P":cmd_1P,
+                "2P":cmd_2P,
+                "3P":cmd_3P,
+                "4P":cmd_4P,
                 }
+
+    @staticmethod
+    def ai_clients():
+        """
+        let MLGame know how to parse your ai,
+        you can also use this names to get different cmd and send different data to each ai client
+        """
+        return [
+            {"name": "1P"},
+            {"name": "2P"},
+            {"name": "3P"},
+            {"name": "4P"}
+        ]
+
