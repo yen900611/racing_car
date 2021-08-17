@@ -7,6 +7,7 @@ import pygame
 import random
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
+
 class CoinMode(GameMode):
     def __init__(self, user_num: int, car_num, sound_controller):
         super(CoinMode, self).__init__(user_num, car_num, sound_controller)
@@ -34,23 +35,21 @@ class CoinMode(GameMode):
             self.camera.update(self.maxVel)
 
             '''update sprite'''
-            self.line.update()
             self.lanes.update(self.camera.position)
-            self.line.rect.left = self.line.distance - self.camera.position +500
             self.coins.update()
             self.computerCars.update(self.cars)
 
             for car in self.users:
-                # self.user_out_screen(car)
+                self.user_out_screen(car)
                 self.coin_num.append(car.coin_num)
-                car.update(command[str(car.car_no+1) + "P"])
+                car.update(command[str(car.car_no + 1) + "P"])
 
             for car in self.cars:
                 '''偵測車子的狀態'''
                 self._detect_car_status(car)
 
                 '''更新車子位置'''
-                car.rect.left = car.distance - self.camera.position + 500
+                car.rect.left = car.distance - self.camera.position + 520
 
             if self._is_game_end():
                 self.rank()
@@ -58,9 +57,9 @@ class CoinMode(GameMode):
                 self.running = False
 
     def detect_collision(self):
-        super(CoinMode,self).detect_collision()
+        super(CoinMode, self).detect_collision()
         for car in self.cars:
-            self.cars.remove(car)
+            self.cars.remove(car)  # 如果sprite本身也在要偵測的group裡面就會被偵測到
             hits = pygame.sprite.spritecollide(car, self.cars, False)
             for hit in hits:
                 if (hit.state and 0 < hit.rect.centerx < WIDTH):
@@ -75,17 +74,28 @@ class CoinMode(GameMode):
                 car.coin_num += 1
 
     def _print_result(self):
+        '''
+        依照排名順序印出玩家遊戲結果，以字典形式顯示，包含以下項目：
+        'player':標示玩家代號，顯示為1P、2P等
+        'coin':記錄玩家此局獲得的金幣數量
+        'distance':記錄家此局所行走的距離
+        'rank':顯示完家此局排名
+        :return:None
+        '''
         tem = []
         for user in self.winner:
-            tem.append({"player":str(user.car_no + 1) + "P",
-                   "coin":str(user.coin_num),
-                   "distance":str(round(user.distance))+"m",
-                    "rank": self.winner.index(user) + 1
-                   })
-            print({"player":str(user.car_no + 1) + "P",
-                   "coin":str(user.coin_num),
-                   "distance":str(round(user.distance))+"m",
-                   })
+            tem.append({
+                "player": str(user.car_no + 1) + "P",
+                "coin": str(user.coin_num),
+                "distance": str(round(user.distance)) + "m",
+                "rank": self.winner.index(user) + 1
+            })
+            print({
+                "player": str(user.car_no + 1) + "P",
+                "coin": str(user.coin_num),
+                "distance": str(round(user.distance)) + "m",
+                "rank": self.winner.index(user) + 1
+            })
         self.winner = tem
 
     def _is_game_end(self):
@@ -97,7 +107,7 @@ class CoinMode(GameMode):
         '''
         if len(self.eliminated_user) == len(self.users):
             self.state = GameResultState.FAIL
-        elif self.frame > FPS*30:
+        elif self.frame > FPS * 30:
             self.state = GameResultState.FINISH
         else:
             return False
@@ -119,8 +129,8 @@ class CoinMode(GameMode):
                     self.eliminated_user.remove(car)
 
     def create_coins(self):
-        if self.frame - self.create_coin_frame > FPS*1.5:
-            coin = Coin(WIDTH,random.choice(self.coin_lanes))
+        if self.frame - self.create_coin_frame > FPS * 1.5:
+            coin = Coin(WIDTH, random.choice(self.coin_lanes))
             self.coin_lanes.remove(coin.rect.centery)
             self.coins.add(coin)
             self.create_coin_frame = self.frame

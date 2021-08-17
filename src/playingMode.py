@@ -17,19 +17,16 @@ class PlayingMode(GameMode):
         self.count_bg()
         self.frame += 1
         self.handle_event()
-        self._revise_speed()
+        self._revise_speed() # get the velocity of user, and revise max_vel
 
-        if self.frame > FPS * 1:
+        if self.frame > FPS:
             if self.frame > FPS * 7:
                 self._creat_computercar()
 
             self.camera.update(self.maxVel)
 
             '''update sprite'''
-            self.line.update()
-            self.computerCars.update(self.cars)
             self.lanes.update(self.camera.position)
-            self.line.rect.left = self.line.distance - self.camera.position + 500
 
             for car in self.users:
                 self.user_out_screen(car)
@@ -40,11 +37,13 @@ class PlayingMode(GameMode):
                     self.is_arrive = True
                     break # 任一玩家通過終點則結束遊戲
 
+            self.computerCars.update(self.cars)
+
             for car in self.cars:
                 '''偵測車子的狀態'''
                 self._detect_car_status(car)
                 '''更新車子位置'''
-                car.rect.left = car.distance - self.camera.position + 500
+                car.rect.left = car.distance - self.camera.position + 520
 
         if self._is_game_end(self.is_arrive):
             self.rank()
@@ -54,7 +53,7 @@ class PlayingMode(GameMode):
     def detect_collision(self):
         super(PlayingMode, self).detect_collision()
         for car in self.cars:
-            self.cars.remove(car)
+            self.cars.remove(car) # 如果sprite本身也在要偵測的group裡面就會被偵測到
             hits = pygame.sprite.spritecollide(car, self.cars, False)
             for hit in hits:
                 if (hit.state and 0 < hit.rect.centerx < WIDTH):
@@ -65,6 +64,13 @@ class PlayingMode(GameMode):
             self.cars.add(car)
 
     def _print_result(self):
+        '''
+        依照排名順序印出玩家遊戲結果，以字典形式顯示，包含以下項目：
+        'player':標示玩家代號，顯示為1P、2P等
+        'distance':記錄家此局所行走的距離
+        'rank':顯示完家此局排名
+        :return:None
+        '''
         tem = []
         for user in self.winner:
             tem.append({"player": str(user.car_no + 1) + "P",

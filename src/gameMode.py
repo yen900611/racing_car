@@ -42,6 +42,7 @@ class GameMode(object):
             self._init_user(user)
         self._init_lanes()
         self.line = Line()
+        self.lanes.add(self.line)
 
         '''state include GameResultState.FINISH、GameResultState.FAIL"'''
         self.state = GameResultState.FAIL

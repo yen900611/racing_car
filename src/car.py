@@ -7,7 +7,7 @@ from mlgame.gamedev.game_interface import GameStatus
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
         pygame.sprite.Sprite.__init__(self)
-        self.rect = pygame.Rect(distance, y, car_size[0],car_size[1])
+        self.rect = pygame.Rect(distance+20, y, car_size[0],car_size[1])
         self.state = True
         self.status = None
         self.velocity = 0
@@ -15,7 +15,7 @@ class Car(pygame.sprite.Sprite):
         self.car_no = 0
         self.car_info = {}
         self.coin_num = 0
-        self.max_vel = random.randint(10, 16)
+        self.max_vel = random.randint(10, 17)
 
     def speedUp(self):
         self.velocity += 0.01*(self.velocity**0.6)+0.04
@@ -76,10 +76,10 @@ class UserCar(Car):
         if LEFT_cmd in control_list:
             self.moveLeft()
             self.max_vel = 14.5
-
         if RIGHT_cmd in control_list:
             self.moveRight()
             self.max_vel = 14.5
+
         if LEFT_cmd not in control_list and RIGHT_cmd not in control_list:
             self.max_vel = 15
         if SPEED_cmd in control_list:
@@ -126,9 +126,6 @@ class ComputerCar(Car):
             self.action = "stop"
         else:
             self.action = "continue"
-
-    def re_create(self, distance):
-        self.distance = distance
 
 class Camera():
     def __init__(self):

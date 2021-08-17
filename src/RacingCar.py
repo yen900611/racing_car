@@ -184,9 +184,6 @@ class RacingCar(PaiaGame):
         Get the src result for the web
         """
         scene_info = self.get_scene_info
-        result = []
-        for user in scene_info["game_result"]:
-            result.append("GAME_DRAW")
         ranking = scene_info["game_result"]
 
         return {"frame_used": self.frame_count,
