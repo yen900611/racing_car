@@ -7,7 +7,7 @@ HEIGHT = 700
 '''environment data'''
 FPS = 30
 ceiling = 600
-finish_line = 20000
+finish_line = 18000
 
 '''color'''
 BLACK = "#000000"
@@ -58,5 +58,9 @@ FINISH_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/fini
 START_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/start.png?raw=true"
 COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/logo.png?raw=true"
 
+computerCar_init_position = [
+    (650, 110), (650, 160), (650, 210), (650, 260), (650, 310), (650, 360), (650, 410), (650, 460), (650, 510),
+    (-700, 110), (-700, 160), (-700, 210), (-700, 260), (-700, 310), (-700, 360), (-700, 410), (-700, 460), (-700, 510)
+]
 
-
+userCar_init_position = [160, 260, 360, 460]

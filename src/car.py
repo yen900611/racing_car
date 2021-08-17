@@ -2,12 +2,14 @@ import pygame
 import time
 from .env import *
 import random
+from mlgame.gamedev.game_interface import GameStatus
 
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
         pygame.sprite.Sprite.__init__(self)
         self.rect = pygame.Rect(distance, y, car_size[0],car_size[1])
-        self.status = True
+        self.state = True
+        self.status = None
         self.velocity = 0
         self.distance = distance
         self.car_no = 0
@@ -34,12 +36,13 @@ class Car(pygame.sprite.Sprite):
 
     def keep_in_screen(self):
         if self.rect.left < -250 or self.rect.right > 1300 or self.rect.top < 100:
-            self.status = False
+            self.state = False
 
     def get_info(self):
         self.car_info = {"id": self.car_no,
                          "x":self.rect.x,
                          "y":self.rect.y,
+                         "status":self.status,
                          "distance": self.distance,
                          "velocity": self.velocity,
                          "coin_num": self.coin_num}
@@ -49,22 +52,19 @@ class UserCar(Car):
     def __init__(self, y,distance,user_no):
         Car.__init__(self, y,distance)
         self.car_no = user_no
-        self.lastUpdateTime = time.time()
+        self.status = GameStatus.GAME_ALIVE
         self.coin_num = 0
         self.max_vel = 15
 
     def update(self, control_list):
-        if self.status:
+        if self.state:
             self.handleKeyEvent(control_list)
             self.distance += self.velocity
             self.keep_in_screen()
         else:
             pass
 
-
     def keep_in_screen(self):
-        if self.rect.top < 100 or self.rect.bottom > 550:
-            self.status = False
         if self.velocity > self.max_vel:
             self.velocity = self.max_vel
         elif self.velocity < 0:
@@ -99,7 +99,7 @@ class ComputerCar(Car):
         self.action = None
 
     def update(self,cars):
-        if self.status:
+        if self.state:
             for car in cars:
                 if abs(self.rect.centery - car.rect.centery) < 40:
                     self.detect_other_cars(car)
@@ -108,10 +108,8 @@ class ComputerCar(Car):
                 if self.action == "stop":
                     self.brakeDown()
                     break
-                elif self.action == "continue":
-                    self.speedUp()
                 else:
-                    pass
+                    self.speedUp()
             self.distance += self.velocity
             if self.velocity < 0:
                 self.velocity = 0

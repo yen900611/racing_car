@@ -33,7 +33,7 @@ class RacingCar(PaiaGame):
         for user in self.game_mode.users:
             player_data = user.get_info()
             player_data["frame"] = scene_info["frame"]
-            player_data["status"] = scene_info["status"]
+            # player_data["status"] = scene_info["status"]
             if self.game_mode == "COIN":
                 player_data["coin"] = scene_info["coin"]
             to_player_data[str(player_data["id"]+1) + "P"] = player_data
@@ -59,7 +59,7 @@ class RacingCar(PaiaGame):
 
         scene_info = {
             "frame": self.game_mode.frame,
-            "status": self.game_mode.status,
+            "status": self.game_mode.state,
             "background": [(self.game_mode.bg_x,0),(self.game_mode.rel_x,0)],}
 
         for user in self.game_mode.cars:
@@ -86,8 +86,7 @@ class RacingCar(PaiaGame):
         self.game_mode.handle_event()
         self.game_mode.detect_collision()
         self.game_mode.update(commands)
-        if self.game_mode.status == "FINISH":
-            self.game_result_state = GameResultState.FINISH
+        self.game_result_state = self.game_mode.state
         # self.draw()
         if not self.isRunning():
             return "QUIT"
@@ -110,8 +109,8 @@ class RacingCar(PaiaGame):
             game_info["assets"].append(
                 create_asset_init_data("player" + str(i+1) + "_car", car_size[0], coin_size[1], path.join(ASSET_IMAGE_DIR, USER_IMAGE[i][0]), USER_CAR_URL[i]))
         game_info["assets"].append(create_asset_init_data("background", 2000, HEIGHT, path.join(ASSET_IMAGE_DIR, BACKGROUND_IMAGE[0]), BACKGROUND_URL))
-        # game_info["assets"].append(create_asset_init_data("start_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[0]), START_URL))
-        # game_info["assets"].append(create_asset_init_data("finish_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[1]), FINISH_URL))
+        game_info["assets"].append(create_asset_init_data("start_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[0]), START_URL))
+        game_info["assets"].append(create_asset_init_data("finish_line", 45, 450, path.join(ASSET_IMAGE_DIR, START_LINE_IMAGE[1]), FINISH_URL))
         if self.game_type == "COIN":
             game_info["assets"].append(create_asset_init_data("coin", coin_size[0], coin_size[1], path.join(ASSET_IMAGE_DIR, COIN_IMAGE), COIN_URL))
             game_info["assets"].append(create_asset_init_data("info_coin", 319, 80, path.join(ASSET_IMAGE_DIR, RANKING_IMAGE[0]), INFO_COIN_URL))
@@ -152,10 +151,11 @@ class RacingCar(PaiaGame):
         for car in scene_info["computer_cars"]:
             car_image = create_image_view_data("computer_car", car[0], car[1], car_size[0], car_size[1])
             game_progress["object_list"].append(car_image)
-        # user
+        # line and lane
+        game_progress["object_list"].append(self.game_mode.line.get_asset_info())
         for lane in self.game_mode.lanes:
-            lane_surface = create_rect_view_data("lane", lane.rect[0], lane.rect[1], lane_size[0], lane_size[1], WHITE)
-            game_progress["object_list"].append(lane_surface)
+            game_progress["object_list"].append(lane.get_asset_info())
+        # user
         for user in self.game_mode.users:
             user_image = create_image_view_data("player" + str(user.car_no+1) + "_car", user.rect[0], user.rect[1], car_size[0], car_size[1])
             game_progress["object_list"].append(user_image)

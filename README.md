@@ -1,7 +1,7 @@
 # MLGame
 
 
-* 遊戲版本：`3.0.3`
+* 遊戲版本：`3.0.4`
 
 ## 更新
 
@@ -20,13 +20,13 @@
 
 🚗普通模式：抵達終點。
 
-💰金幣模式：限時１分鐘，時間到可以看到自己吃到的金幣數量。
+💰金幣模式：限時30秒，時間到可以看到自己吃到的金幣數量。
 
 ### 多人遊戲
 
 🚗普通模式：當有玩家抵達終點，或場上僅餘下一名玩家時則遊戲結束，並依結束或玩家死亡時的距離進行排名，距離較遠者勝。
 
-💰金幣模式：在１分鐘內，吃到最多金幣的人獲勝，金幣數量相同則以行駛距離較遠者勝出。
+💰金幣模式：限時30秒，遊戲結束時吃到最多金幣的人獲勝，金幣數量相同則以行駛距離較遠者勝出。若遊戲結束前所有玩家都出局則遊戲失敗。
 
 
 ## 執行
@@ -37,9 +37,9 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m racing_car <the number of user> [difficulty] [car_num] [sound]`
+`python MLGame.py -m racing_car <the number of user> [game_mode] [car_num] [sound]`
     * 機器學習模式：
-`python MLGame.py -i ml_play_template.py racing_car <the number of user> [difficulty] [car_num] [sound]`
+`python MLGame.py -i ml_play_template.py racing_car <the number of user> [game_mode] [car_num] [sound]`
 
 ### 遊戲參數
 

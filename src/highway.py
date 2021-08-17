@@ -13,17 +13,40 @@ class Lane(pygame.sprite.Sprite):
             self.distance += 1150
         self.rect.centerx = self.distance-camera+450
 
+    def get_asset_info(self):
+        return {
+            "type": "rect",
+            "name": "lane",
+            "color": WHITE,
+            "x": self.rect.x,
+            "y": self.rect.y,
+            "width": lane_size[0],
+            "height": lane_size[1],
+            "angle": 0
+        }
+
 class Line(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((20, 5))
-        self.rect = self.image.get_rect()
-        self.rect.left,self.rect.top = 60,100
+        self.rect = pygame.Rect(60, 100, 45, 428)
+        self.type = "start_line"
         self.distance = 60
         self.end_distance = finish_line
 
     def update(self, *args):
         if self.rect.right < 0:
             self.distance = self.end_distance
+            self.type = "start_line"
         else:
             pass
+
+    def get_asset_info(self):
+        return {
+            "type": "image",
+            "x": self.rect.x,
+            "y": self.rect.y,
+            "width": 45,
+            "height": 428,
+            "image_id": self.type,
+            "angle": 0
+        }

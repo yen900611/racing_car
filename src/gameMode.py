@@ -3,8 +3,10 @@ This is a base class for different mode in src.
 """
 import pygame
 from .env import *
-from .car import Camera, UserCar
-from .highway import Lane
+from .car import Camera, UserCar, ComputerCar
+from .highway import Lane, Line
+import random
+from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 class GameMode(object):
     def __init__(self, user_num: int, car_num, sound_controller):
@@ -39,9 +41,10 @@ class GameMode(object):
         for user in range(user_num):
             self._init_user(user)
         self._init_lanes()
+        self.line = Line()
 
-        '''status incloud "GAME_ALIVE"、"GAME_PASS"、"GAME_OVER"'''
-        self.status = "GAME_ALIVE"
+        '''state include GameResultState.FINISH、GameResultState.FAIL"'''
+        self.state = GameResultState.FAIL
 
     def handle_event(self):
         """ Handle the event from window , mouse or button.
@@ -78,7 +81,7 @@ class GameMode(object):
         return self.running
 
     def _init_user(self, user_no: int):
-        self.car = UserCar((user_no) * 100 + 160, 0, user_no)
+        self.car = UserCar(userCar_init_position[user_no], 0, user_no)
         self.users.add(self.car)
         self.cars.add(self.car)
 
@@ -88,20 +91,32 @@ class GameMode(object):
                 self.lane = Lane(i * 50+150, j * 50-150)
                 self.lanes.add(self.lane)
 
-    # def user_out__screen(self,car):
-    #     if car.status:
-    #         if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
-    #             self.sound_controller.play_lose_sound()
-    #             car.status = False
+    def _creat_computercar(self):
+        if len(self.cars) < self.cars_num:
+            for i in range(3):
+                x, y = random.choice(computerCar_init_position)
+                computerCar = ComputerCar(y, self.camera.position + x, x + 500)
+                self.computerCars.add(computerCar)
+                self.cars.add(computerCar)
+            # x = random.choice([650, -700])
+            # y = random.choice(self.car_lanes)
+
+    def user_out_screen(self,car):
+        if car.state:
+            if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+                self.sound_controller.play_lose_sound()
+                car.state = False
 
     def _detect_car_status(self, car):
-        if car.status:
+        if car.state:
             pass
         else:
             car.velocity = 0
             if car in self.users:
                 if car not in self.eliminated_user:
+                    car.status = GameStatus.GAME_OVER
                     self.eliminated_user.append(car)
+                    self.user_distance.append(car.distance)
             else:
                 car.kill()
 
