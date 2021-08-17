@@ -13,18 +13,16 @@ from .sound_controller import *
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
 class RacingCar(PaiaGame):
-    def __init__(self, user_num: int, game_mode, car_num, sound):
+    def __init__(self, user_num: int, game_mode, car_num, game_times, sound):
         super().__init__()
+        self.game_times_goal = game_times
+        self.game_times = 1
         self.is_sound = sound
-        cars_num = car_num
+        self.cars_num = car_num
         self.sound_controller = SoundController(self.is_sound)
         self.game_type = game_mode
-        if self.game_type == "NORMAL":
-            self.game_mode = PlayingMode(user_num,cars_num, self.sound_controller)
-        elif self.game_type == "COIN":
-            self.game_mode = CoinMode(user_num,cars_num, self.sound_controller)
-
         self.user_num = user_num
+        self.game_mode = self.set_game_mode()
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
 
     def game_to_player_data(self) -> dict:
@@ -55,7 +53,6 @@ class RacingCar(PaiaGame):
         """
         cars_pos = []
         computer_cars_pos = []
-        lanes_pos = []
 
         scene_info = {
             "frame": self.game_mode.frame,
@@ -87,11 +84,17 @@ class RacingCar(PaiaGame):
         self.game_mode.detect_collision()
         self.game_mode.update(commands)
         self.game_result_state = self.game_mode.state
-        # self.draw()
         if not self.isRunning():
-            return "QUIT"
+            if self.game_times < self.game_times_goal:
+                self.game_times += 1
+                return "RESET"
+            else:
+                return "QUIT"
 
     def reset(self):
+        self.frame_count = 0
+        self.game_mode = self.set_game_mode()
+        print("reset")
         pass
 
     def isRunning(self):
@@ -230,3 +233,13 @@ class RacingCar(PaiaGame):
             {"name": "4P"}
         ]
 
+    def set_game_mode(self):
+        if self.game_type == "NORMAL":
+            game_mode = PlayingMode(self.user_num,self.cars_num, self.sound_controller)
+        elif self.game_type == "COIN":
+            game_mode = CoinMode(self.user_num,self.cars_num, self.sound_controller)
+
+        return game_mode
+
+    def rank(self):
+        pass

@@ -39,6 +39,15 @@
       "help": "set the number of car, include user and computer cars."
     },
     {
+      "name": "game_times",
+      "verbose": "遊戲局數",
+      "type": "int",
+      "max": 30,
+      "min": 1,
+      "default": 1,
+      "help": "set times for restarting game."
+    },
+    {
       "name": "sound",
       "verbose": "遊戲音效",
       "type": "str",
