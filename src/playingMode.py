@@ -28,6 +28,7 @@ class PlayingMode(GameMode):
             '''update sprite'''
             self.lanes.update(self.camera.position)
 
+
             for car in self.users:
                 self.user_out_screen(car)
                 car.update(command[str(car.car_no + 1) + "P"])
@@ -35,15 +36,16 @@ class PlayingMode(GameMode):
                 '''是否通過終點'''
                 if self._is_car_arrive_end(car):
                     self.is_arrive = True
+                    self.eliminated_user.append(car)
+                    self.user_distance.append(car.distance)
                     break # 任一玩家通過終點則結束遊戲
-
-            self.computerCars.update(self.cars)
 
             for car in self.cars:
                 '''偵測車子的狀態'''
                 self._detect_car_status(car)
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 520
+                self.computerCars.update(self.cars)
 
         if self._is_game_end(self.is_arrive):
             self.rank()
@@ -116,6 +118,7 @@ class PlayingMode(GameMode):
     def rank(self):
         for user in self.users:
             if user not in self.eliminated_user:
+                user.status = GameStatus.GAME_OVER
                 self.eliminated_user.append(user)
                 self.user_distance.append(user.distance)
         while len(self.eliminated_user) > 0:
