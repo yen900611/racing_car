@@ -7,7 +7,7 @@ HEIGHT = 700
 '''environment data'''
 FPS = 30
 ceiling = 600
-finish_line = 18
+finish_line = 15000
 
 '''color'''
 BLACK = "#000000"

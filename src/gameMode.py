@@ -94,7 +94,7 @@ class GameMode(object):
 
     def _creat_computercar(self):
         if len(self.cars) < self.cars_num:
-            for i in range(3):
+            for i in range(5):
                 x, y = random.choice(computerCar_init_position)
                 computerCar = ComputerCar(y, self.camera.position + x, x + 500)
                 self.computerCars.add(computerCar)

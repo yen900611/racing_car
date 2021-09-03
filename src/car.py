@@ -15,7 +15,7 @@ class Car(pygame.sprite.Sprite):
         self.car_no = 0
         self.car_info = {}
         self.coin_num = 0
-        self.max_vel = random.randint(10, 17)
+        self.max_vel = random.randint(10, 14)
 
     def speedUp(self):
         self.velocity += 0.01*(self.velocity**0.6)+0.04

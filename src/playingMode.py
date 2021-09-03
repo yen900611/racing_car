@@ -20,7 +20,7 @@ class PlayingMode(GameMode):
         self._revise_speed() # get the velocity of user, and revise max_vel
 
         if self.frame > FPS:
-            if self.frame > FPS * 7:
+            if self.frame > FPS * 4:
                 self._creat_computercar()
 
             self.camera.update(self.maxVel)
@@ -45,7 +45,7 @@ class PlayingMode(GameMode):
                 self._detect_car_status(car)
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 520
-                self.computerCars.update(self.cars)
+            self.computerCars.update(self.cars)
 
         if self._is_game_end(self.is_arrive):
             self.rank()
