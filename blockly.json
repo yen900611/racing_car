@@ -1,18 +1,19 @@
 {
 
   "GAME_STATUS": [
-        ["START", "start", "開始"],
-        ["RUNNING", "running", "進行中"],
-        ["END", "end", "結束"]
+        ["GAME_ALIVE", "alive", "存活"],
+        ["GAME_PASS", "pass", "通關"],
+        ["GAME_OVER", "over", "失敗"]
     ],
     "SCENE_INFO": [
         ["scene_info['frame']", "# frame", "# 幀數"],
-        ["scene_info['status']", "game status", "遊戲狀態"],
+        ["scene_info['status']", "player status", "玩家狀態"],
+        ["scene_info['id']", "player id", "玩家編號"],
         ["scene_info['x']", "x position of player", "玩家的 x 座標"],
         ["scene_info['y']", "y position of player", "玩家的 y 座標"],
         ["scene_info['distance']", "advanced distance of player", "玩家前進的距離"],
         ["scene_info['velocity']", "velocity", "玩家的速度"],
-        ["scene_info['cars_pos']", "positions of all cars", "所有車子的位置"],
+        ["scene_info['all_cars_pos']", "positions of all cars", "所有車子的位置"],
         ["scene_info['coin']", "positions of coins", "金幣的位置"],
         ["scene_info['coin_num']", "number of coins obtained", "獲得的金幣數量"]
     ],
@@ -35,6 +36,7 @@
         ["['SPEED', 'MOVE_RIGHT']", "speed up and move right", "加速並向右移動"],
         ["['BRAKE', 'MOVE_LEFT']", "brake and move left", "減速並向左移動"],
         ["['BRAKE', 'MOVE_RIGHT']", "brake and move right", "減速並向右移動"],
+        ["'RESET'", "RESET", "重製遊戲"],
         ["[]", "do nothing", "不動作"]
     ],
 

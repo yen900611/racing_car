@@ -1,6 +1,6 @@
 {
   "game_name": "racing_car",
-  "version": "3.0.3",
+  "version": "3.0.5",
   "url": "https://github.com/yen900611/RacingCar",
   "game_params": [
     {
@@ -33,7 +33,7 @@
       "name": "car_num",
       "verbose": "車子總數量",
       "type": "int",
-      "max": 30,
+      "max": 40,
       "min": 1,
       "default": 20,
       "help": "set the number of car, include user and computer cars."

@@ -165,10 +165,6 @@ class RacingCar(PaiaGame):
         # 縮圖
         block = create_rect_view_data("block", 0, 650, 1000, 50, BLACK)
         game_progress["foreground"].append(block)
-        # computer car
-        for car in scene_info["computer_cars"]:
-            car_image = create_image_view_data("computer_car", car[0], car[1], car_size[0], car_size[1])
-            game_progress["object_list"].append(car_image)
         # line and lane
         game_progress["object_list"].append(self.game_mode.line.get_asset_info())
         for lane in self.game_mode.lanes:
@@ -184,6 +180,9 @@ class RacingCar(PaiaGame):
             game_progress["foreground"].append(point)
         # score
         if self.game_type == "COIN":
+            for coin in scene_info["coin"]:
+                coin_image = create_image_view_data("coin", coin[0], coin[1], coin_size[0], coin_size[1])
+                game_progress["object_list"].append(coin_image)
             for user in self.game_mode.users:
                 score = create_text_view_data(str(user.coin_num), 740 + user.car_no * 77, 45, WHITE, "20px Arial")
                 game_progress["foreground"].append(score)
@@ -192,11 +191,10 @@ class RacingCar(PaiaGame):
                 score = create_text_view_data(str(round(user.distance)) + "m", 725 + user.car_no * 77, 45, WHITE,
                                               "20px Arial")
                 game_progress["foreground"].append(score)
-        # coin
-        if self.game_type == "COIN":
-            for coin in scene_info["coin"]:
-                coin_image = create_image_view_data("coin", coin[0], coin[1], coin_size[0], coin_size[1])
-                game_progress["object_list"].append(coin_image)
+        # computer car
+        for car in scene_info["computer_cars"]:
+            car_image = create_image_view_data("computer_car", car[0], car[1], car_size[0], car_size[1])
+            game_progress["object_list"].append(car_image)
         return game_progress
 
     @check_game_result
