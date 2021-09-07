@@ -39,7 +39,7 @@
       "help": "set the number of car, include user and computer cars."
     },
     {
-      "name": "game_times",
+      "name": "rounds",
       "verbose": "遊戲局數",
       "type": "int",
       "max": 30,

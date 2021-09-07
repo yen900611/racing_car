@@ -34,4 +34,3 @@ if __name__ == "__main__":
     for i in range(0, len(data)):
         single_scene = data['scene_info'][i]
         single_frame_commands = data['command'][i]
-        # TODO Fetch your feature and arrange they in your format

@@ -51,9 +51,7 @@ class GameMode(object):
         """ Handle the event from window , mouse or button.
         :return: None
         """
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
+        pass
 
     def detect_collision(self):
         """ Detect the collision event between sprites.
@@ -91,7 +89,7 @@ class GameMode(object):
 
     def _creat_computercar(self):
         if len(self.cars) < self.cars_num:
-            for i in range(5):
+            for i in range(2):
                 x, y = random.choice(computerCar_init_position)
                 computerCar = ComputerCar(y, self.camera.position + x, x + 500)
                 self.computerCars.add(computerCar)

@@ -8,7 +8,8 @@ class MLPlay:
         """
         Generate the command according to the received scene information
         """
-        # TODO # reset # get imformation
+        if scene_info["status"] != "GAME_ALIVE":
+            return "RESET"
 
         if scene_info.__contains__("coin"):
             self.coin_pos = scene_info["coin"]

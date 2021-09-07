@@ -25,6 +25,7 @@ class RacingCar(PaiaGame):
         self.game_type = game_mode
         self.user_num = user_num
         self.game_mode = self.set_game_mode()
+        self.game_mode.sound_controller.play_music()
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
 
     def game_to_player_data(self) -> dict:
@@ -32,9 +33,10 @@ class RacingCar(PaiaGame):
         to_player_data = {}
         for user in self.game_mode.users:
             player_data = user.get_info()
+            player_data["all_cars_pos"] = scene_info["cars_pos"]
             player_data["frame"] = scene_info["frame"]
             # player_data["status"] = scene_info["status"]
-            if self.game_mode == "COIN":
+            if self.game_type == "COIN":
                 player_data["coin"] = scene_info["coin"]
             to_player_data[str(player_data["id"] + 1) + "P"] = player_data
 
@@ -96,7 +98,7 @@ class RacingCar(PaiaGame):
     def reset(self):
         self.frame_count = 0
         self.game_mode = self.set_game_mode()
-        print("reset")
+        self.game_mode.sound_controller.play_music()
         pass
 
     def isRunning(self):
@@ -208,7 +210,6 @@ class RacingCar(PaiaGame):
                 "attachment": self.rank()
                 }
 
-
     def get_keyboard_command(self):
         """
         Get the command according to the pressed keys
@@ -267,9 +268,9 @@ class RacingCar(PaiaGame):
         single_game_result = self.get_scene_info["game_result"]
         if self.score:
             for user in self.score:
-                user["score"] += (5 - user["rank"])
+                user["integral"] += (5 - user["single_rank"])
         else:
             self.score = single_game_result
             for user in self.score:
-                user["score"] = 5 - user["rank"]
+                user["integral"] = 5 - user["single_rank"]
         return self.score

@@ -122,7 +122,7 @@ class ComputerCar(Car):
 
     def detect_other_cars(self, car):
         distance = car.rect.centerx - self.rect.centerx
-        if 400 > distance > 0:
+        if 200 > distance > 0:
             self.action = "stop"
         else:
             self.action = "continue"

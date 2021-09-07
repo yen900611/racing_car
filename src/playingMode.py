@@ -77,11 +77,11 @@ class PlayingMode(GameMode):
         for user in self.winner:
             tem.append({"player": str(user.car_no + 1) + "P",
                         "distance": str(round(user.distance)) + "m",
-                        "rank": self.winner.index(user) + 1
+                        "single_rank": self.winner.index(user) + 1
                         })
             print({"player": str(user.car_no + 1) + "P",
                    "distance": str(round(user.distance)) + "m",
-                   "rank":self.winner.index(user)+1
+                   "single_rank":self.winner.index(user)+1
                    })
         self.winner = tem
 
