@@ -1,26 +1,26 @@
 # MLGame
 
 
-* 遊戲版本：`3.0.3`
+* 遊戲版本：`3.0.6`
 
-## 更新
 
 ## 遊戲說明
+![](https://ibb.co/1RdNh70)
 
-### 遊戲玩法
+
+## 遊戲玩法
+遊戲最多可以四個人同時進行，有普通模式和金幣模式。
 
 玩家使用方向鍵或由程式發送指令控制車子前進，左右鍵控制車子加速與剎車，上下鍵控制車子的移動。
-若車子之間發生撞擊，則雙方皆淘汰出局。如果玩家因車速過慢離開遊戲畫面亦會被淘汰。
+若車子之間發生碰撞，則雙方皆淘汰出局。
+
+在金幣模式下，玩家之間可以控制車子爭奪金幣。
 
 ## 遊戲規則
 
-遊戲最多可以四個人同時進行，有普通模式和金幣模式。
+🚗普通模式：抵達終點或是玩家淘汰則結束遊戲，遊戲結束後提供玩家行走總距離。
 
-### 單人遊戲
-
-🚗普通模式：抵達終點。
-
-💰金幣模式：限時30秒，時間到可以看到自己吃到的金幣數量。
+💰金幣模式：限時30秒或是玩家淘汰則結束遊戲，遊戲結束後提供玩家吃到的金幣數量以及行走距離。
 
 ### 多人遊戲
 
@@ -28,129 +28,49 @@
 
 💰金幣模式：限時30秒，遊戲結束時吃到最多金幣的人獲勝，金幣數量相同則以行駛距離較遠者勝出。若遊戲結束前所有玩家都出局則遊戲失敗。
 
+**普通模式抵達終點的距離為15000px**
 
-## 執行
-* 直接執行 預設是兩人遊戲
-`python main.py`
-    * 車子加速、剎車、左移、右移：1P - `RIGHT`、`LEFT`、`UP`、`DOWN`，2P - `D`、`A`、`W`、`S`
-    
+## 遊戲物件
 
-* 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
-    * 手動模式：
-`python MLGame.py -m racing_car <the number of user> [game_mode] [car_num] [game_times] [sound]`
-    * 機器學習模式：
-`python MLGame.py -i ml_play_template.py racing_car <the number of user> [game_mode] [car_num] [game_times] [sound]`
+### 座標系統
 
-### 遊戲參數
+使用 pygame 的座標系統，單位為pixel(像素，以下簡稱為px)，原點在遊戲區域的左上角，x 正方向為向右，y 正方向為向下。遊戲物件的座標皆為物件的左上角。
 
-* `sound`：由音效設定，可選擇"on"或"off"，預設為"off"
-* `difficulty`：遊戲模式，可選擇"NORMAL"或"COIN"，預設為"NORMAL"。
-* `car_num`：車子總數量，輸入數字，代表玩家加電腦的車子的數量，預設為20。
-* `game_times`：遊戲局數，輸入數字，決定該次遊戲需要執行幾輪(系統自動計算積分)，上限為30，預設為1。
-* `the number of user`：指定遊戲玩家人數，最少需一名玩家。單機手動模式最多兩名(鍵盤位置不足)，機器學習模式至多四名。
-
-## 詳細遊戲資料
-
-### 座標系
-
-使用 pygame 的座標系統，原點在遊戲區域的左上角，x 正方向為向右，y 正方向為向下。遊戲物件的座標皆為物件的左上角。
+![image](https://www.linkpicture.com/q/Untitled_1531.png)
 
 ### 遊戲區域
 
-1000 \* 700 像素。
+1000 \* 550 像素。
 
 ### 遊戲物件
 
-#### 玩家車子
+- 玩家車子
+60 \* 30 px大小的矩形
 
-* 60 \* 30 像素大小的矩形
-* 每場遊戲開始時，依玩家順序分配至不同車道
-* 初始車速是0，最高車速為15，當車子沒有在加速或剎車時將會怠速至0.9~1.2之間。
-* 車子顏色：1P:白色; 2P:黃色; 3P:藍色; 4P:紅色。
+    每場遊戲開始時，依玩家順序分配至不同車道
 
-#### 電腦車子
+    初始車速是0，最高車速為15，也就是遊戲每次更新時前進15px，當車子沒有在加速或剎車時將會怠速至0.9~1.2之間。
 
-* 60 \* 30 像素大小的矩形
-* 車子從畫面上方或下方出現，不會左右移動切換車道。前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
-* 每台車最高速度皆不一樣。
+    車子顏色：1P:果綠色; 2P:黃色; 3P:深藍色; 4P:紅色。
 
+- 電腦車子
 
-#### 金幣
-* 30 \*31像素大小的矩形
-* 隨機從畫面上方出現，以5 pixel/frame的速度下降。
-* 電腦車子碰到金幣時金幣不會消失。
+    60 \* 30 px大小的矩形
 
-## 撰寫玩遊戲的程式
+    車子從畫面上方或下方出現，不會左右移動切換車道。前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
 
-程式範例在 [`ml/ml_play_template.py`](https://github.com/yen900611/RacingCar/blob/master/ml/ml_play_template.py)。
+    每台車最高速度皆不一樣，範圍為10~14。
 
+- 金幣
 
-### 初始化參數
-```python=2
-def __init__(self, player):
-    self.player = player
-    if self.player == "player1":
-        self.player_no = 0
-    elif self.player == "player2":
-        self.player_no = 1
-    elif self.player == "player3":
-        self.player_no = 2
-    elif self.player == "player4":
-        self.player_no = 3
-    self.car_vel = 0
-    self.car_pos = ()
-```
-`"player"`: 字串。其值只會是 `"player1"` 、 `"player2"` 、 `"player3"` 或 `"player4"`，代表這個程式被哪一台車使用。
+    30 \*30 px大小的矩形
 
+    隨機從畫面上方出現，以5 px/frame的速度下降。
 
-### 遊戲場景資訊
+    電腦車子碰到金幣時金幣不會消失。
 
-由遊戲端發送的字典物件，同時也是存到紀錄檔的物件。
-```python=17
-def update(self, scene_info):
-    """
-    Generate the command according to the received scene information
-    """
-    if scene_info["status"] == "RUNNING":
-        self.car_pos = scene_info["player_" + str(self.player_no) + "_pos"]
+- 賽道
 
-    self.other_cars_position = scene_info["cars_pos"]
-    if scene_info.__contains__("coin"):
-        self.coin_pos = scene_info["coin"]
-
-    return ["SPEED"]
-
-```
-以下是該字典物件的鍵值對應：
-
-* `"frame"`：整數。紀錄的是第幾影格的場景資訊
-* `"status"`:字串。說明當前遊戲狀，遊戲進行中為"RUNNING"，遊戲結束時回傳"END"。
-* `"x"`：數值，玩家的x座標。
-* `"y"`：數值，玩家的y座標。
-* `"distance"`：數值，玩家已前進的距離。
-* `"velocity"`：數值，玩家當前的速度
-* `"cars_pos"`：`[(x,y)]` :list裡面包含數個tuple。內容包含場上所有車子的位置。
-金幣模式下，字典內容將新增金幣位置:
-* `"coin"`：`[(x, y)]` list裡面包含數個tuple。金幣的位置。
-* `"coin_num"`：數值，玩家當前已獲得的金幣數量
-
-#### 遊戲指令
-
-傳給遊戲端用來控制板子的指令。
-
-以下是該字典物件的鍵值對應：
-
-* `"frame"`：整數。標示這個指令是給第幾影格的指令，需要與接收到的遊戲場景資訊中影格值一樣。
-* `"command"`：包含數個字串的清單。控制車子的指令，字串須為以下值的其中之一：
-    * `"MOVE_LEFT"`：將車子往左移
-    * `"MOVE_RIGHT"`：將車子往右移
-    * `"SPEED"`:對車子加速
-    * `"BRAKE"`:對車子剎車
-
-## 機器學習模式的玩家程式
-
-賽車是多人遊戲，所以在啟動機器學習模式時，需要利用 `-i <script_for_1P> -i <script_for_2P> -i <script_for_3P> -i <script_for_4P>` 指定最多四個不同的玩家程式。
-* For example
-`python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2 NORMAL 20 2 off`
+    賽道寬度為50px。
 
 ![](https://i.imgur.com/ubPC8Fp.jpg)
