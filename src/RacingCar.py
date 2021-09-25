@@ -266,9 +266,9 @@ class RacingCar(PaiaGame):
         single_game_result = self.get_scene_info["game_result"]
         if self.score:
             for user in self.score:
-                user["integral"] += (5 - user["single_rank"])
+                user["accumulated_score"] += (5 - user["single_rank"])
         else:
             self.score = single_game_result
             for user in self.score:
-                user["integral"] = 5 - user["single_rank"]
+                user["accumulated_score"] = 5 - user["single_rank"]
         return self.score

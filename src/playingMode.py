@@ -62,7 +62,10 @@ class PlayingMode(GameMode):
                     self.sound_controller.play_hit_sound()
                 hit.state = False
                 car.state = False
-                car.status = GameStatus.GAME_OVER
+                if car in self.users:
+                    car.status = GameStatus.GAME_OVER
+                if hit in self.users:
+                    hit.status = GameStatus.GAME_OVER
             self.cars.add(car)
 
     def _print_result(self):
@@ -101,9 +104,11 @@ class PlayingMode(GameMode):
                 return True
             return False
         else:
-            if len(self.users) - 1 == len(self.eliminated_user):
+            if len(self.users) - 1 <= len(self.eliminated_user):
                 self.state = GameResultState.FINISH
                 return True
+            else:
+                return False
 
     def _is_car_arrive_end(self, car):
         '''
