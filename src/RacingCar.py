@@ -38,6 +38,8 @@ class RacingCar(PaiaGame):
             # player_data["status"] = scene_info["status"]
             if self.game_type == "COIN":
                 player_data["coin"] = scene_info["coin"]
+            else:
+                player_data["coin"] = []
             to_player_data[str(player_data["id"] + 1) + "P"] = player_data
 
         if to_player_data:
