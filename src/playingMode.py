@@ -104,7 +104,7 @@ class PlayingMode(GameMode):
                 return True
             return False
         else:
-            if len(self.users) - 1 <= len(self.eliminated_user):
+            if len(self.users) <= len(self.eliminated_user):
                 self.state = GameResultState.FINISH
                 return True
             else:
