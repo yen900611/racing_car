@@ -46,17 +46,17 @@ COMPUTER_CAR_IMAGE = ["computer_car.png","computer_die.png"]
 USER_COLOR = [WHITE, YELLOW, BLUE, RED]
 
 '''image url'''
-COMPUTER_CAR_URL = "https://raw.githubusercontent.com/yen900611/RacingCar/master/game/image/computer_car.png"
-USER_CAR_URL = ["https://github.com/yen900611/RacingCar/blob/master/game/image/car1.png?raw=true",
-                "https://github.com/yen900611/RacingCar/blob/master/game/image/car2.png?raw=true",
-                "https://github.com/yen900611/RacingCar/blob/master/game/image/car3.png?raw=true",
-                "https://github.com/yen900611/RacingCar/blob/master/game/image/car4.png?raw=true"]
-BACKGROUND_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/ground0.jpg?raw=true"
-INFO_COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/info_coin.png?raw=true"
-INFO_KM_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/info_km.png?raw=true"
-FINISH_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/finish.png?raw=true"
-START_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/start.png?raw=true"
-COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/game/image/logo.png?raw=true"
+COMPUTER_CAR_URL = "https://raw.githubusercontent.com/yen900611/RacingCar/master/asset/image/computer_car.png"
+USER_CAR_URL = ["https://github.com/yen900611/RacingCar/blob/master/asset/image/car1.png?raw=true",
+                "https://github.com/yen900611/RacingCar/blob/master/asset/image/car2.png?raw=true",
+                "https://github.com/yen900611/RacingCar/blob/master/asset/image/car3.png?raw=true",
+                "https://github.com/yen900611/RacingCar/blob/master/asset/image/car4.png?raw=true"]
+BACKGROUND_URL = "https://github.com/yen900611/RacingCar/blob/master/asset/image/ground0.jpg?raw=true"
+INFO_COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/asset/image/info_coin.png?raw=true"
+INFO_KM_URL = "https://github.com/yen900611/RacingCar/blob/master/asset/image/info_km.png?raw=true"
+FINISH_URL = "https://github.com/yen900611/RacingCar/blob/master/asset/image/finish.png?raw=true"
+START_URL = "https://github.com/yen900611/RacingCar/blob/master/asset/image/start.png?raw=true"
+COIN_URL = "https://github.com/yen900611/RacingCar/blob/master/asset/image/logo.png?raw=true"
 
 computerCar_init_position = [
     (650, 110), (650, 160), (650, 210), (650, 260), (650, 310), (650, 360), (650, 410), (650, 460), (650, 510),
