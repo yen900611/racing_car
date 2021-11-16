@@ -27,6 +27,7 @@ class RacingCar(PaiaGame):
         self.game_mode = self.set_game_mode()
         self.game_mode.sound_controller.play_music()
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
+        self.attachements =[]
 
     def game_to_player_data(self) -> dict:
         scene_info = self.get_scene_info
@@ -265,12 +266,25 @@ class RacingCar(PaiaGame):
         return game_mode
 
     def rank(self):
-        single_game_result = self.get_scene_info["game_result"]
-        if self.score:
-            for user in self.score:
-                user["accumulated_score"] += (5 - user["single_rank"])
-        else:
-            self.score = single_game_result
-            for user in self.score:
+        game_result = self.get_scene_info["game_result"]
+        # TODO refactor
+        if len(self.attachements)==0:
+            self.attachements = game_result
+            for user in self.attachements:
                 user["accumulated_score"] = 5 - user["single_rank"]
-        return self.score
+            return self.attachements
+
+        for user in self.attachements:
+            for single_rank in game_result:
+                if single_rank['player'] == user['player']:
+                    match_single_rank = single_rank
+            user["accumulated_score"] += (5 - match_single_rank["single_rank"])
+        # if self.score:
+        #     for user in self.score:
+        #         user["accumulated_score"] += (5 - user["single_rank"])
+        # else:
+        #     self.score = single_game_result
+        #     for user in self.score:
+        #         user["accumulated_score"] = 5 - user["single_rank"]
+
+        return self.attachements

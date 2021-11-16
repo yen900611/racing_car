@@ -20,5 +20,5 @@ class MLPlay:
         """
         Reset the status
         """
-        print("reset ml script")
+        # print("reset ml script")
         pass
