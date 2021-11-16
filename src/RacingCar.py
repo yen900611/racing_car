@@ -95,6 +95,7 @@ class RacingCar(PaiaGame):
             # collect game rank
             game_result = self.game_mode.winner.copy()
             if len(self.attachements) == 0:
+                """ fisrt time end"""
                 self.attachements = game_result
                 for user in self.attachements:
                     user["accumulated_score"] = 5 - user["single_rank"]
@@ -105,6 +106,7 @@ class RacingCar(PaiaGame):
                         if single_rank['player'] == user['player']:
                             match_single_rank = single_rank
                     user["accumulated_score"] += (5 - match_single_rank["single_rank"])
+                    user["single_rank"] = match_single_rank["single_rank"]
             if self.game_times < self.game_times_goal:
                 self.game_times += 1
                 return "RESET"
