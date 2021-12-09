@@ -10,7 +10,7 @@ class Coin(pygame.sprite.Sprite):
 
     def update(self, *args):
         self.rect.centerx -= self.vel
-        if self.rect.centerx < 0:
+        if self.rect.centerx < -500:
             self.kill()
 
     def move(self):
