@@ -11,6 +11,8 @@
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
 
 
+![](https://i.imgur.com/QFEPZm0.gif)
+
 
 ---
 

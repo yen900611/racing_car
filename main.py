@@ -13,7 +13,6 @@ if __name__ == '__main__':
     game_view = PygameView(scene_init_info_dict)
     interval = 1 / 30
     frame_count = 0
-
     while game.isRunning() and not quit_or_esc():
         pygame.time.Clock().tick_busy_loop(FPS)
         game.update(game.get_keyboard_command())
