@@ -24,6 +24,10 @@
         {
           "verbose": "COIN",
           "value": "COIN"
+        },
+        {
+          "verbose": "RELIVE",
+          "value": "RELIVE"
         }
       ],
       "help": "choose the type of game",
