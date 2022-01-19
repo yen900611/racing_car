@@ -90,8 +90,8 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, game_time
 ## 使用ＡＩ玩遊戲
 
 ```bash
-# python MLGame.py [options] racing_car [user_num] [game_mode] [car_num] [game_times] [sound]
-python MLGame.py -i template.py racing_car 1 COIN 40 2 off
+# python MLGame.py [options] RacingCar [user_num] [game_mode] [car_num] [game_times] [sound]
+python MLGame.py -i template.py RacingCar 1 COIN 40 2 off
 ```
 
 遊戲參數依序是`user_num` `game_mode` `car_num` `game_times` `sound`

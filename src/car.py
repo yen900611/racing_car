@@ -35,7 +35,7 @@ class Car(pygame.sprite.Sprite):
         self.rect.centery -= 3
 
     def keep_in_screen(self):
-        if self.rect.left < -250 or self.rect.right > 1300 or self.rect.top < 100:
+        if self.rect.left < -500 or self.rect.right > 1500 or self.rect.top < 100:
             self.state = False
 
     def get_info(self):
@@ -55,9 +55,11 @@ class UserCar(Car):
         self.status = GameStatus.GAME_ALIVE
         self.coin_num = 0
         self.max_vel = 15
+        self.cash_frame = 0
 
     def update(self, control_list):
         if self.state:
+            print(self.velocity)
             self.handleKeyEvent(control_list)
             self.distance += self.velocity
             self.keep_in_screen()
@@ -141,11 +143,11 @@ class Camera():
             self.velocity = car_velocity-0.5
 
         elif car_velocity == 0:
-            self.velocity = 1
+            self.velocity = 0.7
         else:
             if self.velocity < car_velocity:
-                self.velocity += 0.05
+                self.velocity += 0.07
             elif self.velocity > car_velocity+1:
-                self.velocity -= 0.05
+                self.velocity -= 0.07
             else:
                 pass

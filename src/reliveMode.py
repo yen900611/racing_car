@@ -7,9 +7,9 @@ import random
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 
-class PlayingMode(GameMode):
+class ReliveMode(GameMode):
     def __init__(self, user_num: int, car_num, sound_controller):
-        super(PlayingMode, self).__init__(user_num, car_num, sound_controller)
+        super(ReliveMode, self).__init__(user_num, car_num, sound_controller)
         self.is_arrive = False
 
     def update(self, command):
@@ -38,7 +38,7 @@ class PlayingMode(GameMode):
                     self.is_arrive = True
                     self.eliminated_user.append(car)
                     self.user_distance.append(car.distance)
-                    break # 任一玩家通過終點則結束遊戲
+                    # break # 任一玩家通過終點則結束遊戲
 
             for car in self.cars:
                 '''偵測車子的狀態'''
@@ -52,20 +52,38 @@ class PlayingMode(GameMode):
             self._print_result()
             self.running = False
 
+    def _detect_car_status(self, car):
+        super(ReliveMode, self)._detect_car_status(car)
+        if car.state:
+            pass
+        else:
+            if car in self.users:
+                pass
+            else:
+                car.kill()
+
     def detect_collision(self):
-        super(PlayingMode, self).detect_collision()
+        super(ReliveMode, self).detect_collision()
         for car in self.cars:
             self.cars.remove(car) # 如果sprite本身也在要偵測的group裡面就會被偵測到
             hits = pygame.sprite.spritecollide(car, self.cars, False)
             for hit in hits:
                 if (hit.state and 0 < hit.rect.centerx < WIDTH):
                     self.sound_controller.play_hit_sound()
-                hit.state = False
-                car.state = False
                 if car in self.users:
-                    car.status = GameStatus.GAME_OVER
+                    if self.frame - car.cash_frame > 3*FPS:
+                        car.velocity = 0
+                        car.cash_frame = self.frame
+                    # car.status = GameStatus.GAME_OVER
+                else:
+                    car.state = False
                 if hit in self.users:
-                    hit.status = GameStatus.GAME_OVER
+                    if self.frame - hit.cash_frame > 3*FPS:
+                        hit.velocity = 0
+                        hit.cash_frame = self.frame
+                    # hit.status = GameStatus.GAME_OVER
+                else:
+                    hit.state = False
             self.cars.add(car)
 
     def _print_result(self):

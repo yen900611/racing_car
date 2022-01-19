@@ -47,6 +47,8 @@ class GameMode(object):
         '''state include GameResultState.FINISH、GameResultState.FAIL"'''
         self.state = GameResultState.FAIL
 
+        self.last_create_car = pygame.time.get_ticks()
+
     def handle_event(self):
         """ Handle the event from window , mouse or button.
         :return: None
@@ -88,12 +90,13 @@ class GameMode(object):
                 self.lanes.add(self.lane)
 
     def _creat_computercar(self):
-        if len(self.cars) < self.cars_num:
+        if len(self.cars) < self.cars_num and self.frame - self.last_create_car >10:
             for i in range(2):
                 x, y = random.choice(computerCar_init_position)
                 computerCar = ComputerCar(y, self.camera.position + x, x + 500)
                 self.computerCars.add(computerCar)
                 self.cars.add(computerCar)
+            self.last_create_car = self.frame
             # x = random.choice([650, -700])
             # y = random.choice(self.car_lanes)
 

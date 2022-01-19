@@ -2,6 +2,7 @@ import pygame
 
 from .playingMode import PlayingMode
 from .coinPlayMode import CoinMode
+from .reliveMode import ReliveMode
 from mlgame.view.test_decorator import check_game_progress, check_game_result
 from mlgame.view.view_model import create_text_view_data, create_asset_init_data, create_image_view_data, \
     create_line_view_data, Scene, create_polygon_view_data, create_rect_view_data
@@ -202,12 +203,12 @@ class RacingCar(PaiaGame):
                 coin_image = create_image_view_data("coin", coin[0], coin[1], coin_size[0], coin_size[1])
                 game_progress["object_list"].append(coin_image)
             for user in self.game_mode.users:
-                score = create_text_view_data(str(user.coin_num), 740 + user.car_no * 77, 45, WHITE, "20px Arial")
+                score = create_text_view_data(str(user.coin_num), 740 + user.car_no * 77, 45, WHITE, "16px Arial")
                 game_progress["foreground"].append(score)
         else:
             for user in self.game_mode.users:
                 score = create_text_view_data(str(round(user.distance)) + "m", 725 + user.car_no * 77, 45, WHITE,
-                                              "20px Arial")
+                                              "16px Arial")
                 game_progress["foreground"].append(score)
         # computer car
         for car in scene_info["computer_cars"]:
@@ -277,6 +278,8 @@ class RacingCar(PaiaGame):
             game_mode = PlayingMode(self.user_num, self.cars_num, self.sound_controller)
         elif self.game_type == "COIN":
             game_mode = CoinMode(self.user_num, self.cars_num, self.sound_controller)
+        elif self.game_type == "RELIVE":
+            game_mode = ReliveMode(self.user_num, self.cars_num, self.sound_controller)
 
         return game_mode
 
