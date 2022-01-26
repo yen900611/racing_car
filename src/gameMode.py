@@ -9,7 +9,7 @@ import random
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 class GameMode(object):
-    def __init__(self, user_num: int, car_num, sound_controller):
+    def __init__(self, user_num: int, car_num, length:int, sound_controller):
         self.bg_rect = pygame.Rect(0, 0, 2000, HEIGHT)
         self.running = True
         self.frame = 0
@@ -37,16 +37,16 @@ class GameMode(object):
         else:
             self.is_single = False
 
+        self.length = length
         '''initial object'''
         for user in range(user_num):
             self._init_user(user)
         self._init_lanes()
-        self.line = Line()
+        self.line = Line(self.length)
         self.lanes.add(self.line)
 
         '''state include GameResultState.FINISH、GameResultState.FAIL"'''
         self.state = GameResultState.FAIL
-
         self.last_create_car = pygame.time.get_ticks()
 
     def handle_event(self):

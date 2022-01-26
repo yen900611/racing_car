@@ -8,8 +8,8 @@ from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 
 class PlayingMode(GameMode):
-    def __init__(self, user_num: int, car_num, sound_controller):
-        super(PlayingMode, self).__init__(user_num, car_num, sound_controller)
+    def __init__(self, user_num: int, car_num, length, sound_controller):
+        super(PlayingMode, self).__init__(user_num, car_num, length, sound_controller)
         self.is_arrive = False
 
     def update(self, command):
@@ -115,7 +115,7 @@ class PlayingMode(GameMode):
         :param car: User
         :return: Bool
         '''
-        if car.distance > finish_line:
+        if car.distance > self.length:
             car.status = GameStatus.GAME_PASS
             return True
         return False

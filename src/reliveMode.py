@@ -8,9 +8,10 @@ from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 
 class ReliveMode(GameMode):
-    def __init__(self, user_num: int, car_num, sound_controller):
-        super(ReliveMode, self).__init__(user_num, car_num, sound_controller)
-        self.is_arrive = False
+    def __init__(self, user_num: int, car_num, length, sound_controller):
+        super(ReliveMode, self).__init__(user_num, car_num, length, sound_controller)
+        self.car_arrived = 0
+        self.user_frames = [] # 使用者抵達終點所使用的時間
 
     def update(self, command):
         '''update the model of src,call this fuction per frame'''
@@ -28,17 +29,9 @@ class ReliveMode(GameMode):
             '''update sprite'''
             self.lanes.update(self.camera.position)
 
-
             for car in self.users:
                 # self.user_out_screen(car)
                 car.update(command[str(car.car_no + 1) + "P"])
-
-                '''是否通過終點'''
-                if self._is_car_arrive_end(car):
-                    self.is_arrive = True
-                    self.eliminated_user.append(car)
-                    self.user_distance.append(car.distance)
-                    # break # 任一玩家通過終點則結束遊戲
 
             for car in self.cars:
                 '''偵測車子的狀態'''
@@ -47,7 +40,7 @@ class ReliveMode(GameMode):
                 car.rect.left = car.distance - self.camera.position + 520
             self.computerCars.update(self.cars)
 
-        if self._is_game_end(self.is_arrive):
+        if self._is_game_end(self.car_arrived):
             self.rank()
             self._print_result()
             self.running = False
@@ -106,48 +99,62 @@ class ReliveMode(GameMode):
                    })
         self.winner = tem
 
-    def _is_game_end(self, is_arrive:bool):
+    def _is_game_end(self, car_arrived:int):
         '''
         判斷遊戲是否結束，遊戲結束的條件如下：
-        單人模式：抵達終點，或是玩家出局(FAIL)
-        多人模式：一名或以上玩家抵達終點，或市場上僅餘一名玩家
+        1. 所有玩家皆抵達終點
+        2. 首位玩家通過終點後再1000 frames
         :return:Bool
         '''
-        if is_arrive:
-            self.state = GameResultState.FINISH
-            return True
-        if self.is_single:
-            if len(self.eliminated_user) == 1:
-                self.state = GameResultState.FAIL
-                return True
-            return False
+        if car_arrived == 0: # 尚未有車子通過終點
+            for car in self.users:
+                if self._is_car_arrive_end(car):
+                    self.car_arrived = self.frame
         else:
-            if len(self.users) <= len(self.eliminated_user):
-                self.state = GameResultState.FINISH
+            if self.frame - car_arrived > 1000:# 有玩家通過終點且已經過1000 frames
                 return True
             else:
-                return False
+                for car in self.users:
+                    if self._is_car_arrive_end(car):
+                        continue
+                    else:
+                        return False
+                return True
+
 
     def _is_car_arrive_end(self, car):
         '''
         :param car: User
         :return: Bool
         '''
-        if car.distance > finish_line:
-            car.status = GameStatus.GAME_PASS
+        if car.distance > self.length:
+            car.state = False
             return True
         return False
 
     def rank(self):
+        '''
+        如果玩家有通過終點則標示為GAME_PASS，反之為GAME_OVER
+        排名先依據抵達終點所費之時間，若未抵達終點則以行進距離較遠者排名靠前
+        '''
+        self.user_distance = []
         for user in self.users:
-            if user not in self.eliminated_user:
+            if user.distance >= self.length:
+                user.status = GameStatus.GAME_PASS
+                self.user_frames.append(user.used_frame)
+            else:
                 user.status = GameStatus.GAME_OVER
-                self.eliminated_user.append(user)
                 self.user_distance.append(user.distance)
-        while len(self.eliminated_user) > 0:
-            for car in self.eliminated_user:
-                if car.distance == min(self.user_distance):
-                    self.winner.append(car)
-                    self.user_distance.remove(car.distance)
-                    self.eliminated_user.remove(car)
-        self.winner.reverse()
+        while len(self.user_frames) > 0:
+            for car in self.users:
+                if self.user_frames:
+                    if car.used_frame == min(self.user_frames):
+                        self.winner.append(car)
+                        self.user_frames.remove(car.used_frame)
+        while len(self.user_distance) > 0:
+            for car in self.users:
+                if self.user_distance:
+                    if car.distance == max(self.user_distance):
+                        self.winner.append(car)
+                        self.user_distance.remove(car.distance)
+        # self.winner.reverse()

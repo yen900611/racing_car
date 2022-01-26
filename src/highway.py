@@ -26,12 +26,12 @@ class Lane(pygame.sprite.Sprite):
         }
 
 class Line(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, length):
         pygame.sprite.Sprite.__init__(self)
         self.rect = pygame.Rect(80, 100, 45, 428)
         self.type = "start_line"
         self.distance = 60
-        self.end_distance = finish_line
+        self.end_distance = length
 
     def update(self, camera):
         if self.rect.right < 0:

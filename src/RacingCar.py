@@ -15,7 +15,7 @@ from .sound_controller import *
 
 
 class RacingCar(PaiaGame):
-    def __init__(self, user_num: int, game_mode, car_num, game_times, sound):
+    def __init__(self, user_num: int, game_mode, car_num, racetrack_length, game_times, sound):
         super().__init__()
         self.game_times_goal = game_times
         self.game_times = 1
@@ -25,6 +25,7 @@ class RacingCar(PaiaGame):
         self.sound_controller = SoundController(self.is_sound)
         self.game_type = game_mode
         self.user_num = user_num
+        self.length = racetrack_length
         self.game_mode = self.set_game_mode()
         self.game_mode.sound_controller.play_music()
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
@@ -193,7 +194,7 @@ class RacingCar(PaiaGame):
             user_image = create_image_view_data("player" + str(user.car_no + 1) + "_car", user.rect[0], user.rect[1],
                                                 car_size[0], car_size[1])
             game_progress["object_list"].append(user_image)
-            point = create_rect_view_data("user", round(user.distance * (900 / finish_line)),
+            point = create_rect_view_data("user", round(user.distance * (900 / self.length)),
                                           650 + round(user.rect.top * (50 / 500)),
                                           4, 4, USER_COLOR[user.car_no])
             game_progress["foreground"].append(point)
@@ -275,11 +276,11 @@ class RacingCar(PaiaGame):
 
     def set_game_mode(self):
         if self.game_type == "NORMAL":
-            game_mode = PlayingMode(self.user_num, self.cars_num, self.sound_controller)
+            game_mode = PlayingMode(self.user_num, self.cars_num, self.length, self.sound_controller)
         elif self.game_type == "COIN":
-            game_mode = CoinMode(self.user_num, self.cars_num, self.sound_controller)
+            game_mode = CoinMode(self.user_num, self.cars_num, self.length, self.sound_controller)
         elif self.game_type == "RELIVE":
-            game_mode = ReliveMode(self.user_num, self.cars_num, self.sound_controller)
+            game_mode = ReliveMode(self.user_num, self.cars_num, self.length, self.sound_controller)
 
         return game_mode
 

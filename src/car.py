@@ -56,10 +56,11 @@ class UserCar(Car):
         self.coin_num = 0
         self.max_vel = 15
         self.cash_frame = 0
+        self.used_frame = 0
 
     def update(self, control_list):
         if self.state:
-            print(self.velocity)
+            self.used_frame += 1
             self.handleKeyEvent(control_list)
             self.distance += self.velocity
             self.keep_in_screen()

@@ -33,13 +33,22 @@
       "help": "choose the type of game",
       "default": "NORMAL"
     },
-        {
+    {
       "name": "car_num",
       "verbose": "車子總數量",
       "type": "int",
       "max": 40,
       "min": 1,
       "default": 20,
+      "help": "set the number of car, include user and computer cars."
+    },
+    {
+      "name": "racetrack_length",
+      "verbose": "終點距離",
+      "type": "int",
+      "max": 30000,
+      "min": 1000,
+      "default": 15000,
       "help": "set the number of car, include user and computer cars."
     },
     {
@@ -55,9 +64,12 @@
       "name": "sound",
       "verbose": "遊戲音效",
       "type": "str",
-      "choices":["on" ,"off"],
+      "choices": [
+        "on",
+        "off"
+      ],
       "help": "'on' can turn on the sound.",
-      "default": "on"
+      "default": "off"
     }
   ]
 }

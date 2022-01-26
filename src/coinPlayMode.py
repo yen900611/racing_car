@@ -9,8 +9,8 @@ from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 
 class CoinMode(GameMode):
-    def __init__(self, user_num: int, car_num, sound_controller):
-        super(CoinMode, self).__init__(user_num, car_num, sound_controller)
+    def __init__(self, user_num: int, car_num, length, sound_controller):
+        super(CoinMode, self).__init__(user_num, car_num, length, sound_controller)
         self.coins = pygame.sprite.Group()
 
         '''image'''
