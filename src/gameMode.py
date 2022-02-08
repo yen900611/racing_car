@@ -104,7 +104,7 @@ class GameMode(object):
 
     def user_out_screen(self,car):
         if car.state:
-            if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
+            if car.rect.bottom > 550 or car.rect.top < 100:
                 self.sound_controller.play_lose_sound()
                 car.state = False
 

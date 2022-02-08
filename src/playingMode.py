@@ -30,7 +30,7 @@ class PlayingMode(GameMode):
 
 
             for car in self.users:
-                # self.user_out_screen(car)
+                self.user_out_screen(car)
                 car.update(command[str(car.car_no + 1) + "P"])
 
                 '''是否通過終點'''
