@@ -36,7 +36,7 @@
         ["['SPEED', 'MOVE_RIGHT']", "speed up and move right", "加速並向右移動"],
         ["['BRAKE', 'MOVE_LEFT']", "brake and move left", "減速並向左移動"],
         ["['BRAKE', 'MOVE_RIGHT']", "brake and move right", "減速並向右移動"],
-        ["RESET", "RESET", "重製"],
+        ["RESET", "RESET", "重置"],
         ["[]", "do nothing", "不動作"]
     ]
 
