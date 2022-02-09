@@ -13,7 +13,7 @@
 ### 遊戲參數
 
 * `sound`：由音效設定，可選擇"on"或"off"，預設為"off"
-* `difficulty`：遊戲模式，可選擇"NORMAL"或"COIN"，預設為"NORMAL"。
+* `difficulty`：遊戲模式，可選擇"NORMAL"、"RELIVE"或"COIN"，預設為"NORMAL"。
 * `car_num`：車子總數量，輸入數字，代表玩家加電腦的車子的數量，預設為20。
 * `game_times`：遊戲局數，輸入數字，決定該次遊戲需要執行幾輪(系統自動計算積分)，上限為30，預設為1。
 * `the number of user`：指定遊戲玩家人數，最少需一名玩家。單機手動模式最多兩名(鍵盤位置不足)，機器學習模式至多四名。

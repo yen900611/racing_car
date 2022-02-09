@@ -15,6 +15,10 @@
 
 
 ---
+# 版本更新（3.1.1）
+1. 新增Relive Mode，重生模式。
+2. 更新積木文字。
+3. 使用者初始位置改為隨機賽道。
 
 # 基礎介紹
 
@@ -31,7 +35,7 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, game_time
 ```
 
 - `user_num`：玩家數量，最多可以4個玩家同時進行同一場遊戲，如果以鍵盤控制，最多只能2位玩家。
-- `game_mode`：遊戲模式，分為普通模式與金幣模式。
+- `game_mode`：遊戲模式，分為普通模式(`NORMAL`)、重生模式(`RELIVE`)與金幣模式(`COIN`)。
 - `car_num`：車子數量的上限，包含玩家與電腦的車都會被計入。
 - `game_times`：遊戲重複啟動的次數，系統將計算每輪遊戲結果並提供積分。
 - `sound`：可輸入`on`或是`off`，控制是否播放遊戲音效。
@@ -47,6 +51,7 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, game_time
 
 1. 普通模式：以最快的速度到達終點。
 2. 金幣模式：在遊戲時間截止前，盡可能吃到更多的金幣
+3. 重生模式：以最快的速度到達終點。
 
 ### 通關條件
 
