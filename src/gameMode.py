@@ -79,9 +79,7 @@ class GameMode(object):
         return self.running
 
     def _init_user(self, user_no: int):
-        p = random.choice(userCar_init_position)
-        self.car = UserCar(p, 0, user_no)
-        userCar_init_position.remove(p)
+        self.car = UserCar(userCar_init_position[user_no], 0, user_no)
         self.users.add(self.car)
         self.cars.add(self.car)
 
@@ -104,7 +102,7 @@ class GameMode(object):
 
     def user_out_screen(self,car):
         if car.state:
-            if car.rect.bottom > 550 or car.rect.top < 100:
+            if car.rect.right < -100 or car.rect.bottom > 550 or car.rect.top < 100:
                 self.sound_controller.play_lose_sound()
                 car.state = False
 

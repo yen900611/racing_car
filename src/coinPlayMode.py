@@ -40,7 +40,7 @@ class CoinMode(GameMode):
             self.computerCars.update(self.cars)
 
             for car in self.users:
-                self.user_out_screen(car)
+                # self.user_out_screen(car)
                 self.coin_num.append(car.coin_num)
                 car.update(command[str(car.car_no + 1) + "P"])
 
