@@ -30,7 +30,7 @@
 
 ```python
 # main.py 
-game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, game_times=1, sound="off")
+game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack_length=10000, game_times=1, sound="off")
 
 ```
 
@@ -96,11 +96,11 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, game_time
 ## 使用ＡＩ玩遊戲
 
 ```bash
-# python MLGame.py [options] RacingCar [user_num] [game_mode] [car_num] [game_times] [sound]
-python MLGame.py -i template.py RacingCar 1 COIN 40 2 off
+# python MLGame.py [options] RacingCar [user_num] [game_mode] [car_num] [racetrack_length] [game_times] [sound]
+python MLGame.py -i template.py RacingCar 1 COIN 40 10000 2 off
 ```
 
-遊戲參數依序是`user_num` `game_mode` `car_num` `game_times` `sound`
+遊戲參數依序是`user_num` `game_mode` `car_num` `racetrack_length` `game_times` `sound`
 
 ## ＡＩ範例
 

@@ -6,15 +6,16 @@
 
 * 搭配[MLGame](https://github.com/LanKuDot/MLGame)執行，請將遊戲放在MLGame/games資料夾中，遊戲資料夾需命名為**RacingCar**
     * 手動模式：
-`python MLGame.py -m racing_car <the number of user> [game_mode] [car_num] [game_times] [sound]`
+`python MLGame.py -m racing_car <the number of user> [game_mode] [car_num] [racetrack_length] [game_times] [sound]`
     * 機器學習模式：
-`python MLGame.py -i ml_play_template.py racing_car <the number of user> [game_mode] [car_num] [game_times] [sound]`
+`python MLGame.py -i ml_play_template.py racing_car <the number of user> [game_mode] [car_num] [racetrack_length] [game_times] [sound]`
 
 ### 遊戲參數
 
 * `sound`：由音效設定，可選擇"on"或"off"，預設為"off"
 * `difficulty`：遊戲模式，可選擇"NORMAL"、"RELIVE"或"COIN"，預設為"NORMAL"。
 * `car_num`：車子總數量，輸入數字，代表玩家加電腦的車子的數量，預設為20。
+* `racetrack_length`:終點距離，輸入數字可決定該場遊戲車子需要跑多遠才結束遊戲。
 * `game_times`：遊戲局數，輸入數字，決定該次遊戲需要執行幾輪(系統自動計算積分)，上限為30，預設為1。
 * `the number of user`：指定遊戲玩家人數，最少需一名玩家。單機手動模式最多兩名(鍵盤位置不足)，機器學習模式至多四名。
 
@@ -70,4 +71,4 @@
 
 賽車是多人遊戲，所以在啟動機器學習模式時，需要利用 `-i <script_for_1P> -i <script_for_2P> -i <script_for_3P> -i <script_for_4P>` 指定最多四個不同的玩家程式。
 * For example
-`python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2 NORMAL 20 2 off`
+`python MLGame.py -f 120 -i ml_play_template.py -i ml_play_template.py RacingCar 2 NORMAL 20 10000 2 off`
