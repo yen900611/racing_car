@@ -8,8 +8,12 @@ from .highway import Lane, Line
 import random
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
+userCar_init_position = [160, 260, 360, 460]
+
+
 class GameMode(object):
     def __init__(self, user_num: int, car_num, length:int, sound_controller):
+        global userCar_init_position
         self.bg_rect = pygame.Rect(0, 0, 2000, HEIGHT)
         self.running = True
         self.frame = 0
@@ -39,6 +43,8 @@ class GameMode(object):
 
         self.length = length
         '''initial object'''
+        userCar_init_position = [160, 260, 360, 460]
+
         for user in range(user_num):
             self._init_user(user)
         self._init_lanes()
