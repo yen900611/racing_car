@@ -119,7 +119,7 @@ class RacingCar(PaiaGame):
         self.frame_count = 0
         self.game_mode = self.set_game_mode()
         self.game_mode.sound_controller.play_music()
-        pass
+        userCar_init_position = [160, 260, 360, 460]
 
     def isRunning(self):
         return self.game_mode.isRunning()
