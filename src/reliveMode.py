@@ -12,7 +12,7 @@ class ReliveMode(GameMode):
         super(ReliveMode, self).__init__(user_num, car_num, length, sound_controller)
         self.car_arrived = 0
         self.user_frames = [] # 使用者抵達終點所使用的時間
-        self.limit_frame = length/1000 *200 ###########################################################300
+        self.limit_frame = length/1000 * 200
 
     def update(self, command):
         '''update the model of src,call this fuction per frame'''
@@ -163,17 +163,16 @@ class ReliveMode(GameMode):
         # self.winner.reverse()
 
     def user_out_screen(self,car):
-        super(ReliveMode, self).user_out_screen(car)
         if car.state:
             if car.rect.bottom > 540:
+                if self.frame - car.cash_frame > 3 * FPS:
+                    car.cash_frame = self.frame
+                    car.velocity = 0
                 car.rect.bottom = 540
-                if self.frame - car.cash_frame > 3 * FPS:
-                    car.velocity = 0
-                    car.cash_frame = self.frame
             elif car.rect.top < 100:
-                car.rect.top = 100
                 if self.frame - car.cash_frame > 3 * FPS:
                     car.velocity = 0
                     car.cash_frame = self.frame
+                car.rect.top = 100
 
 
