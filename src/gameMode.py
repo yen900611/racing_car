@@ -79,7 +79,10 @@ class GameMode(object):
         return self.running
 
     def _init_user(self, user_no: int):
-        self.car = UserCar(userCar_init_position[user_no], 0, user_no)
+        random.shuffle(userCar_init_position)
+        p = random.choice(userCar_init_position)
+        self.car = UserCar(p, 0, user_no)
+        userCar_init_position.remove(p)
         self.users.add(self.car)
         self.cars.add(self.car)
 

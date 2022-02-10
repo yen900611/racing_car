@@ -7,7 +7,7 @@
       "name": "user_num",
       "verbose": "參賽人數",
       "type": "int",
-      "max": 4,
+      "max": 5,
       "min": 1,
       "default": 1,
       "help": "set the number of user."
