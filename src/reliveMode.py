@@ -31,7 +31,7 @@ class ReliveMode(GameMode):
             self.lanes.update(self.camera.position)
 
             for car in self.users:
-                # self.user_out_screen(car)
+                self.user_out_screen(car)
                 car.update(command[str(car.car_no + 1) + "P"])
 
             for car in self.cars:
@@ -161,3 +161,19 @@ class ReliveMode(GameMode):
                         self.winner.append(car)
                         self.user_distance.remove(car.distance)
         # self.winner.reverse()
+
+    def user_out_screen(self,car):
+        super(ReliveMode, self).user_out_screen(car)
+        if car.state:
+            if car.rect.bottom > 540:
+                car.rect.bottom = 540
+                if self.frame - car.cash_frame > 3 * FPS:
+                    car.velocity = 0
+                    car.cash_frame = self.frame
+            elif car.rect.top < 100:
+                car.rect.top = 100
+                if self.frame - car.cash_frame > 3 * FPS:
+                    car.velocity = 0
+                    car.cash_frame = self.frame
+
+
