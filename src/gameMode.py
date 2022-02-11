@@ -21,9 +21,10 @@ class GameMode(object):
         self.cars = pygame.sprite.Group()
         self.computerCars = pygame.sprite.Group()
         self.lanes = pygame.sprite.Group()
-        self.camera = Camera()
+        self.camera = Camera(length)
 
         '''data set'''
+        random.shuffle(userCar_init_position)
         self.cars_num = car_num
         self.background_x = 0
         self.rel_x = 0
@@ -73,16 +74,13 @@ class GameMode(object):
         """
         self.rel_x = self.background_x % self.bg_rect.width
         self.bg_x = self.rel_x - self.bg_rect.width
-        self.background_x -= self.maxVel
+        self.background_x -= self.camera.velocity
 
     def isRunning(self) -> bool:
         return self.running
 
     def _init_user(self, user_no: int):
-        random.shuffle(userCar_init_position)
-        p = random.choice(userCar_init_position)
-        self.car = UserCar(p, 0, user_no)
-        userCar_init_position.remove(p)
+        self.car = UserCar(userCar_init_position[user_no], 0, user_no)
         self.users.add(self.car)
         self.cars.add(self.car)
 
@@ -125,5 +123,8 @@ class GameMode(object):
     def _revise_speed(self):
         self.user_vel = []
         for car in self.users:
+            if not car.state:
+                self.maxVel = 0
+                return 0
             self.user_vel.append(car.velocity)
         self.maxVel = max(self.user_vel)

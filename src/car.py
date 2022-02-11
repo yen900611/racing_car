@@ -131,20 +131,25 @@ class ComputerCar(Car):
             self.action = "continue"
 
 class Camera():
-    def __init__(self):
+    def __init__(self, length):
         self.position = 500
         self.velocity = 0
+        self.length = length
 
     def update(self,car_velocity):
         self.revise_velocity(car_velocity)
         self.position += self.velocity
+        # if self.position > self.length:
+        #     self.position = self.length
 
     def revise_velocity(self,car_velocity):
+        if self.position > self.length:
+            self.velocity = 0
         if car_velocity >= 13:
             self.velocity = car_velocity-0.5
 
         elif car_velocity == 0:
-            self.velocity = 0.7
+            self.velocity = 0.01
         else:
             if self.velocity < car_velocity:
                 self.velocity += 0.07

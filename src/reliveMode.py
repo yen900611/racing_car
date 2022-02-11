@@ -12,7 +12,7 @@ class ReliveMode(GameMode):
         super(ReliveMode, self).__init__(user_num, car_num, length, sound_controller)
         self.car_arrived = 0
         self.user_frames = [] # 使用者抵達終點所使用的時間
-        self.limit_frame = length/1000 * 200
+        self.limit_frame = length/1000 * 300
 
     def update(self, command):
         '''update the model of src,call this fuction per frame'''
@@ -52,7 +52,7 @@ class ReliveMode(GameMode):
             pass
         else:
             if car in self.users:
-                pass
+                car.velocity = 0
             else:
                 car.kill()
 
@@ -131,6 +131,7 @@ class ReliveMode(GameMode):
         :return: Bool
         '''
         if car.distance > self.length:
+            car.distance = self.length
             car.state = False
             return True
         return False
