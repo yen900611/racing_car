@@ -107,6 +107,7 @@ class ReliveMode(GameMode):
         2. 首位玩家通過終點後再1000 frames
         :return:Bool
         '''
+        end = True
         if self.frame > self.limit_frame:
             return True
         if car_arrived == 0: # 尚未有車子通過終點
@@ -118,11 +119,12 @@ class ReliveMode(GameMode):
                 return True
             else:
                 for car in self.users:
-                    if self._is_car_arrive_end(car):
-                        continue
-                    else:
-                        return False
-                return True
+                    if not self._is_car_arrive_end(car):
+                        end = False
+                if end:
+                    return True
+                else:
+                    return False
 
 
     def _is_car_arrive_end(self, car):
