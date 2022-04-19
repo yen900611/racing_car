@@ -110,7 +110,7 @@ class ReliveMode(GameMode):
         :return:Bool
         '''
         end = True
-        if self.frame > self.limit_frame:
+        if self.frame >= self.limit_frame:
             return True
         if car_arrived == 0: # 尚未有車子通過終點
             for car in self.users:
@@ -134,7 +134,7 @@ class ReliveMode(GameMode):
         :param car: User
         :return: Bool
         '''
-        if car.distance > self.length:
+        if car.distance >= self.length:
             car.distance = self.length
             car.state = False
             return True
