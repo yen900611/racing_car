@@ -26,7 +26,6 @@ class MLPlay:
             command.append("MOVE_RIGHT")
 
         return command
-
     def reset(self):
         """
         Reset the status
