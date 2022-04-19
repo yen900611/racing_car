@@ -29,7 +29,7 @@ class RacingCar(PaiaGame):
         self.game_mode = self.set_game_mode()
         self.game_mode.sound_controller.play_music()
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
-        self.attachements =[]
+        self.attachements = []
 
     def game_to_player_data(self) -> dict:
         scene_info = self.get_scene_info
@@ -164,8 +164,10 @@ class RacingCar(PaiaGame):
         """
         scene_info = self.get_scene_info
         game_progress = {
+            "frame": self.frame_count,
             "background": [],
             "object_list": [],
+            "toggle_with_bias": [],
             "toggle": [],
             "foreground": [],
             "user_info": [],
