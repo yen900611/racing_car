@@ -94,11 +94,19 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack
 ## 使用ＡＩ玩遊戲
 
 ```bash
-# python MLGame.py [options] RacingCar [user_num] [game_mode] [car_num] [racetrack_length] [game_times] [sound]
+# python MLGame.py [options] RacingCar [user_num] [game_type] [car_num] [racetrack_length] [rounds] [sound]
+# before MLGame 9.1.*
+# 遊戲參數依序是遊戲參數依序是 `user_num` `game_type` `car_num` `racetrack_length` `rounds` `sound`
+
 python MLGame.py -i template.py RacingCar 1 COIN 40 10000 2 off
+
+# Begin from MLGame 9.2.*
+
+python MLGame.py -i template.py RacingCar --user_num 1 --game_type COIN --car_num 40 --racetrack_length 10000  --round 2 --sound off
+
 ```
 
-遊戲參數依序是`user_num` `game_mode` `car_num` `racetrack_length` `game_times` `sound`
+遊戲參數依序是`user_num` `game_type` `car_num` `racetrack_length` `round` `sound`
 
 ## ＡＩ範例
 
