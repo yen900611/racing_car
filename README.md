@@ -28,15 +28,16 @@
 
 ```python
 # main.py 
-game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack_length=10000, game_times=1, sound="off")
+game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack_length=10000, rounds=1, sound="off")
 
 ```
 
 - `user_num`：玩家數量，最多可以4個玩家同時進行同一場遊戲，如果以鍵盤控制，最多只能2位玩家。
-- `game_mode`：遊戲模式，分為普通模式(`NORMAL`)、重生模式(`RELIVE`)與金幣模式(`COIN`)。
+- `game_type`：遊戲模式，分為普通模式(`NORMAL`)、重生模式(`RELIVE`)與金幣模式(`COIN`)。
 - `car_num`：車子數量的上限，包含玩家與電腦的車都會被計入。
-- `game_times`：遊戲重複啟動的次數，系統將計算每輪遊戲結果並提供積分。
+- `rounds`：遊戲重複啟動的次數，系統將計算每輪遊戲結果並提供積分。
 - `sound`：可輸入`on`或是`off`，控制是否播放遊戲音效。
+- `racetrack_length`：遊戲終點距離
 
 ## 玩法
 
