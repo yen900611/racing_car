@@ -1,8 +1,5 @@
 # Racing Car
 
-
-# **Racing Car**
-
 [comment]: <> (![python]&#40;https://img.shields.io/pypi/pyversions/pygame&#41;)
 ![pygame](https://img.shields.io/badge/release-3.2.7-red.svg)
 
@@ -41,7 +38,7 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack
 
 ## 玩法
 
-- 遊戲最多可以四個人同時進行，有普通模式和金幣模式。
+- 遊戲最多可以四個人同時進行，有普通模式、金幣模式和重生模式。
 - 使用鍵盤 上、下、左、右 (1P)與 Ｗ、Ａ、Ｓ、Ｄ (2P)控制自走車。
 - 若車子之間發生碰撞，則雙方皆淘汰出局。
 - 在重生模式下，玩家與其他車子發生碰撞時並不會出局，唯速度減速為0，並進入三秒的無敵時間，此三秒內與其他車子碰撞不會導致玩家降速。
@@ -64,28 +61,28 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack
 ## 遊戲系統
 
 1. 行動機制
-    上鍵(W鍵)：車子以3px/frame的速度向左平移
-    下鍵(S鍵)：車子以3px/frame的速度向右平移
-    右鍵(D鍵)：車子向前加速    
-    左鍵(A鍵)：車子剎車減速
+    - 上鍵(W鍵)：車子以3px/frame的速度向左平移
+    - 下鍵(S鍵)：車子以3px/frame的速度向右平移
+    - 右鍵(D鍵)：車子向前加速    
+    - 左鍵(A鍵)：車子剎車減速
     
     車子的最高速度為15px/frame，當車子左右平移時速度將會略為下降為14.5px/frame。
     車子沒有加速或剎車時，會以0.9px/frame左右的速度怠速前進。
     
 2. 座標系統
     使用pygame座標系統，左上角為(0,0)，x方向以右為正，y方向以下為正，單位為px。
-![](https://i.imgur.com/7xCl9Fs.png)
+    ![](https://i.imgur.com/7xCl9Fs.png)
+
 3. 遊戲物件
     - 螢幕大小 1000 x 700px
     - 車子大小 60 x 30px
     - 金幣大小 30 x 30px
 4. 物件移動方式
     - 電腦的車
-        車子從畫面上方或下方出現，不會左右移動切換車道。前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
-
+        車子從畫面左方或右方出現，不會切換車道。 前方有車(不論是電腦還是玩家)會剎車減速，否則不斷加速至最高速
         每台車最高速度皆不一樣，範圍為10~14。
     - 金幣
-        隨機從畫面上方出現，以5 px/frame的速度下降。
+        隨機從畫面右方出現，以5 px/frame的速度移動。
         電腦車子碰到金幣時金幣不會消失。
     
 
@@ -108,7 +105,7 @@ python MLGame.py -i template.py RacingCar --user_num 1 --game_type COIN --car_nu
 
 ```
 
-遊戲參數依序是`user_num` `game_type` `car_num` `racetrack_length` `round` `sound`
+遊戲參數依序是`user_num` `game_type` `car_num` `racetrack_length` `rounds` `sound`
 
 ## ＡＩ範例
 
