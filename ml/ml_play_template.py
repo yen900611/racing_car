@@ -1,5 +1,5 @@
 class MLPlay:
-    def __init__(self):
+    def __init__(self,*args,**kwargs):
         self.other_cars_position = []
         self.coins_pos = []
         print("Initial ml script")
