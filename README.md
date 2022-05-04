@@ -74,6 +74,7 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack
     
 2. 座標系統
     使用pygame座標系統，左上角為(0,0)，x方向以右為正，y方向以下為正，單位為px。
+![](https://i.imgur.com/7xCl9Fs.png)
 3. 遊戲物件
     - 螢幕大小 1000 x 700px
     - 車子大小 60 x 30px
