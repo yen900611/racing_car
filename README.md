@@ -66,7 +66,7 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack
     - 右鍵(D鍵)：車子向前加速    
     - 左鍵(A鍵)：車子剎車減速
     
-    車子的最高速度為15px/frame，當車子左右平移時速度將會略為下降為14.5px/frame。
+    車子的最高速度為15px/frame，當車子左右平移時速度將會略微下降為14.5px/frame。
     車子沒有加速或剎車時，會以0.9px/frame左右的速度怠速前進。
     
 2. 座標系統
