@@ -1,13 +1,12 @@
 # Racing Car
+<img src="./asset/logo.svg" alt="logo" width="100"/> 
 
-[comment]: <> (![python]&#40;https://img.shields.io/pypi/pyversions/pygame&#41;)
-![pygame](https://img.shields.io/badge/release-3.2.8-red.svg)
-
+![racing_car](https://img.shields.io/github/v/tag/yen900611/RacingCar)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![MLGame](https://img.shields.io/badge/MLGame-9.3.*-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
 
-
+來一場競速的排位賽吧！駕駛著自己的車子享受在馬路上狂飆的快感吧！注意前方與左右來車來妨礙你，閃避其他車子的步步逼近，同時還要小心速度太慢被遠遠甩在後頭喔！關卡還有金幣競爭模式，在競速之餘盡可能的去搶奪路上散落的金幣，衝向終點成為最終贏家。
 ![](https://i.imgur.com/QFEPZm0.gif)
 
 

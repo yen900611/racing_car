@@ -2,6 +2,11 @@
   "game_name": "racing_car",
   "version": "3.2.8",
   "url": "https://github.com/yen900611/RacingCar",
+  "description": "來一場競速的排位賽吧！駕駛著自己的車子享受在馬路上狂飆的快感吧！注意前方與左右來車來妨礙你，閃避其他車子的步步逼近，同時還要小心速度太慢被遠遠甩在後頭喔！關卡還有金幣競爭模式，在競速之餘盡可能的去搶奪路上散落的金幣，衝向終點成為最終贏家。",
+  "logo": [
+    "./asset/logo.svg",
+    "https://raw.githubusercontent.com/PAIA-Playful-AI-Arena/Paia-Desktop/master/media/racingcar.svg"
+  ],
   "game_params": [
     {
       "name": "user_num",
