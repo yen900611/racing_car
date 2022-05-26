@@ -125,6 +125,6 @@ class GameMode(object):
         for car in self.users:
             if not car.state:
                 self.maxVel = 0
-                return 0
+                # return 0
             self.user_vel.append(car.velocity)
         self.maxVel = max(self.user_vel)
