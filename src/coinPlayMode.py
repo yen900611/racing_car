@@ -12,6 +12,7 @@ class CoinMode(GameMode):
     def __init__(self, user_num: int, car_num, length, sound_controller):
         super(CoinMode, self).__init__(user_num, car_num, length, sound_controller)
         self.coins = pygame.sprite.Group()
+        self.is_arrive = False
 
         '''image'''
         self.create_coin_frame = 0
@@ -43,6 +44,11 @@ class CoinMode(GameMode):
                 self.user_out_screen(car)
                 self.coin_num.append(car.coin_num)
                 car.update(command[str(car.car_no + 1) + "P"])
+                if self._is_car_arrive_end(car):
+                    self.is_arrive = True
+                    self.eliminated_user.append(car)
+                    self.user_distance.append(car.distance)
+                    break # 任一玩家通過終點則結束遊戲
 
             for car in self.cars:
                 '''偵測車子的狀態'''
@@ -51,7 +57,7 @@ class CoinMode(GameMode):
                 '''更新車子位置'''
                 car.rect.left = car.distance - self.camera.position + 520
 
-            if self._is_game_end():
+            if self._is_game_end(self.is_arrive):
                 self.rank()
                 self._print_result()
                 self.running = False
@@ -100,20 +106,37 @@ class CoinMode(GameMode):
             })
         self.winner = tem
 
-    def _is_game_end(self):
+    def _is_game_end(self, is_arrive:bool):
         '''
-        判斷遊戲是否結束，遊戲結束條件如下：
-        1.所有玩家在一分鐘前出局(FAIL)
-        2.計時一分鐘時間到(FINISH)
+        判斷遊戲是否結束，遊戲結束的條件如下：
+        單人模式：抵達終點，或是玩家出局(FAIL)
+        多人模式：一名或以上玩家抵達終點，或市場上僅餘一名玩家
+        :return:Bool
+        '''
+        if is_arrive:
+            self.state = GameResultState.FINISH
+            return True
+        if self.is_single:
+            if len(self.eliminated_user) == 1:
+                self.state = GameResultState.FAIL
+                return True
+            return False
+        else:
+            if len(self.users) <= len(self.eliminated_user):
+                self.state = GameResultState.FINISH
+                return True
+            else:
+                return False
+
+    def _is_car_arrive_end(self, car):
+        '''
+        :param car: User
         :return: Bool
         '''
-        if len(self.eliminated_user) == len(self.users):
-            self.state = GameResultState.FAIL
-        elif self.frame > FPS * 30:
-            self.state = GameResultState.FINISH
-        else:
-            return False
-        return True
+        if car.distance > self.length:
+            car.status = GameStatus.GAME_PASS
+            return True
+        return False
 
     def rank(self):
         user_value = []
