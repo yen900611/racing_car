@@ -4,7 +4,7 @@ from .gameMode import GameMode
 from .env import *
 import pygame
 import random
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
+from mlgame.game.paia_game import GameResultState, GameStatus
 
 
 class PlayingMode(GameMode):

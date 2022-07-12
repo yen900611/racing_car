@@ -3,10 +3,10 @@ import pygame
 from .playingMode import PlayingMode
 from .coinPlayMode import CoinMode
 from .reliveMode import ReliveMode
-from mlgame.view.test_decorator import check_game_progress, check_game_result
+from mlgame.view.decorator import check_game_progress, check_game_result
 from mlgame.view.view_model import create_text_view_data, create_asset_init_data, create_image_view_data, \
     create_line_view_data, Scene, create_polygon_view_data, create_rect_view_data
-from mlgame.gamedev.game_interface import PaiaGame, GameResultState
+from mlgame.game.paia_game import PaiaGame, GameResultState
 
 from .env import *
 from .sound_controller import *
@@ -15,15 +15,15 @@ from .sound_controller import *
 
 
 class RacingCar(PaiaGame):
-    def __init__(self, user_num: int, game_mode, car_num, racetrack_length, game_times, sound):
-        super().__init__()
-        self.game_times_goal = game_times
+    def __init__(self, user_num: int, game_type, car_num, racetrack_length=15000, rounds=1, sound="off"):
+        super().__init__(user_num=user_num)
+        self.game_times_goal = rounds
         self.game_times = 1
         self.score = []  # 用於計算積分
         self.is_sound = sound
         self.cars_num = car_num
         self.sound_controller = SoundController(self.is_sound)
-        self.game_type = game_mode
+        self.game_type = game_type
         self.user_num = user_num
         self.length = racetrack_length
         self.game_mode = self.set_game_mode()
@@ -31,7 +31,7 @@ class RacingCar(PaiaGame):
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
         self.attachements = []
 
-    def game_to_player_data(self) -> dict:
+    def get_data_from_game_to_player(self) -> dict:
         scene_info = self.get_scene_info
         to_player_data = {}
         for user in self.game_mode.users:
