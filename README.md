@@ -3,7 +3,7 @@
 
 ![racing_car](https://img.shields.io/github/v/tag/yen900611/RacingCar)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
-[![MLGame](https://img.shields.io/badge/MLGame-9.3.*-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame)
+[![MLGame](https://img.shields.io/badge/MLGame->9.5.3.2a0-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
 
 來一場競速的排位賽吧！駕駛著自己的車子享受在馬路上狂飆的快感吧！注意前方與左右來車來妨礙你，閃避其他車子的步步逼近，同時還要小心速度太慢被遠遠甩在後頭喔！關卡還有金幣競爭模式，在競速之餘盡可能的去搶奪路上散落的金幣，衝向終點成為最終贏家。
@@ -11,8 +11,9 @@
 
 
 ---
-## 版本更新（3.3.1）
-1. 修改距離超過25000時，車子會從畫面盡頭消失的問題。
+## 版本更新（3.4.1）
+1. 增加 autoCar.py 可在AI使用，並自動玩遊戲 (感謝台南市資訊教育中心開發提供)
+2. 更新程式碼內容，以運行於 MLGame 9.5.*
 
 # 基礎介紹
 
@@ -92,33 +93,31 @@ game = RacingCar.RacingCar(user_num=2, game_mode="NORMAL", car_num=50, racetrack
 ## 使用ＡＩ玩遊戲
 
 ```bash
-# python MLGame.py [options] RacingCar [user_num] [game_type] [car_num] [racetrack_length] [rounds] [sound]
-# before MLGame 9.1.*
-# 遊戲參數依序是遊戲參數依序是 `user_num` `game_type` `car_num` `racetrack_length` `rounds` `sound`
 
-python MLGame.py -i template.py RacingCar 1 COIN 40 10000 2 off
-
-# Begin from MLGame 9.2.*
-
-python MLGame.py -i template.py RacingCar --user_num 1 --game_type COIN --car_num 40 --racetrack_length 10000  --round 2 --sound off
+# Begin from MLGame 9.5.*
+python -m mlgame -i ml/ml_play_template.py ./ --game_type COIN --car_num 40 --racetrack_length 10000  --round 2 --sound off
 
 ```
 
-遊戲參數依序是`user_num` `game_type` `car_num` `racetrack_length` `rounds` `sound`
+遊戲參數依序是 `game_type` `car_num` `racetrack_length` `rounds` `sound`
 
 ## ＡＩ範例
 
 ```python
-import random
-
 class MLPlay:
-    def __init__(self):
+    def __init__(self,ai_name:str,*args,**kwargs):
+        self.other_cars_position = []
+        self.coins_pos = []
+        self.ai_name = ai_name
         print("Initial ml script")
+        print(ai_name)
+        print(kwargs)
 
-    def update(self, scene_info: dict):
+    def update(self, scene_info: dict,*args,**kwargs):
         """
         Generate the command according to the received scene information
         """
+        # print(scene_info)
         if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
 
@@ -128,7 +127,9 @@ class MLPlay:
         """
         Reset the status
         """
+        # print("reset ml script")
         pass
+
 ```
 
 ## 遊戲資訊
@@ -142,14 +143,14 @@ class MLPlay:
     "x":20,
     "y": 260,
     "all_cars_pos": [
-        (20,260),
-        (20,260)
+        [20,260],
+        [20,260]
     ],
     "distance": 27,
     "velocity":0.9,
     "coin_num":0,
     "coin":[
-        (825,460),
+        [825,460]
     ],
     "status": "GAME_ALIVE"
 }
