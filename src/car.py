@@ -2,7 +2,7 @@ import pygame
 import time
 from .env import *
 import random
-from mlgame.gamedev.game_interface import GameStatus
+from mlgame.game.paia_game import GameStatus
 
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
@@ -145,7 +145,12 @@ class Camera():
     def revise_velocity(self,car_velocity):
         if self.position > self.length:
             self.velocity = 0
-        if car_velocity >= 13:
+            return None
+        elif self.position > 20000:
+            self.velocity = car_velocity+0.1
+            return None
+
+        if car_velocity >= 13.5:
             self.velocity = car_velocity-0.5
 
         elif car_velocity == 0:

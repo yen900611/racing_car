@@ -1,5 +1,6 @@
-{
-
+{"INIT_INFO": [
+        ["ai_name", "name of ai", "AI編號"]
+    ],
   "GAME_STATUS": [
         ["GAME_ALIVE", "alive", "存活"],
         ["GAME_PASS", "pass", "通關"],

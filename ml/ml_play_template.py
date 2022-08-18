@@ -1,8 +1,11 @@
 class MLPlay:
-    def __init__(self,*args,**kwargs):
+    def __init__(self,ai_name:str,*args,**kwargs):
         self.other_cars_position = []
         self.coins_pos = []
+        self.ai_name = ai_name
         print("Initial ml script")
+        print(ai_name)
+        print(kwargs)
 
     def update(self, scene_info: dict,*args,**kwargs):
         """
