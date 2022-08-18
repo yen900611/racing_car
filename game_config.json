@@ -7,16 +7,10 @@
     "./asset/logo.svg",
     "https://raw.githubusercontent.com/PAIA-Playful-AI-Arena/Paia-Desktop/master/media/racingcar.svg"
   ],
+  "user_num": {
+    "min": 1,"max": 4
+  },
   "game_params": [
-    {
-      "name": "user_num",
-      "verbose": "參賽人數",
-      "type": "int",
-      "max": 4,
-      "min": 1,
-      "default": 1,
-      "help": "set the number of user."
-    },
     {
       "name": "game_type",
       "verbose": "遊戲模式",
