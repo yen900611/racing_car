@@ -6,7 +6,7 @@ from .env import *
 from .car import Camera, UserCar, ComputerCar
 from .highway import Lane, Line
 import random
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
+from mlgame.game.paia_game import GameResultState, GameStatus
 
 class GameMode(object):
     def __init__(self, user_num: int, car_num, length:int, sound_controller):

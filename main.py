@@ -3,7 +3,7 @@ from src import RacingCar
 
 from src.env import FPS
 from mlgame.view.view import PygameView
-from mlgame.gamedev.generic import quit_or_esc
+from mlgame.game.generic import quit_or_esc
 
 if __name__ == '__main__':
     pygame.init()

@@ -2,7 +2,7 @@ import pygame
 import time
 from .env import *
 import random
-from mlgame.gamedev.game_interface import GameStatus
+from mlgame.game.paia_game import GameStatus
 
 class Car(pygame.sprite.Sprite):
     def __init__(self, y,distance):
